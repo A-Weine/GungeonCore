@@ -1,0 +1,58 @@
+/**********************************************************************************
+// Mouse (Código Fonte)
+//
+// Criação:     14 Mai 2012
+// Atualização: 22 Set 2021
+// Compilador:  Visual C++ 2019
+//
+// Descrição:   Gerencia mouse na tela
+//
+**********************************************************************************/
+
+#include "Mouse.h"
+#include "MenuItem.h"
+#include "GungeonCore.h"
+#include <sstream>
+
+// ---------------------------------------------------------------------------------
+
+Mouse::Mouse()
+{
+    Point mouseWorldPos = window->ScreenToWorld(GungeonCore::level);
+    MoveTo(mouseWorldPos.X(), mouseWorldPos.Y());
+    BBox(new Point(x, y));
+}
+
+// ---------------------------------------------------------------------------------
+
+Mouse::~Mouse()
+{
+}
+
+// -------------------------------------------------------------------------------
+
+void Mouse::Update()
+{
+    Point mouseWorldPos = window->ScreenToWorld(GungeonCore::level);
+    MoveTo(mouseWorldPos.X(), mouseWorldPos.Y());
+}
+
+// -------------------------------------------------------------------------------
+
+void Mouse::Draw()
+{
+}
+
+// -------------------------------------------------------------------------------
+
+bool Mouse::Clicked()
+{
+    if (window->KeyPress(VK_LBUTTON))
+    {
+        return true;
+    }
+    else
+        return false;
+}
+
+// -------------------------------------------------------------------------------

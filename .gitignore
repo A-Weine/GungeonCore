@@ -1,0 +1,21 @@
+# VS2022 / Visual Studio
+.vs/
+*.vcxproj.user
+*.suo
+*.user
+ipch/
+obj/
+Debug*/
+Release*/
+
+# Build outputs
+x64/
+bin/
+Build/
+*.exe
+*.dll
+Shaders/
+
+# Outros artefatos
+*.log
+*.pdb

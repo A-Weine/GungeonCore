@@ -19,6 +19,7 @@
 #include "DroppedItem.h"
 #include "Door.h"
 #include "RandomMovementVillain.h"
+#include "RunAwayVillain.h"
 
 #include <string>
 #include <fstream>
@@ -59,8 +60,11 @@ void Level1::Init()
 
     Image* img = new Image("Resources/bat_sprite_sheet.png");
 
-    RandomMovementVillain* test = new RandomMovementVillain(img);
-    scene->Add(test, MOVING);
+    RandomMovementVillain* randomMovementVillain = new RandomMovementVillain(img);
+    scene->Add(randomMovementVillain, MOVING);
+
+    RunAwayVillain* runAwayMovementVillain = new RunAwayVillain(200, 1500, GungeonCore::player);
+    scene->Add(runAwayMovementVillain, MOVING);
 
     scene->Add(GungeonCore::player, MOVING);
     scene->Add(playerShadow, STATIC);

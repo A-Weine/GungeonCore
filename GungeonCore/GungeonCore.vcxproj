@@ -262,6 +262,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RandomMovementVillain.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RunAwayVillain.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ScoreScreen.cpp" />
     <ClCompile Include="Shadow.cpp" />
@@ -304,6 +305,7 @@
     <ClInclude Include="RandomMovementVillain.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="RunAwayVillain.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ScoreScreen.h" />
     <ClInclude Include="Shadow.h" />

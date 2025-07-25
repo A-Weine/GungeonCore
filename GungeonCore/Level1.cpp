@@ -18,6 +18,7 @@
 #include "ScoreScreen.h"
 #include "DroppedItem.h"
 #include "Door.h"
+#include "RandomMovementVillain.h"
 
 #include <string>
 #include <fstream>
@@ -55,6 +56,11 @@ void Level1::Init()
 
 	DroppedItem* revolver = new DroppedItem("Resources/magnum_dropped.png",200, 820, scene, MAGNUM);
     scene->Add(revolver,STATIC);
+
+    Image* img = new Image("Resources/bat_sprite_sheet.png");
+
+    RandomMovementVillain* test = new RandomMovementVillain(img);
+    scene->Add(test, MOVING);
 
     scene->Add(GungeonCore::player, MOVING);
     scene->Add(playerShadow, STATIC);

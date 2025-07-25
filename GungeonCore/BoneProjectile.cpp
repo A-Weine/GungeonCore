@@ -63,9 +63,6 @@ void BoneProjectile::OnCollision(Object* obj)
         GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
 
-    if (obj->Type() == VILLAIN) {
-        return;
-	}
      
 
 }

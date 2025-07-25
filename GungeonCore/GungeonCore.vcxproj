@@ -232,6 +232,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="BoneProjectile.h" />
+    <ClCompile Include="ChaseVillain.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Engine.cpp" />
@@ -279,6 +280,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Background.h" />
+    <ClInclude Include="ChaseVillain.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Engine.h" />

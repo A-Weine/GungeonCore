@@ -67,15 +67,14 @@ void Level1::Init()
     ChaseVillain* chaseMovementVillain = new ChaseVillain(500, 1500, GungeonCore::player);
     scene->Add(chaseMovementVillain, STATIC);
     
-
     scene->Add(GungeonCore::player, MOVING);
     scene->Add(playerShadow, STATIC);
 
-    //tilemap = new Tilemap;
+    tilemap = new Tilemap;
     
-    //tilemap->Load("Level1.tmx");
+    tilemap->Load("Level1.tmx");
     
-    //scene->Add(tilemap, STATIC);
+    scene->Add(tilemap, STATIC);
 
     float difx = (game->Width() - window->Width()) / 2.0f;
     float dify = (game->Height() - window->Height()) / 2.0f;

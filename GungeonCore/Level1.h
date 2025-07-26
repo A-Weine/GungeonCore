@@ -20,7 +20,7 @@
 #include "Background.h"
 #include "Sprite.h"
 #include "DroppedItem.h"
-//#include "Tilemap.h"
+#include "Tilemap.h"
 
 // --------------------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ class Level1 : public Game
 {
 private:
     Background* backg = nullptr;
-    //Tilemap* tilemap;
+    Tilemap* tilemap;
 
     // ADICIONE ESTAS LINHAS: Posição atual da câmera
     float cameraCurrentX;

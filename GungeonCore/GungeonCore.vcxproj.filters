@@ -129,9 +129,6 @@
     <ClCompile Include="Home.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
-    <ClCompile Include="Mouse.h">
-      <Filter>Game\Arquivos de Cabeçalho</Filter>
-    </ClCompile>
     <ClCompile Include="Mouse.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
@@ -170,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="tinyxml2.cpp">
       <Filter>HelperTools\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Tilemap.cpp">
+      <Filter>Engine\Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -307,6 +307,12 @@
     </ClInclude>
     <ClInclude Include="Empty.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Tilemap.h">
+      <Filter>Engine\Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

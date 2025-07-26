@@ -31,20 +31,35 @@ Player::Player()
 
     layer = CollisionLayer::PLAYER;
 
-    // configura��o do objeto
-    sprite = new TileSet("Resources/player_sprite_sheet.png", 17, 27, 5, 18);
-    animation = new Animation(sprite, 0.150f, true);
-    //fire = new Image("Resources/Explo.png");
+    sprite = new TileSet("Resources/player_sprite_sheet.png", 17, 27, 6, 54);
+    animation = new Animation(sprite, 0.125f, true);
 
 
-    uint Seq1[6] = { 0, 1, 2, 3, 4, 5 };
-    uint Seq2[6] = { 6, 7, 8, 9, 10, 11 };
-    uint Seq3[6] = { 12, 13, 14, 15, 16, 17 };
+    uint seqRunningDown[6] = { 0, 1, 2, 3, 4, 5 }; // running down
+    uint seqRunningDownR[6] = { 6, 7, 8, 9, 10, 11 }; // running down right
+    uint seqRunningDownL[6] = { 12, 13, 14, 15, 16, 17 }; // running down left
+    uint seqRunningUp[6] = { 18, 19, 20, 21, 22, 23 }; // running up
+    uint seqRunningUpR[6] = { 24, 25, 26, 27, 28, 29 }; // running up right
+    uint seqRunningUpL[6] = { 30, 31, 32, 33, 34, 35 }; // running up left
+    uint seqIdleDown[3] = { 36, 37, 38 }; // idle down
+    uint seqIdleDownR[3] = { 39, 40, 41 }; // idle down right
+    uint seqIdleDownL[3] = { 42, 43, 44 }; // idle down left
+    uint seqIdleUp[3] = { 45, 46, 47 }; // idle up
+    uint seqIdleUpR[3] = { 48, 49, 50 }; // idle up right
+    uint seqIdleUpL[3] = { 51, 52, 53 }; // idle up left
 
-    animation->Add(IDLE_DOWN, Seq1, 1);
-    animation->Add(RUNNING_DOWN, Seq1, 6);
-    animation->Add(RUNNING_RIGHT, Seq2, 6);
-    animation->Add(RUNNING_LEFT, Seq3, 6);
+    animation->Add(static_cast<uint>(PlayerState::IDLE_DOWN), seqIdleDown, 3);
+    animation->Add(static_cast<uint>(PlayerState::IDLE_DOWN_RIGHT), seqIdleDownR, 3);
+    animation->Add(static_cast<uint>(PlayerState::IDLE_DOWN_LEFT), seqIdleDownL, 3);
+    animation->Add(static_cast<uint>(PlayerState::IDLE_UP), seqIdleUp, 3);
+    animation->Add(static_cast<uint>(PlayerState::IDLE_UP_RIGHT), seqIdleUpR, 3);
+    animation->Add(static_cast<uint>(PlayerState::IDLE_UP_LEFT), seqIdleUpL, 3);
+    animation->Add(static_cast<uint>(PlayerState::RUNNING_DOWN), seqRunningDown, 6);
+    animation->Add(static_cast<uint>(PlayerState::RUNNING_DOWN_RIGHT), seqRunningDownR, 6);
+    animation->Add(static_cast<uint>(PlayerState::RUNNING_DOWN_LEFT), seqRunningDownL, 6);
+    animation->Add(static_cast<uint>(PlayerState::RUNNING_UP), seqRunningUp, 6);
+    animation->Add(static_cast<uint>(PlayerState::RUNNING_UP_RIGHT), seqRunningUpR, 6);
+    animation->Add(static_cast<uint>(PlayerState::RUNNING_UP_LEFT), seqRunningUpL, 6);
 
 	/*spriteAiming = new TileSet("Resources/player_revolver_sprite_sheet.png", 40, 32, 7, 40);
 	animationAiming = new Animation(spriteAiming, 0.095f, true);
@@ -55,7 +70,7 @@ Player::Player()
 	animationAiming->Add(AIMING_RIGHT, Seq9, 8);
 	animationAiming->Add(AIMING_LEFT, Seq10, 8);*/
 
-    BBox(new Rect(-(sprite->TileWidth() / 2.0f) +5, -(sprite->TileHeight() / 2.0f), (sprite->TileWidth() / 2.0f) - 5, (sprite->TileHeight() / 2.0f)));
+    BBox(new Rect(-(sprite->TileWidth() / 2.0f), -(sprite->TileHeight() / 2.0f), (sprite->TileWidth() / 2.0f), (sprite->TileHeight() / 2.0f)));
     
     initialX = 96;
     initialY = 760;
@@ -84,7 +99,6 @@ Player::~Player()
 {
     delete sprite;
     delete animation;
-    //delete fire;
     //delete gamepad;
 }
 
@@ -98,32 +112,7 @@ void Player::Update()
         Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
         gun->reload();
     }
-    /*if (weaponEquiped == 1) {
-        if ((quantBulletsMagnum == 0 && !reloadMagnum) || (window->KeyPress('R') && quantBulletsMagnum != fullBulletMagnum)) {
-        GungeonCore::audio->Play(MAGNUM_RELOAD);
-        reloadMagnum = true;
-        timerToReloadMagnum.Start();
-    }
-    if (timerToReloadMagnum.Elapsed() >= timeToReloadMagnum && reloadMagnum) {
-        reloadMagnum = false;
-        quantBulletsMagnum = fullBulletMagnum;
-        timerToReloadMagnum.Reset();
-        timerToReloadMagnum.Stop();
-    }
-    }
-    if (weaponEquiped == 2) {
-        if ((quantBulletsGUN == 0 && !reloadGUN) || (window->KeyPress('R')) && quantBulletsGUN != fullBulletGUN) {
-            reloadGUN = true;
-            GungeonCore::audio->Play(GUN_RELOAD);
-            timerToReloadGUN.Start();
-        }
-        if (timerToReloadGUN.Elapsed() >= timeToReloadGUN && reloadGUN) {
-            reloadGUN = false;
-            quantBulletsGUN = fullBulletGUN;
-            timerToReloadGUN.Reset();
-            timerToReloadGUN.Stop();
-        }
-    }*/
+
     previousY = y;
     float accel = 30.0f * gameTime;
     float maxSpeed = 3.0f;
@@ -154,44 +143,53 @@ void Player::Update()
         speed.ScaleTo(maxSpeed);
     }
 
-    if (speed.Magnitude() < 0.1f)
-    {
-		animation->Select(IDLE_DOWN);
-	}
+    float angle = speed.Angle();
 
-    if (speed.Angle() >= 45.0f && speed.Angle() < 135.0f)
-    {
-        state = RUNNING_DOWN;
+    bool isMovingUp = window->KeyDown('W');
+    bool isMovingDown = window->KeyDown('S');
+    bool isMovingLeft = window->KeyDown('A');
+    bool isMovingRight = window->KeyDown('D');
+    bool isMoving = isMovingUp || isMovingDown || isMovingLeft || isMovingRight;
+
+    if (isMovingUp) {
+        lastVFacing = VerticalFacing::UP;
     }
-    else if (speed.Angle() >= 135.0f && speed.Angle() < 225.0f)
-    {
-        state = RUNNING_LEFT;
+    else if (isMovingDown) {
+        lastVFacing = VerticalFacing::DOWN;
     }
-    else if (speed.Angle() >= 225.0f && speed.Angle() < 315.0f)
+
+    if (isMoving)
     {
-        state = RUNNING_DOWN;
+        if (isMovingUp) {
+            if (isMovingLeft)       state = PlayerState::RUNNING_UP_LEFT;
+            else if (isMovingRight) state = PlayerState::RUNNING_UP_RIGHT;
+            else                    state = PlayerState::RUNNING_UP;
+        }
+        else if (isMovingDown) {
+            if (isMovingLeft)       state = PlayerState::RUNNING_DOWN_LEFT;
+            else if (isMovingRight) state = PlayerState::RUNNING_DOWN_RIGHT;
+            else                    state = PlayerState::RUNNING_DOWN;
+        }
+        else {
+            if (isMovingLeft) {
+                state = (lastVFacing == VerticalFacing::UP) ? PlayerState::RUNNING_UP_LEFT : PlayerState::RUNNING_DOWN_LEFT;
+            }
+            else if (isMovingRight) {
+                state = (lastVFacing == VerticalFacing::UP) ? PlayerState::RUNNING_UP_RIGHT : PlayerState::RUNNING_DOWN_RIGHT;
+            }
+        }
     }
     else
     {
-        state = RUNNING_RIGHT;
-	}
+        if (state == PlayerState::RUNNING_UP)             state = PlayerState::IDLE_UP;
+        else if (state == PlayerState::RUNNING_UP_LEFT)   state = PlayerState::IDLE_UP_LEFT;
+        else if (state == PlayerState::RUNNING_UP_RIGHT)  state = PlayerState::IDLE_UP_RIGHT;
+        else if (state == PlayerState::RUNNING_DOWN)      state = PlayerState::IDLE_DOWN;
+        else if (state == PlayerState::RUNNING_DOWN_LEFT) state = PlayerState::IDLE_DOWN_LEFT;
+        else if (state == PlayerState::RUNNING_DOWN_RIGHT)state = PlayerState::IDLE_DOWN_RIGHT;
+    }
 
-    if (state == RUNNING_RIGHT)
-    {
-		animation->Select(RUNNING_RIGHT);
-    }
-    else if (state == RUNNING_LEFT)
-    {
-        animation->Select(RUNNING_LEFT);
-    }
-    else if (state == RUNNING_DOWN)
-    {
-        animation->Select(RUNNING_DOWN);
-    }
-    else if (state == IDLE_DOWN)
-    {
-        animation->Select(IDLE_DOWN);
-    }
+    animation->Select(static_cast<uint>(state));
 
     /*
     // NOVO: Assumimos que o jogador est� no ar no in�cio de cada frame.
@@ -287,50 +285,6 @@ void Player::Update()
             Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
             gun->shoot(this,GUN,new Image("Resources/Explo.png"));
         }
-
-        /*if (weaponEquiped == 1) {
-            if ((timerMagnum.Elapsed() >= attackCooldownDurationMagnum) && !reloadMagnum) {
-
-                Point playerPos(X(), Y());
-
-                Point mouseWorldPos = window->ScreenToWorld(GungeonCore::level);
-
-                float firingAngle = Line::Angle(playerPos, mouseWorldPos);
-                quantBulletsMagnum--;
-
-                Scene* currentScene = GungeonCore::level->GetScene();
-                if (currentScene)
-                {
-                    GungeonCore::audio->Play(MAGNUM_FIRE);
-                    currentScene->Add(new Fire(this, firingAngle, fire, FIRE), MOVING);
-                }
-                timerMagnum.Reset();
-            }
-        }
-        else if (weaponEquiped == 2) {
-            if ((timerGUN.Elapsed() >= attackCooldownDurationGUN) && !reloadGUN) {
-                Point playerPos(X(), Y());
-
-                Point mouseWorldPos = window->ScreenToWorld(GungeonCore::level);
-
-                float firingAngle = Line::Angle(playerPos, mouseWorldPos);
-                
-                quantBulletsGUN--;
-
-                Scene* currentScene = GungeonCore::level->GetScene();
-                if (currentScene)
-                {
-                    GungeonCore::audio->Play(GUN_FIRE);
-
-                    currentScene->Add(new Fire(this, firingAngle, fire, FIRE), MOVING);
-                    currentScene->Add(new Fire(this, firingAngle+5, fire, FIRE), MOVING);
-                    currentScene->Add(new Fire(this, firingAngle-5, fire, FIRE), MOVING);
-                    currentScene->Add(new Fire(this, firingAngle+10, fire, FIRE), MOVING);
-                    currentScene->Add(new Fire(this, firingAngle-10, fire, FIRE), MOVING);
-                }
-                timerGUN.Reset();
-            }
-        }*/
     }       
 
     Translate(speed.XComponent() * 50 * gameTime, -speed.YComponent() * 50 * gameTime);
@@ -521,7 +475,7 @@ void Player::OnCollision(Object* obj)
         GungeonCore::level->GetScene()->Delete(obj, STATIC);
     }
 
-    if (obj->Type() == HITBOX) {
+    /*if (obj->Type() == HITBOX) {
         Hitbox* hitbox = dynamic_cast<Hitbox*>(obj);
 
         if (hitbox)
@@ -535,7 +489,7 @@ void Player::OnCollision(Object* obj)
                 GungeonCore::level->GetScene()->Delete(hitbox, MOVING);
             }
         }
-    }
+    }*/
 }
 
 // -------------------------------------------------------------------------------

@@ -39,9 +39,9 @@ void Home::Init()
 
 void Home::Update()
 {
-    std::stringstream text;
-    text << "Mouse: " << mouse->X() << " " << mouse->Y() << "\n";
-    OutputDebugString(text.str().c_str());
+    //std::stringstream text;
+    //text << "Mouse: " << mouse->X() << " " << mouse->Y() << "\n";
+    //OutputDebugString(text.str().c_str());
 
     // Atualiza a posição do mouse e os objetos na cena (os itens de menu)
     scene->Update();
@@ -72,9 +72,9 @@ void Home::Update()
         {
             if (selectedOption != i)
             {
-                std::stringstream text;
-                text << "selectedOption: " << selectedOption << "\n";
-                OutputDebugString(text.str().c_str());
+                //std::stringstream text;
+                //text << "selectedOption: " << selectedOption << "\n";
+                //OutputDebugString(text.str().c_str());
 
                 items[selectedOption]->UnSelect();
                 selectedOption = i;

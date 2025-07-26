@@ -1,11 +1,11 @@
 /**********************************************************************************
-// Player (Arquivo de Cabeçalho)
+// Player (Arquivo de Cabeï¿½alho)
 // 
-// Criação:     10 Out 2012
-// Atualização: 11 Nov 2021
+// Criaï¿½ï¿½o:     10 Out 2012
+// Atualizaï¿½ï¿½o: 11 Nov 2021
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Define a classe jogador
+// Descriï¿½ï¿½o:   Define a classe jogador
 //
 **********************************************************************************/
 
@@ -16,22 +16,31 @@
 
 #include "Object.h"                     // objetos do jogo
 #include "Sprite.h"                     // desenho de sprites
-#include "Vector.h"                     // representação de vetores
-#include "Particles.h"                  // sistema de partículas
+#include "Vector.h"                     // representaï¿½ï¿½o de vetores
+#include "Particles.h"                  // sistema de partï¿½culas
 #include "Controller.h"                 // entrada pelo controle
 #include "Timer.h"                      // controle do tempo
 #include "TileSet.h"
 #include "Animation.h"
 
 // ---------------------------------------------------------------------------------
-enum PLAYERSTATE
+enum class PlayerState
 {
     IDLE_DOWN,
+    IDLE_DOWN_RIGHT,
+    IDLE_DOWN_LEFT,
     IDLE_UP,
+    IDLE_UP_RIGHT,
+    IDLE_UP_LEFT,
     RUNNING_DOWN,
-    RUNNING_RIGHT,
-    RUNNING_LEFT
+    RUNNING_DOWN_RIGHT,
+    RUNNING_DOWN_LEFT,
+    RUNNING_UP,
+    RUNNING_UP_RIGHT,
+    RUNNING_UP_LEFT,
 };
+
+enum class VerticalFacing { UP, DOWN };
 
 class Player : public Object
 {
@@ -40,16 +49,16 @@ private:
     Animation* animation;
 
     Timer walkingTimer;
-	float const walkingTime = 0.3f;    // tempo de animação de caminhada
+	float const walkingTime = 0.3f;    // tempo de animaï¿½ï¿½o de caminhada
 
     Timer invicibilityTimer;
-	float const invicibilityTime = 0.3f; // tempo de invencibilidade após receber dano
+	float const invicibilityTime = 0.3f; // tempo de invencibilidade apï¿½s receber dano
 	
-    float jumpStrength;              // força do pulo
-	float previousY;                // posição Y anterior
+    float jumpStrength;              // forï¿½a do pulo
+	float previousY;                // posiï¿½ï¿½o Y anterior
     
     //Controller * gamepad;               // leitura do controle
-    //bool gamepadOn;                     // controle está ligado
+    //bool gamepadOn;                     // controle estï¿½ ligado
 
 
 
@@ -65,10 +74,10 @@ private:
     //int const fullBulletMagnum = 6;
     //float const timeToReloadMagnum = 1.5f;
     //Timer timerToReloadMagnum;
-    //float firingAngle;                    // direção dos disparos
+    //float firingAngle;                    // direï¿½ï¿½o dos disparos
     //float armAngle = 0.0f;
 
-    //llong start;                          // marcação de inicio do disparo
+    //llong start;                          // marcaï¿½ï¿½o de inicio do disparo
     //bool axisCtrl;                        // habilita leitura de disparos
     //bool keysCtrl;                        // habilita leitura de disparos pelas setas
     //bool keysPressed;                     // qualquer seta de disparo pressionada
@@ -89,10 +98,9 @@ public:
     boolean hasKey1;
     boolean hasKey2;*/
 
+    PlayerState state = PlayerState::IDLE_DOWN;
+    VerticalFacing lastVFacing = VerticalFacing::DOWN;
 
-    //static Image * fire;             // Imagem da bala que vai ser atirada pelo player
-    uint state = IDLE_DOWN;
-    
 	Vector speed;				// velocidade do jogador
     
     float sinkAmount;                // quantidade de pixeis que o player afunda na plataforma
@@ -106,13 +114,13 @@ public:
     ~Player();                          // destrutor
 
     void Reset();
-    void OnCollision(Object* obj);     // resolução da colisão
-    //void PivotCollision(Object * obj);  // revolve colisão com pivô
+    void OnCollision(Object* obj);     // resoluï¿½ï¿½o da colisï¿½o
+    //void PivotCollision(Object * obj);  // revolve colisï¿½o com pivï¿½
 
     bool AxisTimed(int axisX, int axisY, float time);
     bool KeysTimed(bool pressed, float time);
 
-    void Update();                      // atualização
+    void Update();                      // atualizaï¿½ï¿½o
     void Draw();                        // desenho
 	void TakeDamage(int damage);         // recebe dano
     void TakeDamage(bool take);         // recebe dano?

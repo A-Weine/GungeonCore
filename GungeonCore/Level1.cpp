@@ -71,100 +71,11 @@ void Level1::Init()
     scene->Add(GungeonCore::player, MOVING);
     scene->Add(playerShadow, STATIC);
 
-    // MAP LOGIC
-
-    /*Color white{ 1,1,1,1 };
-
-    TileSet* tileset1 = new TileSet("Resources/tileset.png", 3, 3);
-    TileSet* tileset3 = new TileSet("Resources/tileset3.png", 3, 3);
-    TileSet* tilesetBorders = new TileSet("Resources/tilesetBorders.png", 2, 2);
-
-    const int mapWidth = 80;
-    const int TILE_SIZE = 32;
-
-    std::ifstream file("Level1.tmx"); 
-    if (!file.is_open()) {
-        return;
-    }
-
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    std::string fileContent = buffer.str();
-    file.close();
-
-    size_t startPos = fileContent.find("<data encoding=\"csv\">");
-    if (startPos == std::string::npos) {
-        return;
-    }
-    startPos = fileContent.find('>', startPos) + 1; 
-
-    size_t endPos = fileContent.find("</data>", startPos);
-    if (endPos == std::string::npos) {
-        return;
-    }
-
-    std::string csvData = fileContent.substr(startPos, endPos - startPos);
+    //tilemap = new Tilemap;
     
-    std::stringstream ss(csvData);
-    std::string valueStr;
-    int col = 0;
-    int row = 0;
-
-    while (std::getline(ss, valueStr, ','))
-    {
-        int tileID = 0;
-        try {
-            valueStr.erase(std::remove(valueStr.begin(), valueStr.end(), '\n'), valueStr.end());
-            valueStr.erase(std::remove(valueStr.begin(), valueStr.end(), '\r'), valueStr.end());
-            if (!valueStr.empty())
-                tileID = std::stoi(valueStr);
-        }
-        catch (const std::invalid_argument&) {
-            continue;
-        }
-
-        if (tileID != 0) {
-
-            float positionX = (col * TILE_SIZE) + (TILE_SIZE / 2.0f);
-            float positionY = (row * TILE_SIZE) + (TILE_SIZE / 2.0f);
-
-            TileSet* selectedTileset = nullptr;
-            int localTileIndex = 0;
-
-            if (tileID >= 19)
-            {
-                selectedTileset = tilesetBorders;
-                localTileIndex = tileID - 19;
-            }
-            else if (tileID >= 10)
-            {
-                selectedTileset = tileset3;
-                localTileIndex = tileID - 10;
-            }
-            else if (tileID >= 1)
-            {
-                selectedTileset = tileset1;
-                localTileIndex = tileID - 1;
-            }
-
-            if (selectedTileset)
-            {
-                if (tileID >= 10 && tileID <= 18) {
-                scene->Add(new Platform(selectedTileset, localTileIndex, positionX, positionY, SOFTPLATFORM), STATIC);
-                }
-                else {
-                    scene->Add(new Platform(selectedTileset, localTileIndex, positionX, positionY, SOLIDPLATFORM), STATIC);
-                }
-            }
-        }
-
-        col++;
-        if (col >= mapWidth) {
-            col = 0;
-            row++;
-        }
-    }
-    */
+    //tilemap->Load("Level1.tmx");
+    
+    //scene->Add(tilemap, STATIC);
 
     float difx = (game->Width() - window->Width()) / 2.0f;
     float dify = (game->Height() - window->Height()) / 2.0f;

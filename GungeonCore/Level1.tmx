@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="left-up" width="80" height="27" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
- <tileset firstgid="1" source="../../../../ProjectJOGO2/tileset.tsx"/>
- <tileset firstgid="10" source="../../../../ProjectJOGO2/tileset3.tsx"/>
- <tileset firstgid="19" source="../../../../ProjectJOGO2/tilesetBorders.tsx"/>
+ <tileset firstgid="1" source="Resources/tileset.tsx"/>
+ <tileset firstgid="10" source="Resources/tileset3.tsx"/>
+ <tileset firstgid="19" source="Resources/tilesetBorders.tsx"/>
  <layer id="1" name="Camada de Blocos 1" width="80" height="27">
   <data encoding="csv">
 22,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,21,5,22,8,8,8,8,8,8,8,8,21,22,8,8,8,8,8,8,8,8,8,8,21,22,8,8,8,8,8,8,8,8,8,21,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,

@@ -28,6 +28,15 @@
     <Filter Include="Engine\Arquivos de Sombreamento">
       <UniqueIdentifier>{165dd4a0-afb8-4726-887e-271326a3357c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HelperTools">
+      <UniqueIdentifier>{b5530911-09ef-4f0d-89eb-817d478aba24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HelperTools\Arquivos de Cabeçalho">
+      <UniqueIdentifier>{26f4775b-f41a-4377-9f14-6bf1f95cc194}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HelperTools\Arquivos de Origem">
+      <UniqueIdentifier>{48ed75b6-73a0-468c-8f70-809508dbd7b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp">
@@ -159,6 +168,9 @@
     <ClCompile Include="Empty.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="tinyxml2.cpp">
+      <Filter>HelperTools\Arquivos de Origem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -277,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="GungeonCore.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml2.h">
+      <Filter>HelperTools\Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="RandomMovementVillain.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>

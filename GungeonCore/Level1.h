@@ -19,9 +19,8 @@
 #include "Player.h"
 #include "Background.h"
 #include "Sprite.h"
-#include "LongRangeVillain.h"
-#include "ShortRangeVillain.h"
 #include "DroppedItem.h"
+//#include "Tilemap.h"
 
 // --------------------------------------------------------------------------------
 
@@ -29,8 +28,7 @@ class Level1 : public Game
 {
 private:
     Background* backg = nullptr;
-    ShortRangeVillain* villain[15];
-    LongRangeVillain* longVillain[15];
+    //Tilemap* tilemap;
 
     // ADICIONE ESTAS LINHAS: Posição atual da câmera
     float cameraCurrentX;

@@ -20,10 +20,12 @@
 
 // ------------------------------------------------------------------------------
 
-DroppedItem::DroppedItem(string filename, int X, int Y, Scene * scene, int itemTypes)
+DroppedItem::DroppedItem(string filename, int X, int Y, Scene * scene, int itemTypes, Object * objeto)
 {
     // inicializa sprite
     sprite = new Sprite(filename);
+
+    obj = objeto;
 
     BBox(new Circle(7));
 

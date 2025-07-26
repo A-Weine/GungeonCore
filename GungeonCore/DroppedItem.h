@@ -24,12 +24,6 @@
 #include "Shadow.h"
 
 
-
-enum itens{
-    MAGNUM, KEY, SHOTGUN
-};
-
-
 // ---------------------------------------------------------------------------------
 class DroppedItem : public Object
 {
@@ -44,10 +38,12 @@ public:
     float const verticalSpeed = 5.0f;
     int itemType;
 
+    Object* obj;
+
     int initialX;
     int initialY;
 
-    DroppedItem(string filename, int x, int y, Scene * scene, int itemTypes);               // construtor
+    DroppedItem(string filename, int x, int y, Scene * scene, int itemTypes, Object * objeto);               // construtor
     ~DroppedItem();                 // destrutor
 
     void Update();                      // atualização

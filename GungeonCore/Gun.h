@@ -15,12 +15,27 @@
 #include "GungeonCore.h"
 
 // ---------------------------------------------------------------------------------
+
+enum Guntype {
+    SHOTGUN, MAGNUM
+};
+
 class Gun : public Object
 {
 private:
     Sprite* sprite;                    // sprite da arma
+    
+    
+    // SOUNDS
+    int reloadSound;
+    int shootSound;
+
+
 
 public:
+
+
+    int gunTypes;
 
     float attackCooldownDuration;   
     Timer timer;                          

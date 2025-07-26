@@ -254,7 +254,7 @@ void Player::Update()
         itemEquiped = 1;
         inventory[itemEquiped] = gun;
 
-        Gun* gun2 = new Gun("Resources/GUN.png", 0.5f, 3, 1.65, GUN);
+        Gun* gun2 = new Gun("Resources/shotgun.png", 0.5f, 3, 1.65, SHOTGUN);
         itemEquiped = 2;
         inventory[itemEquiped] = gun2;
 
@@ -263,7 +263,7 @@ void Player::Update()
 
     // Momentâneo enquanto não há armas específicas do jogo
     if (window->KeyPress('1')) {
-        if (inventory[1]->type == MAGNUM) {
+        if (inventory[1]->type == GUN) {
             Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
             if (!gun->reloading)
                 itemEquiped = 1;
@@ -351,17 +351,16 @@ void Player::OnCollision(Object* obj)
         DroppedItem* droppedItem = dynamic_cast<DroppedItem*>(obj);
 
 
-        if (droppedItem->itemType == MAGNUM) {
-            GungeonCore::audio->Play(GRAB_ITEM);
-            Gun* gun = new Gun("Resources/revolver_picked.png", 0.3f, 6, 1.5, MAGNUM);
-            itemEquiped = 1;
-            inventory[itemEquiped] = gun;
-        }
-
         if (droppedItem->itemType == GUN) {
             GungeonCore::audio->Play(GRAB_ITEM);
-            Gun* gun = new Gun("Resources/GUN.png", 0.5f, 3, 1.65, GUN);
-            itemEquiped = 2;
+            Gun* gun = dynamic_cast<Gun*>(droppedItem->obj);
+            if (gun->gunTypes == MAGNUM) {
+                itemEquiped = 1;
+            }
+            
+            if (gun->gunTypes == SHOTGUN) {
+                itemEquiped = 2;
+            }
             inventory[itemEquiped] = gun;
         }
 

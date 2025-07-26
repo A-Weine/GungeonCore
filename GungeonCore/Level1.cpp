@@ -20,6 +20,7 @@
 #include "RandomMovementVillain.h"
 #include "RunAwayVillain.h"
 #include "ChaseVillain.h"
+#include "Gun.h"
 
 #include <string>
 #include <fstream>
@@ -55,8 +56,15 @@ void Level1::Init()
 
     Shadow* playerShadow = new Shadow(GungeonCore::player, scene);
 
-	DroppedItem* revolver = new DroppedItem("Resources/magnum_dropped.png",200, 820, scene, MAGNUM);
-    scene->Add(revolver,STATIC);
+    Gun* shotgun = new Gun("Resources/shotgun.png", 0.5f, 3, 1.65, SHOTGUN);
+
+	DroppedItem* shotgunDropped = new DroppedItem("Resources/shotgun.png",200, 820, scene, GUN, shotgun);
+    scene->Add(shotgunDropped,STATIC);
+
+    Gun* revolver = new Gun("Resources/revolver_picked.png", 0.3f, 6, 1.5, MAGNUM);
+
+    DroppedItem* revolverDropped = new DroppedItem("Resources/revolver_picked.png", 270, 820, scene, GUN, revolver);
+    scene->Add(revolverDropped, STATIC);
 
     RandomMovementVillain* randomMovementVillain = new RandomMovementVillain(GungeonCore::player);
     scene->Add(randomMovementVillain, STATIC);

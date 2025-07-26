@@ -29,7 +29,18 @@ Gun::Gun(string filename, float cooldownToShot, int fullOfBullets, float timeRel
 
     reloading = false;
 
-    type = typeGun;
+    type = GUN;
+
+    gunTypes = typeGun;
+
+    if (gunTypes == SHOTGUN) {
+        reloadSound = SHOTGUN_RELOAD;
+        shootSound = SHOTGUN_FIRE;
+    }
+    if (gunTypes == MAGNUM) {
+        reloadSound = MAGNUM_RELOAD;
+        shootSound = MAGNUM_FIRE;
+    }
 }
 
 // ------------------------------------------------------------------------------
@@ -65,7 +76,7 @@ void Gun::shoot(Object* shooter, int whoShot, Image * shotImage) {
         Scene* currentScene = GungeonCore::level->GetScene();
         if (currentScene)
         {
-            GungeonCore::audio->Play(SHOTGUN_FIRE);
+            GungeonCore::audio->Play(shootSound);
             currentScene->Add(new Fire(shooter, firingAngle, shotImage, FIRE), MOVING);
         }
         timer.Reset();
@@ -75,7 +86,7 @@ void Gun::shoot(Object* shooter, int whoShot, Image * shotImage) {
 
 void Gun::reload() {
     if ((quantBullets == 0 && !reloading) || (window->KeyPress('R') && quantBullets != fullBullet)) {
-        GungeonCore::audio->Play(SHOTGUN_RELOAD);
+        GungeonCore::audio->Play(reloadSound);
         reloading = true;
         timerToReload.Start();
     }

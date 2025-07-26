@@ -58,7 +58,7 @@ void Level1::Init()
 	DroppedItem* revolver = new DroppedItem("Resources/magnum_dropped.png",200, 820, scene, MAGNUM);
     scene->Add(revolver,STATIC);
 
-    RandomMovementVillain* randomMovementVillain = new RandomMovementVillain();
+    RandomMovementVillain* randomMovementVillain = new RandomMovementVillain(GungeonCore::player);
     scene->Add(randomMovementVillain, STATIC);
 
     RunAwayVillain* runAwayMovementVillain = new RunAwayVillain(200, 1500, GungeonCore::player);

@@ -22,7 +22,7 @@
 #include "Random.h"
 #include "TileSet.h"
 #include "Animation.h"
-
+#include "Player.h"
 // ---------------------------------------------------------------------------------
 
 enum RANDOMMOVEMENTVILLAINSTATE
@@ -37,19 +37,28 @@ private:
 	TileSet * sprite;
 	Animation * animation;
 	Vector speed;
-	Timer timer;          
+	Timer timer;    
 	Random<float> magnitude;       
 	Random<float> angle;           
 	Random<float> secs;            
 	float delay;
+	Player* player;                            // ponteiro para jogador
+
+	int distance;
+	int const distanceToSee = 100;
+	int const visionMultiplierWhenAttacking = 2;
+
+	Timer timerToAttack;
+	float preparingToAttack;
 
 public:
-		RandomMovementVillain();
-		~RandomMovementVillain();
+	boolean isAttacking;
+	RandomMovementVillain(Player * p);
+	~RandomMovementVillain();
 
-		void NewDirection();
-		void Update();
-		void Draw();
+	void NewDirection();
+	void Update();
+	void Draw();
 
 };
 // ---------------------------------------------------------------------------------

@@ -19,6 +19,7 @@
 #include "ScoreScreen.h"
 #include "Gun.h"
 #include "Empty.h"
+#include "RandomMovementVillain.h"
 
 
 // -------------------------------------------------------------------------------
@@ -339,106 +340,11 @@ void Player::Draw()
 
 void Player::OnCollision(Object* obj)
 {
-    if (obj->Type() == SOFTPLATFORM || obj->Type() == SOLIDPLATFORM) {
-        if (window->KeyDown('D') || window->KeyDown('A')) {
-            if (walkingTimer.Elapsed() >= walkingTime) {
-                GungeonCore::audio->Play(RUNNING);
-                walkingTimer.Reset();
-            }
-        }
+    
+    if (obj->Type() == RANDOMMOVEMENTVILLAIN) {
+        RandomMovementVillain* villain = dynamic_cast<RandomMovementVillain*>(obj);
 
-        if (speed.Magnitude() < 0.1f) {
-            GungeonCore::audio->Stop(RUNNING);
-        }
-    }
-
-    if (obj->Type() == SOFTPLATFORM)
-    {
-        Rect* playerRect = static_cast<Rect*>(this->BBox());
-        Rect* platformRect = static_cast<Rect*>(obj->BBox());
-
-        if (!playerRect || !platformRect)
-            return;
-
-        float previousPlayerBottom = previousY + playerRect->bottom;
-
-        float platformTop = platformRect->Top();
-
-        bool isFalling = speed.YComponent() < 0;
-
-        bool wasAbove = previousPlayerBottom <= platformTop + sinkAmount;
-
-        if (isFalling && wasAbove && !window->KeyDown('S'))
-        {
-            float correctY = platformTop - playerRect->bottom;
-            float finalY = correctY + sinkAmount;
-
-            MoveTo(x, finalY);
-        }
-    }
-
-    if (obj->Type() == SOLIDPLATFORM) {
-        Rect* playerRect = static_cast<Rect*>(this->BBox());
-        Rect* platformRect = static_cast<Rect*>(obj->BBox());
-
-        if (!playerRect || !platformRect)
-            return;
-
-        float playerWidth = playerRect->Right() - playerRect->Left();
-        float playerHeight = playerRect->Bottom() - playerRect->Top();
-        float platformWidth = platformRect->Right() - platformRect->Left();
-        float platformHeight = platformRect->Bottom() - platformRect->Top();
-
-        float playerCenterX = playerRect->Left() + playerWidth / 2.0f;
-        float playerCenterY = (playerRect->Top()-sinkAmount) + playerHeight / 2.0f;
-        float platformCenterX = platformRect->Left() + platformWidth / 2.0f;
-        float platformCenterY = platformRect->Top() + platformHeight / 2.0f;
-
-        float diffX = playerCenterX - platformCenterX;
-        float diffY = playerCenterY - platformCenterY;
-
-        float combinedHalfWidths = playerWidth / 2.0f + platformWidth / 2.0f;
-        float combinedHalfHeights = playerHeight / 2.0f + platformHeight / 2.0f;
-
-        float overlapX = combinedHalfWidths - abs(diffX);
-        float overlapY = combinedHalfHeights - abs(diffY);
-
-        if (overlapX > 0 && overlapY > 0)
-        {
-            if (overlapX < overlapY)
-            {
-                if (diffX > 0)
-                {
-                    MoveTo(x + overlapX, y);
-                }
-                else
-                {
-                    MoveTo(x - overlapX, y);
-                }
-                speed.ScaleTo(0.0f);
-            }
-            else
-            {
-                if (diffY > 0)
-                {
-                    MoveTo(x, y + overlapY);
-
-                    speed.ScaleTo(0.0f);
-                }
-                else
-                {
-                    MoveTo(x, y - overlapY);
-
-                    speed.ScaleTo(0.0f);
-
-                    if (window->KeyDown('W') || window->KeyDown(VK_SPACE))
-                    {
-                        speed.Add(Vector(90.0f, jumpStrength));
-                    }
-                }
-                
-            }
-        }
+        GungeonCore::level->GetScene()->Delete(villain, STATIC);
     }
 
     if (obj->Type() == DROPPEDITEM) {

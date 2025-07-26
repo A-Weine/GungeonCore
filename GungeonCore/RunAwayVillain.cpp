@@ -18,7 +18,7 @@ RunAwayVillain::RunAwayVillain(float pX, float pY, Player* p)
 {
 	player = p;
 	sprite = new TileSet("Resources/player_sprite_sheet.png", 17, 27, 5, 18);
-    animation = new Animation(sprite, 0.095f, true);
+    animation = new Animation(sprite, 0.150f, true);
 
    
     uint Seq3[6] = { 12, 13, 14, 15, 16, 17 };

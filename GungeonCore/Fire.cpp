@@ -18,7 +18,7 @@
 
 // ------------------------------------------------------------------------------
 
-Fire::Fire(Object * shooter,float angle, Image* img, int types)
+Fire::Fire(Object * shooter,float angle, Image* img, int typeShot)
 {
     // inicializa sprite
     sprite = new Sprite(img);
@@ -31,18 +31,11 @@ Fire::Fire(Object * shooter,float angle, Image* img, int types)
     speed.ScaleTo(300.0f);
 
     // move para posição
-    MoveTo(shooter->X() + 25 * cos(speed.Radians()), shooter->Y() - 25 * sin(speed.Radians()));
+    MoveTo(shooter->X() + 15 * cos(speed.Radians()), shooter->Y() - 15 * sin(speed.Radians()));
     RotateTo(-speed.Angle());
 
     // define tipo
-    if (types == PLAYER) {
-       type = FIRE;    
-
-    }
-    else {
-        type = ENEMYFIRE;
-    }
-
+    type = typeShot;
 
     // incrementa contagem
     //++Hud::missiles;

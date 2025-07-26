@@ -16,10 +16,10 @@
 #include "Level1.h"
 #include "Fire.h"
 #include "DroppedItem.h"
-#include "Door.h"
 #include "ScoreScreen.h"
+#include "Gun.h"
+#include "Empty.h"
 
-Image * Player::fire = nullptr;
 
 // -------------------------------------------------------------------------------
 
@@ -33,8 +33,8 @@ Player::Player()
 
     // configura��o do objeto
     sprite = new TileSet("Resources/player_sprite_sheet.png", 17, 27, 5, 18);
-    animation = new Animation(sprite, 0.095f, true);
-    fire = new Image("Resources/Explo.png");
+    animation = new Animation(sprite, 0.150f, true);
+    //fire = new Image("Resources/Explo.png");
 
 
     uint Seq1[6] = { 0, 1, 2, 3, 4, 5 };
@@ -66,28 +66,16 @@ Player::Player()
     previousY = y;
     sinkAmount = 6.0f;
 
+
     // ITENS
-    weaponEquiped = 0;
-    hasMagnum = false;
-    hasShotgun= false;
-
-    // disparo habilitado
-    firingAngle = 0.0f;
-    keysPressed = false;
-    axisCtrl = true;
-    keysCtrl = true;
-    start = 0;
-
-    // Magnum
-    timerMagnum.Start();
-    quantBulletsMagnum = fullBulletMagnum;
-    reloadMagnum = false;
-
-    //Shotgun
-    timerShotgun.Start();
-    quantBulletsShotgun = fullBulletShotgun;
-    reloadShotgun = false;
-
+    itemEquiped = 0;
+    Empty* empty = new Empty();
+    for (int i = 0; i < 10; i++) {
+        inventory[i] = empty;
+    }
+    
+    //hasMagnum = false;
+    //hasGUN= false;
 }
 
 // -------------------------------------------------------------------------------
@@ -96,7 +84,7 @@ Player::~Player()
 {
     delete sprite;
     delete animation;
-    delete fire;
+    //delete fire;
     //delete gamepad;
 }
 
@@ -106,7 +94,11 @@ void Player::Update()
 {
     animation->NextFrame();
     
-    if (weaponEquiped == 1) {
+    if (inventory[itemEquiped]->type == GUN) {
+        Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
+        gun->reload();
+    }
+    /*if (weaponEquiped == 1) {
         if ((quantBulletsMagnum == 0 && !reloadMagnum) || (window->KeyPress('R') && quantBulletsMagnum != fullBulletMagnum)) {
         GungeonCore::audio->Play(MAGNUM_RELOAD);
         reloadMagnum = true;
@@ -120,18 +112,18 @@ void Player::Update()
     }
     }
     if (weaponEquiped == 2) {
-        if ((quantBulletsShotgun == 0 && !reloadShotgun) || (window->KeyPress('R')) && quantBulletsShotgun != fullBulletShotgun) {
-            reloadShotgun = true;
-            GungeonCore::audio->Play(SHOTGUN_RELOAD);
-            timerToReloadShotgun.Start();
+        if ((quantBulletsGUN == 0 && !reloadGUN) || (window->KeyPress('R')) && quantBulletsGUN != fullBulletGUN) {
+            reloadGUN = true;
+            GungeonCore::audio->Play(GUN_RELOAD);
+            timerToReloadGUN.Start();
         }
-        if (timerToReloadShotgun.Elapsed() >= timeToReloadShotgun && reloadShotgun) {
-            reloadShotgun = false;
-            quantBulletsShotgun = fullBulletShotgun;
-            timerToReloadShotgun.Reset();
-            timerToReloadShotgun.Stop();
+        if (timerToReloadGUN.Elapsed() >= timeToReloadGUN && reloadGUN) {
+            reloadGUN = false;
+            quantBulletsGUN = fullBulletGUN;
+            timerToReloadGUN.Reset();
+            timerToReloadGUN.Stop();
         }
-    }
+    }*/
     previousY = y;
     float accel = 30.0f * gameTime;
     float maxSpeed = 3.0f;
@@ -258,28 +250,45 @@ void Player::Update()
 
     if (window->KeyPress('I')) {
         health = 10000;
-        hasMagnum = true;
-        hasShotgun = true;
-        weaponEquiped = 1;
+
+        Gun* gun = new Gun("Resources/revolver_picked.png", 0.3f, 6, 1.5, MAGNUM);
+        itemEquiped = 1;
+        inventory[itemEquiped] = gun;
+
+        Gun* gun2 = new Gun("Resources/GUN.png", 0.5f, 3, 1.65, GUN);
+        itemEquiped = 2;
+        inventory[itemEquiped] = gun2;
+
+        itemEquiped = 1;
     }
 
+    // Momentâneo enquanto não há armas específicas do jogo
     if (window->KeyPress('1')) {
-        if (hasMagnum) {
-            if(!reloadShotgun)
-                weaponEquiped = 1;
+        if (inventory[1]->type == MAGNUM) {
+            Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
+            if (!gun->reloading)
+                itemEquiped = 1;
         }
     }
+    // Momentâneo enquanto não há armas específicas do jogo
     if (window->KeyPress('2')) {
-        if (hasShotgun) {
-            if(!reloadMagnum)
-                weaponEquiped = 2;
+        if (inventory[2]->type == GUN) {
+            Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
+            if (!gun->reloading)
+                itemEquiped = 2;
         }
     }
 
 	// (clique esquerdo do mouse)
     if (window->KeyPress(VK_LBUTTON)) {
         
-        if (weaponEquiped == 1) {
+        // Momentâneo enquanto não há armas específicas do jogo
+        if (inventory[itemEquiped]->type == GUN) {
+            Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
+            gun->shoot(this,GUN,new Image("Resources/Explo.png"));
+        }
+
+        /*if (weaponEquiped == 1) {
             if ((timerMagnum.Elapsed() >= attackCooldownDurationMagnum) && !reloadMagnum) {
 
                 Point playerPos(X(), Y());
@@ -293,35 +302,35 @@ void Player::Update()
                 if (currentScene)
                 {
                     GungeonCore::audio->Play(MAGNUM_FIRE);
-                    currentScene->Add(new Fire(this, firingAngle, fire, PLAYER), MOVING);
+                    currentScene->Add(new Fire(this, firingAngle, fire, FIRE), MOVING);
                 }
                 timerMagnum.Reset();
             }
         }
         else if (weaponEquiped == 2) {
-            if ((timerShotgun.Elapsed() >= attackCooldownDurationShotgun) && !reloadShotgun) {
+            if ((timerGUN.Elapsed() >= attackCooldownDurationGUN) && !reloadGUN) {
                 Point playerPos(X(), Y());
 
                 Point mouseWorldPos = window->ScreenToWorld(GungeonCore::level);
 
                 float firingAngle = Line::Angle(playerPos, mouseWorldPos);
                 
-                quantBulletsShotgun--;
+                quantBulletsGUN--;
 
                 Scene* currentScene = GungeonCore::level->GetScene();
                 if (currentScene)
                 {
-                    GungeonCore::audio->Play(SHOTGUN_FIRE);
+                    GungeonCore::audio->Play(GUN_FIRE);
 
-                    currentScene->Add(new Fire(this, firingAngle, fire, PLAYER), MOVING);
-                    currentScene->Add(new Fire(this, firingAngle+5, fire, PLAYER), MOVING);
-                    currentScene->Add(new Fire(this, firingAngle-5, fire, PLAYER), MOVING);
-                    currentScene->Add(new Fire(this, firingAngle+10, fire, PLAYER), MOVING);
-                    currentScene->Add(new Fire(this, firingAngle-10, fire, PLAYER), MOVING);
+                    currentScene->Add(new Fire(this, firingAngle, fire, FIRE), MOVING);
+                    currentScene->Add(new Fire(this, firingAngle+5, fire, FIRE), MOVING);
+                    currentScene->Add(new Fire(this, firingAngle-5, fire, FIRE), MOVING);
+                    currentScene->Add(new Fire(this, firingAngle+10, fire, FIRE), MOVING);
+                    currentScene->Add(new Fire(this, firingAngle-10, fire, FIRE), MOVING);
                 }
-                timerShotgun.Reset();
+                timerGUN.Reset();
             }
-        }
+        }*/
     }       
 
     Translate(speed.XComponent() * 50 * gameTime, -speed.YComponent() * 50 * gameTime);
@@ -340,17 +349,19 @@ void Player::Update()
 
 void Player::Reset()
 {
-    reloadMagnum = false;
-    hasMagnum = false;
-    hasKey1 = false;
-    hasKey2 = false;
-    quantBulletsMagnum = fullBulletMagnum;
-    reloadShotgun = false;
-    hasShotgun = false;
-    quantBulletsShotgun = fullBulletMagnum;
-    weaponEquiped = 0;
     health = MAX_HEALTH;
     MoveTo((float) initialX, (float) initialY);
+
+    Empty* empty = new Empty();
+
+    for (int i = 0; i < 10; i++) {
+        Gun* gun = dynamic_cast<Gun*>(inventory[i]);
+        if (gun != nullptr) {
+            gun->Reset();
+        }    
+        inventory[i] = empty;
+    }
+    
 }
 
 // ---------------------------------------------------------------------------------
@@ -476,34 +487,31 @@ void Player::OnCollision(Object* obj)
         }
     }
 
-    if (obj->Type() == ENEMYFIRE || obj->Type() == BONEPROJECTILE) {
-        GungeonCore::level->GetScene()->Delete(obj, MOVING);
-        TakeDamage(7);
-    }
-
     if (obj->Type() == DROPPEDITEM) {
         DroppedItem* droppedItem = dynamic_cast<DroppedItem*>(obj);
 
 
         if (droppedItem->itemType == MAGNUM) {
             GungeonCore::audio->Play(GRAB_ITEM);
-            hasMagnum = true;
-            weaponEquiped = 1;
+            Gun* gun = new Gun("Resources/revolver_picked.png", 0.3f, 6, 1.5, MAGNUM);
+            itemEquiped = 1;
+            inventory[itemEquiped] = gun;
         }
 
-        if (droppedItem->itemType == SHOTGUN) {
+        if (droppedItem->itemType == GUN) {
             GungeonCore::audio->Play(GRAB_ITEM);
-            hasShotgun = true;
-            weaponEquiped = 2;
+            Gun* gun = new Gun("Resources/GUN.png", 0.5f, 3, 1.65, GUN);
+            itemEquiped = 2;
+            inventory[itemEquiped] = gun;
         }
 
-        if (droppedItem->itemType == KEY) {
+        /*if (droppedItem->itemType == KEY) {
             GungeonCore::audio->Play(GRAB_KEY);
             if (hasKey1) {
                 hasKey2 = true;
             }
             hasKey1 = true;
-        }
+        }*/
 
         if (droppedItem && droppedItem->itemShadow)
         {
@@ -511,28 +519,6 @@ void Player::OnCollision(Object* obj)
         }
 
         GungeonCore::level->GetScene()->Delete(obj, STATIC);
-    }
-
-    if (obj->Type() == DOOR) {
-        Door* door = dynamic_cast<Door*>(obj);
-
-        if (hasKey1 && hasKey2) {
-            door->state = OPEN;
-        }
-
-        if (door->state == OPEN) {
-            if (window->KeyDown('E')) {
-                TakeDamage(false);
-                //LongRangeVillain::toAttack = false;
-                
-                GungeonCore::completionTime->Stop();
-                Level1::zoomingIn = true;
-            }
-
-            if (Level1::zoom >= 4.0f) {
-                GungeonCore::levelNumber = 1;
-            }
-        }
     }
 
     if (obj->Type() == HITBOX) {
@@ -554,29 +540,29 @@ void Player::OnCollision(Object* obj)
 
 // -------------------------------------------------------------------------------
 
-bool Player::KeysTimed(bool pressed, float time)
-{
-    if (keysCtrl) {
-        if (pressed) {
-            keysCtrl = false;
-            start = timerMagnum.Stamp();
-            return true;
-        }
-    }
-    else if (timerMagnum.Elapsed(start, time)) {
-        keysCtrl = true;
-    }
-
-    return false;
-}
+//bool Player::KeysTimed(bool pressed, float time)
+//{
+//    if (keysCtrl) {
+//        if (pressed) {
+//            keysCtrl = false;
+//            start = timerMagnum.Stamp();
+//            return true;
+//        }
+//    }
+//    else if (timerMagnum.Elapsed(start, time)) {
+//        keysCtrl = true;
+//    }
+//
+//    return false;
+//}
 
 // -------------------------------------------------------------------------------
 
-bool Player::AxisTimed(int axisX, int axisY, float time)
-{
-    // implementar se for usar controle
-    return false;
-}
+//bool Player::AxisTimed(int axisX, int axisY, float time)
+//{
+//    // implementar se for usar controle
+//    return false;
+//}
 
 // -------------------------------------------------------------------------------
 

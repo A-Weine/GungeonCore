@@ -44,7 +44,7 @@ private:
 	float delay;
 
 public:
-		RandomMovementVillain(Image* img);
+		RandomMovementVillain();
 		~RandomMovementVillain();
 
 		void NewDirection();

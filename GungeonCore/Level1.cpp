@@ -17,7 +17,6 @@
 #include "Shadow.h"
 #include "ScoreScreen.h"
 #include "DroppedItem.h"
-#include "Door.h"
 #include "RandomMovementVillain.h"
 #include "RunAwayVillain.h"
 #include "ChaseVillain.h"
@@ -59,9 +58,7 @@ void Level1::Init()
 	DroppedItem* revolver = new DroppedItem("Resources/magnum_dropped.png",200, 820, scene, MAGNUM);
     scene->Add(revolver,STATIC);
 
-    Image* img = new Image("Resources/bat_sprite_sheet.png");
-
-    RandomMovementVillain* randomMovementVillain = new RandomMovementVillain(img);
+    RandomMovementVillain* randomMovementVillain = new RandomMovementVillain();
     scene->Add(randomMovementVillain, STATIC);
 
     RunAwayVillain* runAwayMovementVillain = new RunAwayVillain(200, 1500, GungeonCore::player);

@@ -23,13 +23,12 @@
 class Mouse : public Object
 {
 public:
+    __cdecl Mouse();            // Constructor
+    __cdecl ~Mouse();           // Destructor
 
-    Mouse();            // construtor
-    ~Mouse();           // destrutor
-
-    bool Clicked();     // click do mouse
-    void Update();      // atualização do objeto
-    void Draw();        // desenho do objeto 
+    bool __cdecl Clicked();     // Mouse click
+    void __cdecl Update();      // Object update
+    void __cdecl Draw();        // Object draw
 };
 
 // ---------------------------------------------------------------------------------

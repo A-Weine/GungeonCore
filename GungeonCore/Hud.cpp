@@ -12,6 +12,7 @@
 #include "Hud.h"
 #include "GungeonCore.h"
 #include "Engine.h"
+#include "Gun.h"
 
 // ------------------------------------------------------------------------------
 
@@ -123,52 +124,49 @@ void Hud::Draw(float viewLeft, float viewTop, float cameraZoom)
     currentY += lineSpacing_z;
 
     // Linha 3: Balas ou Recarregando
-    if (GungeonCore::player->reloadMagnum || GungeonCore::player->reloadShotgun) {
+    Gun* gun = dynamic_cast<Gun*>(GungeonCore::player->inventory[GungeonCore::player->itemEquiped]);
+
+    if (gun != nullptr) {
+    if (gun->reloading) {
         text.str("");
         text << "...";
         font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
     }
     else {
         // ... (l�gica para pegar qtdBullets) ...
-        int qtdBullets;
-        if (GungeonCore::player->weaponEquiped == 2) {
-            if (GungeonCore::player->hasShotgun) {
-                qtdBullets = GungeonCore::player->quantBulletsShotgun;
-            }
-        }
-        else if (GungeonCore::player->weaponEquiped == 1) {
-            if (GungeonCore::player->hasMagnum) {
-            qtdBullets = GungeonCore::player->quantBulletsMagnum;
-        }}
-        else {
-            qtdBullets = 0;
-        }
+
         text.str("");
-        text << "Balas: " << qtdBullets;
+        text << "Balas: " << gun->quantBullets;
+        font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
+    }
+    }
+    else {
+        text.str("");
+        text << "Sem armas";
         font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
     }
 
     // Avan�a para a pr�xima linha
     currentY += lineSpacing_z;
 
-    // Linha 4: Chaves
-    if (GungeonCore::player->hasKey1 || GungeonCore::player->hasKey2) {
-        if (GungeonCore::player->hasKey1 && GungeonCore::player->hasKey2) {
-            text.str("");
-            text << "Chaves: 2";
-            font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
-        }
-        else {
-            text.str("");
-            text << "Chaves: 1";
-            font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
-        }
-    }
-    else {
-        text.str("");
-        text << "Chaves: 0";
-        font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
-    }
+    //// Linha 4: Chaves
+    //if (GungeonCore::player->hasKey1 || GungeonCore::player->hasKey2) {
+    //    if (GungeonCore::player->hasKey1 && GungeonCore::player->hasKey2) {
+    //        text.str("");
+    //        text << "Chaves: 2";
+    //        font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
+    //    }
+    //    else {
+    //        text.str("");
+    //        text << "Chaves: 1";
+    //        font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
+    //    }
+    //}
+    //else {
+    //    text.str("");
+    //    text << "Chaves: 0";
+    //    font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
+    //}
 }
 
 void Hud::Draw() {

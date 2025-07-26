@@ -9,7 +9,7 @@ ChaseVillain::ChaseVillain(float pX, float pY, Player* p)
 {
     player = p;
     sprite = new TileSet("Resources/player_sprite_sheet.png", 17, 27, 5, 18);
-    animation = new Animation(sprite, 0.095f, true);
+    animation = new Animation(sprite, 0.150f, true);
 
 
     uint Seq3[6] = { 12, 13, 14, 15, 16, 17 };
@@ -52,7 +52,6 @@ void ChaseVillain::Update()
     if (Point::Distance(Point(x, y), Point(player->X(), player->Y())) < distance)
     {
         speed.ScaleTo(9.0f);
-        target.ScaleTo(50.0f * gameTime);
     }
 
 

@@ -1,7 +1,7 @@
 #include "RandomMovementVillain.h"
 #include "GungeonCore.h"
 
-RandomMovementVillain::RandomMovementVillain(Image* img): magnitude(1, 3), angle(0, 359), secs(1.0f, 4.0f)
+RandomMovementVillain::RandomMovementVillain(): magnitude(1, 3), angle(0, 359), secs(1.0f, 4.0f)
 {
     sprite = new TileSet("Resources/bat_sprite_sheet.png",64,64,4,4);
     animation = new Animation(sprite, 0.1f, true);

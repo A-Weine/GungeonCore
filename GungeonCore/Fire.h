@@ -32,7 +32,7 @@ private:
     Vector speed;                       // velocidade da bala  
 
 public:
-    Fire(Object * shooter,float angle, Image * img, int types);                  // construtor
+    Fire(Object * shooter,float angle, Image * img, int typeShot);                  // construtor
     ~Fire();                            // destrutor
 
     Vector& Speed();                    // retona vetor velocidade

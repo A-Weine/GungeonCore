@@ -53,42 +53,44 @@ private:
 
 
 
-    float const attackCooldownDurationShotgun = 0.5f;
-    Timer timerShotgun;                          // controla tempo dos disparos
-    int const fullBulletShotgun = 3;
-    float const timeToReloadShotgun = 1.65f;
-    Timer timerToReloadShotgun;
+    //float const attackCooldownDurationShotgun = 0.5f;
+    //Timer timerShotgun;                          // controla tempo dos disparos
+    //int const fullBulletShotgun = 3;
+    //float const timeToReloadShotgun = 1.65f;
+    //Timer timerToReloadShotgun;
 
 
-    float const attackCooldownDurationMagnum = 0.3f;
-    Timer timerMagnum;                          // controla tempo dos disparos
-    int const fullBulletMagnum = 6;
-    float const timeToReloadMagnum = 1.5f;
-    Timer timerToReloadMagnum;
+    //float const attackCooldownDurationMagnum = 0.3f;
+    //Timer timerMagnum;                          // controla tempo dos disparos
+    //int const fullBulletMagnum = 6;
+    //float const timeToReloadMagnum = 1.5f;
+    //Timer timerToReloadMagnum;
+    //float firingAngle;                    // direção dos disparos
+    //float armAngle = 0.0f;
 
-    float armAngle = 0.0f;
-
-    llong start;                          // marcação de inicio do disparo
-    bool axisCtrl;                        // habilita leitura de disparos
-    bool keysCtrl;                        // habilita leitura de disparos pelas setas
-    bool keysPressed;                     // qualquer seta de disparo pressionada
-    float firingAngle;                    // direção dos disparos
+    //llong start;                          // marcação de inicio do disparo
+    //bool axisCtrl;                        // habilita leitura de disparos
+    //bool keysCtrl;                        // habilita leitura de disparos pelas setas
+    //bool keysPressed;                     // qualquer seta de disparo pressionada
 
 public:
-    int weaponEquiped;
-    boolean reloadShotgun;
-    boolean reloadMagnum;
+    int itemEquiped;
+    Object* inventory[10];
+    
+    Object* vazio;
+    //boolean reloadShotgun;
+    //boolean reloadMagnum;
 
     // ITENS
-    int quantBulletsMagnum;
-    int quantBulletsShotgun;
-    boolean hasMagnum;
+    //int quantBulletsMagnum;
+    //int quantBulletsShotgun;
+   /* boolean hasMagnum;
     boolean hasShotgun;
     boolean hasKey1;
-    boolean hasKey2;
+    boolean hasKey2;*/
 
 
-    static Image * fire;             // Imagem da bala que vai ser atirada pelo player
+    //static Image * fire;             // Imagem da bala que vai ser atirada pelo player
     uint state = IDLE_DOWN;
     
 	Vector speed;				// velocidade do jogador

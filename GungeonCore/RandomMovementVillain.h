@@ -1,11 +1,11 @@
-/**********************************************************************************
-// Player (Arquivo de Cabeçalho)
+ï»¿/**********************************************************************************
+// Player (Arquivo de CabeÃ§alho)
 //
-// Criação:     10 Out 2012
-// Atualização: 11 Nov 2021
+// CriaÃ§Ã£o:     10 Out 2012
+// AtualizaÃ§Ã£o: 11 Nov 2021
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Define a classe jogador
+// DescriÃ§Ã£o:   Define a classe jogador
 //
 **********************************************************************************/
 
@@ -27,7 +27,7 @@
 
 enum RANDOMMOVEMENTVILLAINSTATE
 {
-	FLYING
+	FLYING, CHARGING, ATTACKING
 };
 
 
@@ -51,11 +51,14 @@ private:
 	Timer timerToAttack;
 	float preparingToAttack;
 
+	int life;
+
 public:
 	boolean isAttacking;
 	RandomMovementVillain(Player * p);
 	~RandomMovementVillain();
 
+	void OnCollision(Object* obj);     // resoluï¿½ï¿½o da colisï¿½o
 	void NewDirection();
 	void Update();
 	void Draw();

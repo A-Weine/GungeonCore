@@ -3,16 +3,20 @@
 
 RandomMovementVillain::RandomMovementVillain(Player* p) : magnitude(1, 3), angle(0, 359), secs(1.0f, 4.0f)
 {
-    sprite = new TileSet("Resources/bat_sprite_sheet.png", 64, 64, 4, 4);
+    sprite = new TileSet("Resources/bullet_bat_sprite_sheet.png", 33, 20, 5, 6);
     animation = new Animation(sprite, 0.1f, true);
 
     player = p;
 
-    uint Seq1[4] = { 0, 1, 2, 3 };
-    BBox(new Circle(20));
+    uint SeqFlying[6] = { 0, 1, 2, 3, 4 ,5 };
+    uint SeqChargin[4] = { 7 , 8 , 9, 10 };
+    uint SeqAttacking[8] = { 11 , 12 , 13, 14, 15, 16, 17, 18 };
+    BBox(new Circle(25));
 
 
-    animation->Add(FLYING, Seq1, 4);
+    animation->Add(FLYING, SeqFlying, 6);
+    animation->Add(CHARGING, SeqChargin, 4);
+    animation->Add(ATTACKING, SeqAttacking, 8);
     animation->Select(FLYING);
 
     MoveTo(300, 760);
@@ -23,6 +27,8 @@ RandomMovementVillain::RandomMovementVillain(Player* p) : magnitude(1, 3), angle
     distance = distanceToSee;
     preparingToAttack = 1.2;
     isAttacking = false;
+
+    life = 3;
 
     type = RANDOMMOVEMENTVILLAIN;
 }
@@ -63,6 +69,7 @@ void RandomMovementVillain::Update()
             isAttacking = false;
             distance = distanceToSee;
             NewDirection();
+            animation->Select(FLYING);
         }
         else {
         if (isPreparing && timerToAttack.Elapsed(preparingToAttack))
@@ -70,7 +77,7 @@ void RandomMovementVillain::Update()
             Vector target = Vector(Line::Angle(Point(x, y), Point(player->X(), player->Y())), 100.0f * delta);
 
             speed.Add(target);
-
+            animation->Select(ATTACKING);
         }
         }
     }
@@ -81,6 +88,7 @@ void RandomMovementVillain::Update()
             isAttacking = true;
             timerToAttack.Start();
             speed.ScaleTo(0);
+            animation->Select(CHARGING);
             distance = distanceToSee * visionMultiplierWhenAttacking;
         }
         else
@@ -119,6 +127,23 @@ void RandomMovementVillain::Update()
     }
 
 }
+
+void RandomMovementVillain::OnCollision(Object* obj)
+{
+
+    if (obj->Type() == FIRE) {
+        life--;
+
+        GungeonCore::level->GetScene()->Delete(obj, MOVING);
+
+        if (life == 0) {
+            GungeonCore::level->GetScene()->Delete(this, STATIC);
+        }
+    }
+
+
+}
+
 
 void RandomMovementVillain::Draw()
 {

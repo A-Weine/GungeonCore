@@ -61,7 +61,7 @@ void Gun::Reset() {
     quantBullets = fullBullet;
 }
 
-// New: shoot in a given direction (angle in degrees)
+// Right stick shooting
 void Gun::shoot(Object* shooter, int whoShot, Image* shotImage, float angleDeg) {
     if ((timer.Elapsed() >= attackCooldownDuration) && !reloading) {
         quantBullets--;
@@ -76,7 +76,7 @@ void Gun::shoot(Object* shooter, int whoShot, Image* shotImage, float angleDeg) 
     }
 }
 
-// Mouse-based shooting (calls the above with calculated angle)
+// Mouse shooting
 void Gun::shoot(Object* shooter, int whoShot, Image* shotImage) {
     if ((timer.Elapsed() >= attackCooldownDuration) && !reloading) {
         Point shooterPos(shooter->X(), shooter->Y());

@@ -123,17 +123,21 @@ void Player::Update()
 
     Vector moveDirection;
 
-    // Keyboard movement
-    if (window->KeyDown('W')) { moveDirection.Add(Vector(90.0f, 1.0f)); }
-    if (window->KeyDown('S')) { moveDirection.Add(Vector(270.0f, 1.0f)); }
-    if (window->KeyDown('A')) { moveDirection.Add(Vector(180.0f, 1.0f)); }
-    if (window->KeyDown('D')) { moveDirection.Add(Vector(0.0f, 1.0f)); }
+    bool isMovingUp = false;
+    bool isMovingDown = false;
+    bool isMovingLeft = false;
+    bool isMovingRight = false;
 
-    // Controller movement (left analog stick)
-    static bool rightStickWasActive = false; // static to persist between frames
+    // Keyboard movement
+    if (window->KeyDown('W')) { moveDirection.Add(Vector(90.0f, 1.0f)); isMovingUp = true; }
+    if (window->KeyDown('S')) { moveDirection.Add(Vector(270.0f, 1.0f)); isMovingDown = true; }
+    if (window->KeyDown('A')) { moveDirection.Add(Vector(180.0f, 1.0f)); isMovingLeft = true; }
+    if (window->KeyDown('D')) { moveDirection.Add(Vector(0.0f, 1.0f)); isMovingRight = true; }
+
+    // Controller movement
+    static bool rightStickWasActive = false;
 
     if (gamepad && gamepad->UpdateState()) {
-        // --- Movement (left stick) ---
         const float deadzone = 200.0f;
         float lx = static_cast<float>(gamepad->Axis(AxisX));
         float ly = static_cast<float>(gamepad->Axis(AxisY));
@@ -148,32 +152,30 @@ void Player::Update()
             if (normLY < -1.0f) normLY = -1.0f;
             moveDirection.Add(Vector(0.0f, normLX));
             moveDirection.Add(Vector(90.0f, -normLY));
+
+            if (normLY < -0.2f) isMovingUp = true;
+            if (normLY > 0.2f)  isMovingDown = true;
+            if (normLX < -0.2f) isMovingLeft = true;
+            if (normLX > 0.2f)  isMovingRight = true;
         }
 
-        // --- Shooting (right stick) ---
+        // --- Right stick shooting
         float rx = static_cast<float>(gamepad->Axis(AxisRX));
         float ry = static_cast<float>(gamepad->Axis(AxisRY));
         const float shootDeadzone = 200.0f;
 
-        // Output for debugging
         std::stringstream ss;
         ss << "Right Analog: rx = " << rx << ", ry = " << ry << "\n";
         OutputDebugStringA(ss.str().c_str());
 
         if ((fabs(rx) > shootDeadzone || fabs(ry) > shootDeadzone)) {
-            // Only shoot once per push
             if (!rightStickWasActive) {
                 rightStickWasActive = true;
-
-                // Calculate angle in radians (atan2 uses Y first, but for shooting, X is right, Y is up)
-                float angleRad = atan2f(-ry, rx); // Negative ry because up is usually negative
+                float angleRad = atan2f(-ry, rx);
                 float angleDeg = angleRad * 180.0f / 3.14159265f;
-
-                // Shoot if gun equipped
                 if (inventory[itemEquiped]->type == GUN) {
                     Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
                     if (gun && !gun->reloading) {
-                        // You may want to pass the angle to the shoot method, so modify Gun::shoot to accept an angle
                         gun->shoot(this, GUN, new Image("Resources/Explo.png"), angleDeg);
                     }
                 }
@@ -186,9 +188,7 @@ void Player::Update()
     if (moveDirection.Magnitude() > 0.1f)
     {
         moveDirection.ScaleTo(1.0f);
-
         moveDirection.Scale(accel);
-
         speed.Add(moveDirection);
     }
     else

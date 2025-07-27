@@ -52,10 +52,7 @@ public:
     Gun(string filename, float cooldownToShot, int fullOfBullets, float timeReloading, int type); // construtor
     ~Gun();                            // destrutor
 
-    // Modified: add angleDeg parameter for analog shooting
     void shoot(Object* shooter, int whoShot, Image* shotImage, float angleDeg);
-
-    // For backward compatibility (e.g. mouse shooting), keep the old signature and call the new one with a default angle
     void shoot(Object* shooter, int whoShot, Image* shotImage);
 
     void reload();

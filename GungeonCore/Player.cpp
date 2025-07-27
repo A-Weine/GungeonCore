@@ -61,17 +61,17 @@ Player::Player()
     animation->Add(static_cast<uint>(PlayerState::RUNNING_UP_RIGHT), seqRunningUpR, 6);
     animation->Add(static_cast<uint>(PlayerState::RUNNING_UP_LEFT), seqRunningUpL, 6);
 
-    /*spriteAiming = new TileSet("Resources/player_revolver_sprite_sheet.png", 40, 32, 7, 40);
-    animationAiming = new Animation(spriteAiming, 0.095f, true);
+	/*spriteAiming = new TileSet("Resources/player_revolver_sprite_sheet.png", 40, 32, 7, 40);
+	animationAiming = new Animation(spriteAiming, 0.095f, true);
 
-    uint Seq9[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
-    uint Seq10[8] = { 8, 9, 10, 11, 12, 13, 14, 15 };
+	uint Seq9[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+	uint Seq10[8] = { 8, 9, 10, 11, 12, 13, 14, 15 };
 
-    animationAiming->Add(AIMING_RIGHT, Seq9, 8);
-    animationAiming->Add(AIMING_LEFT, Seq10, 8);*/
+	animationAiming->Add(AIMING_RIGHT, Seq9, 8);
+	animationAiming->Add(AIMING_LEFT, Seq10, 8);*/
 
     BBox(new Rect(-(sprite->TileWidth() / 2.0f), -(sprite->TileHeight() / 2.0f), (sprite->TileWidth() / 2.0f), (sprite->TileHeight() / 2.0f)));
-
+    
     initialX = 96;
     initialY = 760;
     MoveTo((float)initialX, (float)initialY);
@@ -88,7 +88,7 @@ Player::Player()
     for (int i = 0; i < 10; i++) {
         inventory[i] = empty;
     }
-
+    
     //hasMagnum = false;
     //hasGUN= false;
 
@@ -198,7 +198,7 @@ void Player::Update()
     }
     else
     {
-        speed.Scale(friction);
+        speed.Scale(friction * gameTime);
     }
 
     if (speed.Magnitude() > maxSpeed)
@@ -248,7 +248,7 @@ void Player::Update()
     }
 
     animation->Select(static_cast<uint>(state));
-
+    
     // -----------------
     // Controle
     // -----------------

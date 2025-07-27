@@ -25,9 +25,9 @@
 #include "Player.h"
 // ---------------------------------------------------------------------------------
 
-enum RANDOMMOVEMENTVILLAINSTATE
+enum class RandomMovementVillainState
 {
-	FLYING, CHARGING, ATTACKING
+	FLYING, CHARGING, ATTACKING, DYING, EXPLODING
 };
 
 
@@ -35,6 +35,8 @@ class RandomMovementVillain : public Object
 {
 private:
 	TileSet * sprite;
+	TileSet* spriteExplosion;
+	Animation* animationExplosion;
 	Animation * animation;
 	Vector speed;
 	Timer timer;    
@@ -43,6 +45,8 @@ private:
 	Random<float> secs;            
 	float delay;
 	Player* player;                            // ponteiro para jogador
+
+	RandomMovementVillainState currentState = RandomMovementVillainState::FLYING;
 
 	int distance;
 	int const distanceToSee = 100;

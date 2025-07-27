@@ -70,6 +70,7 @@ public:
     bool Inactive();                                // verifica se a animação já encerrou
     void NextFrame();                               // passa para o próximo frame da animação
     void Restart();                                 // reinicia a animacão (pelo primeiro frame da seqüência)
+    void Loop(bool animloop);
 }; 
 
 // ---------------------------------------------------------------------------------
@@ -98,6 +99,10 @@ inline bool Animation::Inactive()
 inline void Animation::Restart()
 { frame = 0; timer.Start(); }
 
+inline void Animation::Loop(bool animLoop)
+{
+    this->animLoop = animLoop;
+}
 // ---------------------------------------------------------------------------------
 
 #endif

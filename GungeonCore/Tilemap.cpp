@@ -176,7 +176,7 @@ bool Tilemap::Load(const std::string& filename, Scene* scene)
                     float centerX = x + width / 2.0f;
                     float centerY = y + height / 2.0f;
 
-                    Platform* wall = new Platform(centerX, centerY, SOLIDPLATFORM);
+                    Platform* wall = new Platform(centerX, centerY);
 
                     wall->BBox(new Rect(-width / 2.0f, -height / 2.0f, width / 2.0f, height / 2.0f));
 

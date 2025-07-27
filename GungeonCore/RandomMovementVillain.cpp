@@ -3,27 +3,37 @@
 
 RandomMovementVillain::RandomMovementVillain(float x, float y, Player* p) : magnitude(1, 3), angle(0, 359), secs(1.0f, 4.0f)
 {
-    sprite = new TileSet("Resources/bullet_bat_sprite_sheet.png", 33, 20, 5, 6);
+    sprite = new TileSet("Resources/bullet_bat_sprite_sheet.png", 33, 20, 5, 19);
     animation = new Animation(sprite, 0.1f, true);
 
     player = p;
 
     uint SeqFlying[6] = { 0, 1, 2, 3, 4 ,5 };
-    uint SeqChargin[4] = { 7 , 8 , 9, 10 };
-    uint SeqAttacking[8] = { 11 , 12 , 13, 14, 15, 16, 17, 18 };
+    uint SeqChargin[4] = { 6, 7 , 8 , 9 };
+    uint SeqAttacking[8] = { 10, 11 , 12 , 13, 14, 15, 16, 17 };
+    uint SeqDying[4] = { 18 };
     BBox(new Circle(25));
 
 
-    animation->Add(FLYING, SeqFlying, 6);
-    animation->Add(CHARGING, SeqChargin, 4);
-    animation->Add(ATTACKING, SeqAttacking, 8);
-    animation->Select(FLYING);
+    animation->Add(static_cast<int>(RandomMovementVillainState::FLYING), SeqFlying, 6);
+    animation->Add(static_cast<int>(RandomMovementVillainState::CHARGING), SeqChargin, 4);
+    animation->Add(static_cast<int>(RandomMovementVillainState::ATTACKING), SeqAttacking, 8);
+    animation->Add(static_cast<int>(RandomMovementVillainState::DYING), SeqDying, 1);
+    animation->Select(static_cast<int>(RandomMovementVillainState::FLYING));
+
+    spriteExplosion = new TileSet("Resources/bat_explosion_sprite_sheet.png", 40, 38, 2, 4);
+    animationExplosion = new Animation(spriteExplosion, 0.1f, false);
+
+    uint SeqExplosion[4] = { 0, 1, 2, 3 };
+
+    animationExplosion->Add(static_cast<int>(RandomMovementVillainState::EXPLODING), SeqExplosion, 4);
+    animationExplosion->Select(static_cast<int>(RandomMovementVillainState::EXPLODING));
 
     MoveTo(x, y);
     ScaleTo(0.3f);
     NewDirection();
 
-    // Se joga no jogador quando chega próximo
+    // Se joga no jogador quando chega prï¿½ximo
     distance = distanceToSee;
     preparingToAttack = 1.2;
     isAttacking = false;
@@ -34,94 +44,125 @@ RandomMovementVillain::RandomMovementVillain(float x, float y, Player* p) : magn
 RandomMovementVillain::~RandomMovementVillain()
 {
     delete sprite;
+    delete spriteExplosion;
     delete animation;
+    delete animationExplosion;
 }
 
 void RandomMovementVillain::NewDirection()
 {
-    // nova direção aleatória
     speed.ScaleTo(magnitude.Rand());
     speed.RotateTo(angle.Rand());
 
-    // tempo aleatório
     delay = secs.Rand();
 
-    // inicia medição do tempo
     timer.Start();
 }
 
 void RandomMovementVillain::Update()
 {
-    animation->NextFrame();
-
-    // deslocamento padrão
-    float delta = 50 * gameTime;
-
-    if (isAttacking)
+    switch (currentState)
     {
+    case RandomMovementVillainState::FLYING:
+    {
+        animation->Select(static_cast<int>(RandomMovementVillainState::FLYING));
+        animation->NextFrame();
+        RotateTo(0.0f);
 
-        bool isPreparing = (speed.Magnitude() == 0.0f);
-
-        if (Point::Distance(Point(x, y), Point(player->X(), player->Y())) > distance)
-        {
-            isAttacking = false;
-            distance = distanceToSee;
+        if (timer.Elapsed(delay))
             NewDirection();
-            animation->Select(FLYING);
-        }
-        else {
-        if (isPreparing && timerToAttack.Elapsed(preparingToAttack))
-        {
-            Vector target = Vector(Line::Angle(Point(x, y), Point(player->X(), player->Y())), 100.0f * delta);
 
-            speed.Add(target);
-            animation->Select(ATTACKING);
-        }
-        }
-    }
-    else
-    {
-        if (Point::Distance(Point(x, y), Point(player->X(), player->Y())) < distance)
+        Translate(speed.XComponent() * 50 * gameTime, -speed.YComponent() * 50 * gameTime);
+
+        if (Point::Distance(Point(x, y), Point(player->X(), player->Y())) < distanceToSee)
         {
-            isAttacking = true;
-            timerToAttack.Start();
+            currentState = RandomMovementVillainState::CHARGING;
             speed.ScaleTo(0);
-            animation->Select(CHARGING);
-            distance = distanceToSee * visionMultiplierWhenAttacking;
+            animation->Select(static_cast<int>(RandomMovementVillainState::CHARGING));
+            animation->Restart();
+            timerToAttack.Start();
         }
-        else
+        break;
+    }
+
+    case RandomMovementVillainState::CHARGING:
+    {
+        animation->NextFrame();
+
+        if (timerToAttack.Elapsed(preparingToAttack))
         {
-            if (timer.Elapsed(delay))
-                NewDirection();
+            currentState = RandomMovementVillainState::ATTACKING;
+            animation->Select(static_cast<int>(RandomMovementVillainState::ATTACKING));
+
+            Vector target = Vector(Line::Angle(Point(x, y), Point(player->X(), player->Y())), 8.0f);
+            speed = target;
         }
+        break;
     }
 
-    // limita a magnitude da velocidade para impedir 
-    // seu crescimento indefinido na soma vetorial
-    if (speed.Magnitude() > 8)
-        speed.ScaleTo(8.0f);
+    case RandomMovementVillainState::ATTACKING:
+    {
+        animation->NextFrame();
 
-    Translate(speed.XComponent() * delta, -speed.YComponent() * delta);
+        RotateTo(-speed.Angle());
 
-    if (x < 0)
-    {
-        MoveTo(0, y);
-        speed.RotateTo(0);
+        Translate(speed.XComponent() * 50 * gameTime, -speed.YComponent() * 50 * gameTime);
+
+        if (x < 0 || x > game->Width() || y < 0 || y > game->Height())
+        {
+            currentState = RandomMovementVillainState::FLYING;
+            NewDirection();
+        }
+        break;
     }
-    if (y < 0)
+
+    case RandomMovementVillainState::DYING:
     {
-        MoveTo(x, 0);
-        speed.RotateTo(270);
+        animation->NextFrame();
+
+        if (animation->Inactive())
+        {
+            currentState = RandomMovementVillainState::EXPLODING;
+            animationExplosion->Select(static_cast<int>(RandomMovementVillainState::EXPLODING));
+            animationExplosion->Restart();
+        }
+        break;
     }
-    if (x > game->Width())
+
+    case RandomMovementVillainState::EXPLODING:
     {
-        MoveTo(game->Width(), y);
-        speed.RotateTo(180);
+        animationExplosion->NextFrame();
+
+        if (animationExplosion->Inactive())
+        {
+            GungeonCore::level->GetScene()->Delete(this, MOVING);
+        }
+        break;
     }
-    if (y > game->Height())
+    }
+
+    if (currentState == RandomMovementVillainState::FLYING)
     {
-        MoveTo(x, game->Height());
-        speed.RotateTo(90);
+        if (x < 0)
+        {
+            MoveTo(0, y);
+            speed.RotateTo(0);
+        }
+        if (y < 0)
+        {
+            MoveTo(x, 0);
+            speed.RotateTo(270);
+        }
+        if (x > game->Width())
+        {
+            MoveTo(game->Width(), y);
+            speed.RotateTo(180);
+        }
+        if (y > game->Height())
+        {
+            MoveTo(x, game->Height());
+            speed.RotateTo(90);
+        }
     }
 
 }
@@ -129,31 +170,37 @@ void RandomMovementVillain::Update()
 void RandomMovementVillain::OnCollision(Object* obj)
 {
 
-   /* if (obj->Type() == FIRE) {
-        health--;
-
+   if (obj->Type() == FIRE) {
+        
         GungeonCore::level->GetScene()->Delete(obj, MOVING);
 
-        if (health == 0) {
-            GungeonCore::level->GetScene()->Delete(this, MOVING);
-        }
-    }*/
+        TakeDamage(20);
+    }
 
 
 }
 
 void RandomMovementVillain::TakeDamage(int damage) {
     health -= damage;
-
-    if (health <= 0)
+    if (health <= 0 && currentState != RandomMovementVillainState::DYING && currentState != RandomMovementVillainState::EXPLODING)
     {
-        // Optionally play a sound or animation here
-        GungeonCore::level->GetScene()->Delete(this, MOVING);
+        currentState = RandomMovementVillainState::DYING;
+        speed.ScaleTo(0.0f);
+        animation->Select(static_cast<int>(RandomMovementVillainState::DYING));
+        animation->Loop(false);
+        animation->Restart();
     }
 }
 
 
 void RandomMovementVillain::Draw()
 {
-    animation->Draw(x, y, Layer::MIDDLE, 1.0f, 0);
+    if (currentState == RandomMovementVillainState::EXPLODING)
+    {
+        animationExplosion->Draw(x, y, Layer::MIDDLE, 1.0f, 0.0f);
+    }
+    else
+    {
+        animation->Draw(x, y, Layer::MIDDLE, 1.0f, rotation);
+    }
 }

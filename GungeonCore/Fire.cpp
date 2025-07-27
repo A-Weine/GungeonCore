@@ -82,7 +82,7 @@ void Fire::OnCollision(Object* obj)
 {
     layer = CollisionLayer::PROJECTILE;
 
-    if (obj->Type() == SOLIDPLATFORM) {
+    if (obj->Type() == PLATFORM) {
         GungeonCore::audio->Play(FIRE_HIT_STONE);
     }
     else if (obj->Type() == CHASEVILLAIN) {
@@ -94,7 +94,10 @@ void Fire::OnCollision(Object* obj)
         villain->TakeDamage(20);
     }
 
-    
+    if (obj->Type() == PLAYER && type == FIRE) {
+        return;
+    }
+
     GungeonCore::level->GetScene()->Delete(this, MOVING);
 }
 // -------------------------------------------------------------------------------

@@ -15,7 +15,7 @@
 // Constantes Globais
 // ---------------------------------------------------------------------------------
 
-enum Platforms
+enum class PlatformTypes
 {
     SOLIDPLATFORM, SOFTPLATFORM, NOBBOXPLATFORM
 };
@@ -29,9 +29,7 @@ private:
     float life = maxLife;
 
 public:
-    uint state;
-
-    Platform(float x, float y, int platformType);
+    Platform(float x, float y);
     ~Platform();                          // destrutor
 
     void OnCollision(Object* obj);     // resolução da colisão

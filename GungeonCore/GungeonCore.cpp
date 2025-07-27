@@ -65,6 +65,7 @@ void GungeonCore::Init()
 
 
     audio->Volume(MAGNUM_FIRE, 0.3f);
+    audio->Volume(SHOTGUN_FIRE, 0.3f);
     audio->Volume(THEME_SONG, 0.3f);
 
     player  = new Player();
@@ -142,7 +143,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     engine->window->Mode(WINDOWED);
     engine->window->Size(1024, 576);
     engine->window->Color(0, 0, 0);
-    engine->window->Title("Mortal Cells Redemption");
+    engine->window->Title("Gungeon Core");
     engine->window->Icon(IDI_ICON);
     engine->window->Cursor(IDC_CURSOR);
     engine->window->HideCursor(false);

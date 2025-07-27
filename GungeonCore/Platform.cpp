@@ -4,12 +4,11 @@
 
 // ---------------------------------------------------------------------------------
 
-Platform::Platform(float x, float y, int platformType)
+Platform::Platform(float x, float y)
 {
-    type = platformType;
-
     MoveTo(x, y);
 
+    type = PLATFORM;
     layer = CollisionLayer::SOLIDPLATFORM;
 }
 

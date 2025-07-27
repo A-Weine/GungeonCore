@@ -13,6 +13,7 @@
 #include "GungeonCore.h"
 #include "Hud.h"
 #include "Platform.h"
+#include "JarShrap.h"
 
 // ------------------------------------------------------------------------------
 
@@ -93,6 +94,7 @@ void Fire::OnCollision(Object* obj)
         villain->TakeDamage(20);
     }
 
+    
     GungeonCore::level->GetScene()->Delete(this, MOVING);
 }
 // -------------------------------------------------------------------------------

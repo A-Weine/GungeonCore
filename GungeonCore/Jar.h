@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #pragma once
 
 #ifndef _GungeonCore_GUN_H_
@@ -8,7 +8,7 @@
 
 #include "Object.h"                     // objetos do jogo
 #include "Sprite.h"                     // desenho de sprites
-#include "Particles.h"                  // sistema de partículas
+#include "Particles.h"                  // sistema de partÃ­culas
 
 // ---------------------------------------------------------------------------------
 
@@ -22,7 +22,8 @@ public:
     Jar(string filename, float x, float y); // construtor
     ~Jar();                            // destrutor
 
-    void Update();                      // atualização
+    void OnCollision(Object* obj);     // resoluï¿½ï¿½o da colisï¿½o
+    void Update();                      // atualizaÃ§Ã£o
     void Draw();                        // desenho
 
 };

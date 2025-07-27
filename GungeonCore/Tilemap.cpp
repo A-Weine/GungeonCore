@@ -191,7 +191,7 @@ bool Tilemap::Load(const std::string& filename, Scene* scene)
                     else if (type == "enemy") {
                         if (name == "zombie") scene->Add(new ChaseVillain(x, y, GungeonCore::player), MOVING);
                         else if (name == "bat") scene->Add(new RandomMovementVillain(x, y, GungeonCore::player), MOVING);
-                        else if (name == "shotgunBullet") scene->Add(new RunAwayVillain(x, y, GungeonCore::player), MOVING);
+                        else if (name == "gigi") scene->Add(new RunAwayVillain(x, y, GungeonCore::player), MOVING);
                     }
                 }
                 // Lógica para a camada de Itens

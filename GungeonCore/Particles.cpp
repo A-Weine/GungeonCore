@@ -83,7 +83,7 @@ void Particles::Generate(float x, float y, int count)
 
 // ---------------------------------------------------------------------------------
 
-void Particles::Update(float delta)
+void Particles::Update(float delta, boolean sub)
 {
     float lifePercent = 0;
     float timeElapsed = 0;
@@ -94,6 +94,14 @@ void Particles::Update(float delta)
     {
         // para cada partícula
         Particle * p = *it;
+
+        if (sub) {
+            Vector vetorInverso = p->speed;
+            vetorInverso.Rotate(180.0f);
+            vetorInverso.ScaleTo(0.8);
+
+            p->speed.Add(vetorInverso);
+        }
 
         // atualiza a posição da partícula usando seu vetor velocidade
         p->x += p->speed.XComponent() * delta;

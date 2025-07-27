@@ -345,6 +345,12 @@ void Player::OnCollision(Object* obj)
 
         GungeonCore::level->GetScene()->Delete(villain, MOVING);
     }
+    else if (obj->Type() == CHASEVILLAIN) {
+        TakeDamage(10);
+    }
+    else if (obj->Type() == RUNAWAYVILLAIN) {
+        TakeDamage(10);
+    }
 
     if (obj->Type() == DROPPEDITEM) {
         DroppedItem* droppedItem = dynamic_cast<DroppedItem*>(obj);

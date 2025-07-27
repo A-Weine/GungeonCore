@@ -83,8 +83,16 @@ void Fire::OnCollision(Object* obj)
 
     if (obj->Type() == SOLIDPLATFORM) {
         GungeonCore::audio->Play(FIRE_HIT_STONE);
-        GungeonCore::level->GetScene()->Delete(this, MOVING);
+    }
+    else if (obj->Type() == CHASEVILLAIN) {
+        ChaseVillain* villain = static_cast<ChaseVillain*>(obj);
+        villain->TakeDamage(20);
+    }
+    else if (obj->Type() == RUNAWAYVILLAIN) {
+        RunAwayVillain* villain = static_cast<RunAwayVillain*>(obj);
+        villain->TakeDamage(20);
     }
 
+    GungeonCore::level->GetScene()->Delete(this, MOVING);
 }
 // -------------------------------------------------------------------------------

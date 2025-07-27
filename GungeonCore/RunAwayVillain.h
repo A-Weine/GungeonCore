@@ -36,6 +36,7 @@ private:
     Player* player;                            // ponteiro para jogador
     Vector speed;                               // velocidade e direção
     int distance;                               // mantém distância do jogador
+	int health = 100;					 // vida do vilão
 
 public:
     RunAwayVillain(float pX, float pY, Player* p);      // construtor
@@ -43,6 +44,7 @@ public:
 
     void Update();                              // atualização
     void Draw();                                // desenho
+    void TakeDamage(int damage);      // recebe dano
 };
 
 // ---------------------------------------------------------------------------------

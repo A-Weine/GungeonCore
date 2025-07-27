@@ -28,8 +28,6 @@ RandomMovementVillain::RandomMovementVillain(float x, float y, Player* p) : magn
     preparingToAttack = 1.2;
     isAttacking = false;
 
-    life = 3;
-
     type = RANDOMMOVEMENTVILLAIN;
 }
 
@@ -131,17 +129,27 @@ void RandomMovementVillain::Update()
 void RandomMovementVillain::OnCollision(Object* obj)
 {
 
-    if (obj->Type() == FIRE) {
-        life--;
+   /* if (obj->Type() == FIRE) {
+        health--;
 
         GungeonCore::level->GetScene()->Delete(obj, MOVING);
 
-        if (life == 0) {
+        if (health == 0) {
             GungeonCore::level->GetScene()->Delete(this, MOVING);
         }
+    }*/
+
+
+}
+
+void RandomMovementVillain::TakeDamage(int damage) {
+    health -= damage;
+
+    if (health <= 0)
+    {
+        // Optionally play a sound or animation here
+        GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
-
-
 }
 
 

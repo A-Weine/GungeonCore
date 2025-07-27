@@ -59,6 +59,7 @@ void GungeonCore::Init()
     audio->Add(GAME_OVER_SONG, "Resources/theme_song.wav");
     audio->Add(VICTORY_SONG, "Resources/victory_song.wav");
     audio->Add(BOSS_FIGHT, "Resources/boss_fight_song.wav");
+    audio->Add(EXPLORATION_SONG, "Resources/exploration_song.wav");
 
     audio->Volume(MAGNUM_FIRE, 0.1f);
     audio->Volume(THEME_SONG, 0.6f);

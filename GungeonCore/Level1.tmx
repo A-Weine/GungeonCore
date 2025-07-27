@@ -36,60 +36,60 @@
   <object id="2" name="zombie" type="enemy" x="74.6667" y="593.333">
    <point/>
   </object>
-  <object id="6" name="bat" type="enemy" x="394.667" y="604">
-   <point/>
-  </object>
-  <object id="7" name="bat" type="enemy" x="628" y="600">
-   <point/>
-  </object>
-  <object id="8" name="gigi" type="enemy" x="462.667" y="694.667">
-   <point/>
-  </object>
-  <object id="9" name="shotgunBullet" type="enemy" x="608" y="681.333">
-   <point/>
-  </object>
-  <object id="11" name="zombie" type="enemy" x="152" y="133.333">
-   <point/>
-  </object>
-  <object id="12" name="zombie" type="enemy" x="333.333" y="122.667">
-   <point/>
-  </object>
-  <object id="14" name="bat" type="enemy" x="413.333" y="138.667">
-   <point/>
-  </object>
-  <object id="15" name="gigi" type="enemy" x="676" y="250.667">
-   <point/>
-  </object>
-  <object id="16" name="shotgunBullet" type="enemy" x="685.333" y="126.667">
-   <point/>
-  </object>
-  <object id="17" name="gigi" type="enemy" x="1002" y="548">
-   <point/>
-  </object>
-  <object id="18" name="zombie" type="enemy" x="1000" y="330">
-   <point/>
-  </object>
-  <object id="19" name="bat" type="enemy" x="1126" y="152">
-   <point/>
-  </object>
-  <object id="20" name="shotgunBullet" type="enemy" x="1420" y="164">
-   <point/>
-  </object>
-  <object id="21" name="shotgunBullet" type="enemy" x="1434" y="642">
-   <point/>
-  </object>
-  <object id="23" name="bat" type="enemy" x="1792" y="268">
-   <point/>
-  </object>
-  <object id="24" name="gigi" type="enemy" x="1818" y="596">
-   <point/>
-  </object>
-  <object id="25" name="zombie" type="enemy" x="1668" y="622">
-   <point/>
-  </object>
-  <object id="27" name="shades" type="boss" x="2128" y="380">
-   <point/>
-  </object>
+	 <object id="6" name="bat" type="enemy" x="394.667" y="604">
+		 <point/>
+	 </object>
+	 <object id="7" name="bat" type="enemy" x="628" y="600">
+		 <point/>
+	 </object>
+	 <object id="8" name="gigi" type="enemy" x="462.667" y="694.667">
+		 <point/>
+	 </object>
+	 <object id="9" name="shotgunBullet" type="enemy" x="608" y="681.333">
+		 <point/>
+	 </object>
+	 <object id="11" name="zombie" type="enemy" x="152" y="133.333">
+		 <point/>
+	 </object>
+	 <object id="12" name="zombie" type="enemy" x="333.333" y="122.667">
+		 <point/>
+	 </object>
+	 <object id="14" name="bat" type="enemy" x="413.333" y="138.667">
+		 <point/>
+	 </object>
+	 <object id="15" name="gigi" type="enemy" x="676" y="250.667">
+		 <point/>
+	 </object>
+	 <object id="16" name="shotgunBullet" type="enemy" x="685.333" y="126.667">
+		 <point/>
+	 </object>
+	 <object id="17" name="gigi" type="enemy" x="1002" y="548">
+		 <point/>
+	 </object>
+	 <object id="18" name="zombie" type="enemy" x="1000" y="330">
+		 <point/>
+	 </object>
+	 <object id="19" name="bat" type="enemy" x="1126" y="152">
+		 <point/>
+	 </object>
+	 <object id="20" name="shotgunBullet" type="enemy" x="1420" y="164">
+		 <point/>
+	 </object>
+	 <object id="21" name="shotgunBullet" type="enemy" x="1434" y="642">
+		 <point/>
+	 </object>
+	 <object id="23" name="bat" type="enemy" x="1792" y="268">
+		 <point/>
+	 </object>
+	 <object id="24" name="gigi" type="enemy" x="1818" y="596">
+		 <point/>
+	 </object>
+	 <object id="25" name="zombie" type="enemy" x="1668" y="622">
+		 <point/>
+	 </object>
+	 <object id="27" name="shades" type="boss" x="2128" y="380">
+		 <point/>
+	 </object>
   <object id="59" name="player" type="player" x="80" y="820">
    <point/>
   </object>

@@ -24,8 +24,26 @@
 
 // ---------------------------------------------------------------------------------
 
-enum CHASEVILLAIN {
-    VILLAIN_RUNNING
+enum class ShriekState {
+    IDLE,
+    WINDUP,
+    PULSE_SHRIEK,
+    CONTINUOUS_SHRIEK,
+    COOLDOWN,
+    BULLET
+};
+
+enum class ChaseVillainState
+{
+    SPAWNING,
+    WALKING_DOWN,
+    WALKING_RIGHT,
+    WALKING_LEFT,
+    HIT,
+    QUICK_POWER,
+    CONSTANT_POWER,
+    EXPLODING,
+    MISSILE
 };
 
 class ChaseVillain : public Object
@@ -35,13 +53,28 @@ private:
     Animation* animation;
     Player* player;                            // ponteiro para jogador
     Vector speed;                               // velocidade e direção
-    int distance;                               // mantém distância do jogador
 	int health = 100;                          // vida do vilão
 
+    ChaseVillainState state = ChaseVillainState::WALKING_DOWN;
+    ShriekState currentShriekState = ShriekState::IDLE;
+
+    Timer explosion;
+
+    Timer stateTimer;
+    int shriekPulseCount = 0;    // Para contar os 3 gritos iniciais
+    bool playerIsInRange = false; // Para saber se o player está na área de alcance
+
+    // Constantes para facilitar o ajuste
+    const float WINDUP_TIME = 0.2f;       // Tempo de preparação antes do 1º grito
+    const float PAUSE_BETWEEN_SHRIEKS = 0.7f; // A pausa de 1.5s
+
 public:
+    int distance;                               // mantém distância do jogador
     ChaseVillain(float pX, float pY, Player* p);      // construtor
     ~ChaseVillain();                                   // destrutor
 
+    void OnCollision(Object* obj);
+    void ResetShriekAttack();
     void Update();                              // atualização
     void Draw();                                // desenho
 	void TakeDamage(int damage);      // recebe dano

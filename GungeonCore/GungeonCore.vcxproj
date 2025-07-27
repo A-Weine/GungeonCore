@@ -232,6 +232,7 @@
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Empty.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="FinalScreen.cpp" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -261,6 +262,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ScoreScreen.cpp" />
     <ClCompile Include="Shadow.cpp" />
+    <ClCompile Include="ShriekAttack.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StaticTile.cpp" />
@@ -280,6 +282,7 @@
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Empty.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="FinalScreen.h" />
     <ClInclude Include="Fire.h" />
     <ClInclude Include="Font.h" />
@@ -311,6 +314,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="ScoreScreen.h" />
     <ClInclude Include="Shadow.h" />
+    <ClInclude Include="ShriekAttack.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StaticTile.h" />

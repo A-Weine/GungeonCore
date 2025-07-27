@@ -88,6 +88,7 @@ void Level1::Init()
     float dify = (game->Height() - window->Height()) / 2.0f;
 
     GungeonCore::player->TakeDamage(true);
+    GungeonCore::audio->Play(THEME_SONG, true);
     //GungeonCore::audio->Play(SONG_LEVEL1, true);
 }
 
@@ -205,6 +206,7 @@ void Level1::Finalize()
 {
     scene->Remove(GungeonCore::player, MOVING);
     //GungeonCore::audio->Stop(SONG_LEVEL1);
+    GungeonCore::audio->Stop(THEME_SONG);
     delete scene;
     delete backg;
 }

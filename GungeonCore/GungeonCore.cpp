@@ -51,12 +51,14 @@ void GungeonCore::Init()
     audio->Add(BOSS_SPEECH, "Resources/boss_speech.wav");
     audio->Add(GRAB_KEY, "Resources/grab_key.wav");
     audio->Add(FIRE_HIT_STONE, "Resources/fire_hit_stone.wav");
-    audio->Add(SONG_LEVEL1, "Resources/song2.wav");
+    //audio->Add(SONG_LEVEL1, "Resources/song2.wav");
     audio->Add(SONG_LEVEL2, "Resources/song3_part1.wav");
     //audio->Add(LOOP_THEME, "Resources/song3_part2.wav");
     audio->Add(START_SCREEN, "Resources/start_screen_song.wav");
+    audio->Add(THEME_SONG, "Resources/theme_song.wav");
 
     audio->Volume(MAGNUM_FIRE, 0.1f);
+    audio->Volume(THEME_SONG, 0.6f);
 
     player  = new Player();
     hud     = new Hud();

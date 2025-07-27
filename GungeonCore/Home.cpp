@@ -158,7 +158,7 @@ void Home::Draw()
 
 void Home::Finalize()
 {
-    GungeonCore::audio->Stop(LOOP_THEME);
+    GungeonCore::audio->Stop(START_SCREEN);
     delete scene;
     delete backg;
     delete gameName;

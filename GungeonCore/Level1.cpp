@@ -61,9 +61,9 @@ void Level1::Init()
 	DroppedItem* shotgunDropped = new DroppedItem("Resources/shotgun.png",200, 820, scene, GUN, shotgun);
     scene->Add(shotgunDropped,STATIC);
 
-    Gun* revolver = new Gun("Resources/revolver_picked.png", 0.3f, 6, 1.5, MAGNUM);
+    Gun* revolver = new Gun("Resources/magnum_dropped.png", 0.3f, 6, 1.5, MAGNUM);
 
-    DroppedItem* revolverDropped = new DroppedItem("Resources/revolver_picked.png", 270, 820, scene, GUN, revolver);
+    DroppedItem* revolverDropped = new DroppedItem("Resources/magnum_dropped.png", 270, 820, scene, GUN, revolver);
     scene->Add(revolverDropped, STATIC);
 
     RandomMovementVillain* randomMovementVillain = new RandomMovementVillain(GungeonCore::player);

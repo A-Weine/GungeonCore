@@ -54,20 +54,32 @@ Gun::~Gun()
 
 void Gun::Update()
 {
-
-
 }
 
-void Gun::Reset(){
+void Gun::Reset() {
     reloading = false;
     quantBullets = fullBullet;
 }
 
-void Gun::shoot(Object* shooter, int whoShot, Image * shotImage) {
+// New: shoot in a given direction (angle in degrees)
+void Gun::shoot(Object* shooter, int whoShot, Image* shotImage, float angleDeg) {
     if ((timer.Elapsed() >= attackCooldownDuration) && !reloading) {
+        quantBullets--;
 
+        Scene* currentScene = GungeonCore::level->GetScene();
+        if (currentScene)
+        {
+            GungeonCore::audio->Play(shootSound);
+            currentScene->Add(new Fire(shooter, angleDeg, shotImage, FIRE), MOVING);
+        }
+        timer.Reset();
+    }
+}
+
+// Mouse-based shooting (calls the above with calculated angle)
+void Gun::shoot(Object* shooter, int whoShot, Image* shotImage) {
+    if ((timer.Elapsed() >= attackCooldownDuration) && !reloading) {
         Point shooterPos(shooter->X(), shooter->Y());
-
         Point mouseWorldPos = window->ScreenToWorld(GungeonCore::level);
 
         float firingAngle = Line::Angle(shooterPos, mouseWorldPos);
@@ -81,7 +93,6 @@ void Gun::shoot(Object* shooter, int whoShot, Image * shotImage) {
         }
         timer.Reset();
     }
-       
 }
 
 void Gun::reload() {

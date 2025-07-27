@@ -20,7 +20,7 @@
 #include "Gun.h"
 #include "Empty.h"
 #include "RandomMovementVillain.h"
-
+#include <cmath>
 
 // -------------------------------------------------------------------------------
 
@@ -130,8 +130,11 @@ void Player::Update()
     if (window->KeyDown('D')) { moveDirection.Add(Vector(0.0f, 1.0f)); }
 
     // Controller movement (left analog stick)
+    static bool rightStickWasActive = false; // static to persist between frames
+
     if (gamepad && gamepad->UpdateState()) {
-        const float deadzone = 200.0f; // Lowered for DirectInput
+        // --- Movement (left stick) ---
+        const float deadzone = 200.0f;
         float lx = static_cast<float>(gamepad->Axis(AxisX));
         float ly = static_cast<float>(gamepad->Axis(AxisY));
 
@@ -145,6 +148,38 @@ void Player::Update()
             if (normLY < -1.0f) normLY = -1.0f;
             moveDirection.Add(Vector(0.0f, normLX));
             moveDirection.Add(Vector(90.0f, -normLY));
+        }
+
+        // --- Shooting (right stick) ---
+        float rx = static_cast<float>(gamepad->Axis(AxisRX));
+        float ry = static_cast<float>(gamepad->Axis(AxisRY));
+        const float shootDeadzone = 200.0f;
+
+        // Output for debugging
+        std::stringstream ss;
+        ss << "Right Analog: rx = " << rx << ", ry = " << ry << "\n";
+        OutputDebugStringA(ss.str().c_str());
+
+        if ((fabs(rx) > shootDeadzone || fabs(ry) > shootDeadzone)) {
+            // Only shoot once per push
+            if (!rightStickWasActive) {
+                rightStickWasActive = true;
+
+                // Calculate angle in radians (atan2 uses Y first, but for shooting, X is right, Y is up)
+                float angleRad = atan2f(-ry, rx); // Negative ry because up is usually negative
+                float angleDeg = angleRad * 180.0f / 3.14159265f;
+
+                // Shoot if gun equipped
+                if (inventory[itemEquiped]->type == GUN) {
+                    Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
+                    if (gun && !gun->reloading) {
+                        // You may want to pass the angle to the shoot method, so modify Gun::shoot to accept an angle
+                        gun->shoot(this, GUN, new Image("Resources/Explo.png"), angleDeg);
+                    }
+                }
+            }
+        } else {
+            rightStickWasActive = false;
         }
     }
 

@@ -26,6 +26,8 @@ ChaseVillain::ChaseVillain(float pX, float pY, Player* p)
     MoveTo(pX, pY);
 
     type = CHASEVILLAIN;
+
+    BBox(new Rect(-(sprite->TileWidth() / 2.0f), -(sprite->TileHeight() / 2.0f), (sprite->TileWidth() / 2.0f), (sprite->TileHeight() / 2.0f)));
 }
 
 ChaseVillain::~ChaseVillain()
@@ -77,4 +79,14 @@ void ChaseVillain::Update()
 inline void ChaseVillain::Draw()
 {
     animation->Draw(x, y, Layer::MIDDLE, 1.0f, 0);
+}
+
+void ChaseVillain::TakeDamage(int damage) {
+    health -= damage;
+
+    if (health <= 0)
+    {
+        // Optionally play a sound or animation here
+        GungeonCore::level->GetScene()->Delete(this, MOVING);
+    }
 }

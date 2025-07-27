@@ -23,6 +23,8 @@
 #include "TileSet.h"
 #include "Animation.h"
 #include "Player.h"
+#include "ChaseVillain.h"
+#include "RunAwayVillain.h"
 
 // ---------------------------------------------------------------------------------
 class Fire : public Object

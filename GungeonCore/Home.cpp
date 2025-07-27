@@ -32,7 +32,7 @@ void Home::Init()
 
     // Seleciona a primeira opção por padrão
     items[selectedOption]->Select();
-    GungeonCore::audio->Play(MENU_SELECT);
+    GungeonCore::audio->Play(MENU_HOVER);
 
     GungeonCore::audio->Play(START_SCREEN, true);
 }
@@ -51,14 +51,14 @@ void Home::Update()
         items[selectedOption]->UnSelect();
         selectedOption++;
         items[selectedOption]->Select();
-        GungeonCore::audio->Play(MENU_SELECT);
+        GungeonCore::audio->Play(MENU_HOVER);
     }
     if (window->KeyPress(VK_UP) && selectedOption > 0)
     {
         items[selectedOption]->UnSelect();
         selectedOption--;
         items[selectedOption]->Select();
-        GungeonCore::audio->Play(MENU_SELECT);
+        GungeonCore::audio->Play(MENU_HOVER);
     }
 
     // Lógica para clicar com o mouse ou teclado
@@ -79,7 +79,7 @@ void Home::Update()
                 items[selectedOption]->UnSelect();
                 selectedOption = i;
                 items[selectedOption]->Select();
-                GungeonCore::audio->Play(MENU_SELECT);
+                GungeonCore::audio->Play(MENU_HOVER);
             }
             if (mouse->Clicked())
             {
@@ -102,11 +102,13 @@ void Home::Update()
     {
         if (clickedItem == 0) // Opção "Jogar"
         {
+            GungeonCore::audio->Play(MENU_CLICK);
             // Usa a função estática do Gerente Geral para mudar para o Level1
             GungeonCore::NextLevel<Level1>();
         }
         else if (clickedItem == 1) // Opção "Sair"
         {
+            GungeonCore::audio->Play(MENU_CLICK);
             window->Close();
         }
     }

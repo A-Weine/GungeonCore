@@ -51,7 +51,7 @@ private:
 	Timer timerToAttack;
 	float preparingToAttack;
 
-	int life;
+	int health = 100;
 
 public:
 	boolean isAttacking;
@@ -63,6 +63,7 @@ public:
 	void Update();
 	void Draw();
 
+	void TakeDamage(int damage);      // recebe dano
 };
 // ---------------------------------------------------------------------------------
 

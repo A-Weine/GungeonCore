@@ -53,7 +53,8 @@ void GungeonCore::Init()
     audio->Add(FIRE_HIT_STONE, "Resources/fire_hit_stone.wav");
     audio->Add(SONG_LEVEL1, "Resources/song2.wav");
     audio->Add(SONG_LEVEL2, "Resources/song3_part1.wav");
-    audio->Add(LOOP_THEME, "Resources/song3_part2.wav");
+    //audio->Add(LOOP_THEME, "Resources/song3_part2.wav");
+    audio->Add(START_SCREEN, "Resources/start_screen_song.wav");
 
     audio->Volume(MAGNUM_FIRE, 0.1f);
 

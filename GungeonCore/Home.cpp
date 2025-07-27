@@ -34,7 +34,7 @@ void Home::Init()
     items[selectedOption]->Select();
     GungeonCore::audio->Play(MENU_SELECT);
 
-    GungeonCore::audio->Play(LOOP_THEME, true);
+    GungeonCore::audio->Play(START_SCREEN, true);
 }
 
 void Home::Update()

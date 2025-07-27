@@ -61,20 +61,20 @@ Player::Player()
     animation->Add(static_cast<uint>(PlayerState::RUNNING_UP_RIGHT), seqRunningUpR, 6);
     animation->Add(static_cast<uint>(PlayerState::RUNNING_UP_LEFT), seqRunningUpL, 6);
 
-	/*spriteAiming = new TileSet("Resources/player_revolver_sprite_sheet.png", 40, 32, 7, 40);
-	animationAiming = new Animation(spriteAiming, 0.095f, true);
+    /*spriteAiming = new TileSet("Resources/player_revolver_sprite_sheet.png", 40, 32, 7, 40);
+    animationAiming = new Animation(spriteAiming, 0.095f, true);
 
-	uint Seq9[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
-	uint Seq10[8] = { 8, 9, 10, 11, 12, 13, 14, 15 };
+    uint Seq9[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+    uint Seq10[8] = { 8, 9, 10, 11, 12, 13, 14, 15 };
 
-	animationAiming->Add(AIMING_RIGHT, Seq9, 8);
-	animationAiming->Add(AIMING_LEFT, Seq10, 8);*/
+    animationAiming->Add(AIMING_RIGHT, Seq9, 8);
+    animationAiming->Add(AIMING_LEFT, Seq10, 8);*/
 
     BBox(new Rect(-(sprite->TileWidth() / 2.0f), -(sprite->TileHeight() / 2.0f), (sprite->TileWidth() / 2.0f), (sprite->TileHeight() / 2.0f)));
-    
+
     initialX = 96;
     initialY = 760;
-    MoveTo((float) initialX, (float) initialY);
+    MoveTo((float)initialX, (float)initialY);
     type = PLAYER;
 
     jumpStrength = 7.5f;
@@ -88,9 +88,12 @@ Player::Player()
     for (int i = 0; i < 10; i++) {
         inventory[i] = empty;
     }
-    
+
     //hasMagnum = false;
     //hasGUN= false;
+
+    gamepad = new Controller();
+    gamepad->Initialize();
 }
 
 // -------------------------------------------------------------------------------
@@ -99,7 +102,7 @@ Player::~Player()
 {
     delete sprite;
     delete animation;
-    //delete gamepad;
+    delete gamepad;
 }
 
 // -------------------------------------------------------------------------------
@@ -120,10 +123,30 @@ void Player::Update()
 
     Vector moveDirection;
 
+    // Keyboard movement
     if (window->KeyDown('W')) { moveDirection.Add(Vector(90.0f, 1.0f)); }
     if (window->KeyDown('S')) { moveDirection.Add(Vector(270.0f, 1.0f)); }
     if (window->KeyDown('A')) { moveDirection.Add(Vector(180.0f, 1.0f)); }
     if (window->KeyDown('D')) { moveDirection.Add(Vector(0.0f, 1.0f)); }
+
+    // Controller movement (left analog stick)
+    if (gamepad && gamepad->UpdateState()) {
+        const float deadzone = 200.0f; // Lowered for DirectInput
+        float lx = static_cast<float>(gamepad->Axis(AxisX));
+        float ly = static_cast<float>(gamepad->Axis(AxisY));
+
+        // Apply deadzone and normalize for DirectInput
+        if (fabs(lx) > deadzone || fabs(ly) > deadzone) {
+            float normLX = lx / 1000.0f;
+            float normLY = ly / 1000.0f;
+            if (normLX > 1.0f) normLX = 1.0f;
+            if (normLX < -1.0f) normLX = -1.0f;
+            if (normLY > 1.0f) normLY = 1.0f;
+            if (normLY < -1.0f) normLY = -1.0f;
+            moveDirection.Add(Vector(0.0f, normLX));
+            moveDirection.Add(Vector(90.0f, -normLY));
+        }
+    }
 
     if (moveDirection.Magnitude() > 0.1f)
     {
@@ -191,53 +214,11 @@ void Player::Update()
 
     animation->Select(static_cast<uint>(state));
 
-    /*
-    // NOVO: Assumimos que o jogador est� no ar no in�cio de cada frame.
-    // A fun��o OnCollision ir� corrigir isso se ele estiver em uma plataforma.
-
     // -----------------
     // Controle
     // -----------------
 
-    //if (gamepadOn)
-    //{
-    //    // atualiza estado das teclas e eixos do controle
-    //    gamepad->UpdateState();
-
-    //    // constr�i vetor com base na posi��o do anal�gico esquerdo
-    //    float ang = Line::Angle(Point(0, 0), Point(gamepad->Axis(AxisX) / 25.0f, gamepad->Axis(AxisY) / 25.0f));
-    //    float mag = Point::Distance(Point(0, 0), Point(gamepad->Axis(AxisX) / 25.0f, gamepad->Axis(AxisY) / 25.0f));
-
-    //    // nenhuma dire��o selecionada
-    //    if (mag == 0)
-    //    {
-    //        // se a velocidade estiver muita baixa
-    //        if (speed.Magnitude() < 0.1)
-    //        {
-    //            // pare de se movimentar imediatamente
-    //            speed.ScaleTo(0.0f);
-    //        }
-    //        else
-    //        {
-    //            // some um vetor no sentido contr�rio para frear
-    //            Move(Vector(speed.Angle() + 180.0f, 5.0f * gameTime));
-    //        }
-    //    }
-    //    else
-    //    {
-    //        // movimente-se para a nova dire��o
-    //        Move(Vector(ang, mag * gameTime));
-    //    }
-
-    //    // dispara m�ssil com o anal�gico direito
-    //    if (AxisTimed(AxisRX, AxisRY, 0.150f))
-    //    {
-    //        float ang = Line::Angle(Point(0,0), Point(float(gamepad->Axis(AxisRX)), float(gamepad->Axis(AxisRY))));
-    //        GungeonCore::audio->Play(FIRE);
-    //        GungeonCore::scene->Add(new Missile(ang), STATIC);
-    //    }
-    //}
-    */
+    
 
     // -----------------
     // Teclado

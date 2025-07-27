@@ -57,8 +57,8 @@ private:
     float jumpStrength;              // for�a do pulo
 	float previousY;                // posi��o Y anterior
     
-    //Controller * gamepad;               // leitura do controle
-    //bool gamepadOn;                     // controle est� ligado
+    Controller * gamepad;               // leitura do controle
+    bool gamepadOn;                     // controle est� ligado
 
 
 

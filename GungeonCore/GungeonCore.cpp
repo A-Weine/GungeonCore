@@ -61,8 +61,8 @@ void GungeonCore::Init()
     audio->Add(BOSS_FIGHT, "Resources/boss_fight_song.wav");
     audio->Add(EXPLORATION_SONG, "Resources/exploration_song.wav");
 
-    audio->Volume(MAGNUM_FIRE, 0.1f);
-    audio->Volume(THEME_SONG, 0.6f);
+    audio->Volume(MAGNUM_FIRE, 0.3f);
+    audio->Volume(THEME_SONG, 0.3f);
 
     player  = new Player();
     hud     = new Hud();

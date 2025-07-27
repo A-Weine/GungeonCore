@@ -38,7 +38,7 @@ public:
     Tilemap();
     ~Tilemap();
 
-    bool Load(const std::string& filename);
+    bool Load(const std::string& filename, Scene* scene);
 
     void Update() override;
     void Draw() override;

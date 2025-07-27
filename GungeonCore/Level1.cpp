@@ -64,29 +64,20 @@ void Level1::Init()
     Gun* revolver = new Gun("Resources/magnum_dropped.png", 0.3f, 6, 1.5, MAGNUM);
 
     DroppedItem* revolverDropped = new DroppedItem("Resources/magnum_dropped.png", 270, 820, scene, GUN, revolver);
-    scene->Add(revolverDropped, STATIC);
-
-    RandomMovementVillain* randomMovementVillain = new RandomMovementVillain(GungeonCore::player);
-    scene->Add(randomMovementVillain, STATIC);
-
-    RunAwayVillain* runAwayMovementVillain = new RunAwayVillain(200, 1500, GungeonCore::player);
-    scene->Add(runAwayMovementVillain, STATIC);
-
-    ChaseVillain* chaseMovementVillain = new ChaseVillain(500, 1500, GungeonCore::player);
-    scene->Add(chaseMovementVillain, STATIC);
-    
-    scene->Add(GungeonCore::player, MOVING);
-    scene->Add(playerShadow, STATIC);
+    scene->Add(revolverDropped, STATIC);    
 
     tilemap = new Tilemap;
     
-    tilemap->Load("Level1.tmx");
+    tilemap->Load("Level1.tmx", scene);
     
     scene->Add(tilemap, STATIC);
 
     float difx = (game->Width() - window->Width()) / 2.0f;
     float dify = (game->Height() - window->Height()) / 2.0f;
 
+    scene->Add(GungeonCore::player, MOVING);
+    scene->Add(playerShadow, STATIC);
+    
     GungeonCore::player->TakeDamage(true);
     GungeonCore::audio->Play(THEME_SONG, true);
     //GungeonCore::audio->Play(SONG_LEVEL1, true);

@@ -1,7 +1,7 @@
 #include "RandomMovementVillain.h"
 #include "GungeonCore.h"
 
-RandomMovementVillain::RandomMovementVillain(Player* p) : magnitude(1, 3), angle(0, 359), secs(1.0f, 4.0f)
+RandomMovementVillain::RandomMovementVillain(float x, float y, Player* p) : magnitude(1, 3), angle(0, 359), secs(1.0f, 4.0f)
 {
     sprite = new TileSet("Resources/bullet_bat_sprite_sheet.png", 33, 20, 5, 6);
     animation = new Animation(sprite, 0.1f, true);
@@ -19,7 +19,7 @@ RandomMovementVillain::RandomMovementVillain(Player* p) : magnitude(1, 3), angle
     animation->Add(ATTACKING, SeqAttacking, 8);
     animation->Select(FLYING);
 
-    MoveTo(300, 760);
+    MoveTo(x, y);
     ScaleTo(0.3f);
     NewDirection();
 
@@ -137,7 +137,7 @@ void RandomMovementVillain::OnCollision(Object* obj)
         GungeonCore::level->GetScene()->Delete(obj, MOVING);
 
         if (life == 0) {
-            GungeonCore::level->GetScene()->Delete(this, STATIC);
+            GungeonCore::level->GetScene()->Delete(this, MOVING);
         }
     }
 

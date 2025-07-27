@@ -246,6 +246,7 @@
     <ClCompile Include="Home.cpp" />
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Jar.cpp" />
     <ClCompile Include="Level1.cpp" />
     <ClCompile Include="MenuItem.cpp" />
     <ClCompile Include="Mouse.cpp" />
@@ -292,6 +293,7 @@
     <ClInclude Include="Home.h" />
     <ClInclude Include="Hud.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="Jar.h" />
     <ClInclude Include="Level1.h" />
     <ClInclude Include="MenuItem.h" />
     <ClInclude Include="Mouse.h" />

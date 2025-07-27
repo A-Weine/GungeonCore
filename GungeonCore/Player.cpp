@@ -35,7 +35,6 @@ Player::Player()
     sprite = new TileSet("Resources/player_sprite_sheet.png", 17, 27, 6, 54);
     animation = new Animation(sprite, 0.125f, true);
 
-
     uint seqRunningDown[6] = { 0, 1, 2, 3, 4, 5 }; // running down
     uint seqRunningDownR[6] = { 6, 7, 8, 9, 10, 11 }; // running down right
     uint seqRunningDownL[6] = { 12, 13, 14, 15, 16, 17 }; // running down left
@@ -344,7 +343,7 @@ void Player::OnCollision(Object* obj)
     if (obj->Type() == RANDOMMOVEMENTVILLAIN) {
         RandomMovementVillain* villain = dynamic_cast<RandomMovementVillain*>(obj);
 
-        GungeonCore::level->GetScene()->Delete(villain, STATIC);
+        GungeonCore::level->GetScene()->Delete(villain, MOVING);
     }
 
     if (obj->Type() == DROPPEDITEM) {

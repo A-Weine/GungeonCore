@@ -55,7 +55,7 @@ private:
 
 public:
 	boolean isAttacking;
-	RandomMovementVillain(Player * p);
+	RandomMovementVillain(float x, float y, Player * p);
 	~RandomMovementVillain();
 
 	void OnCollision(Object* obj);     // resolu��o da colis�o

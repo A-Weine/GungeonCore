@@ -14,6 +14,12 @@
 #include "Engine.h"
 #include "GungeonCore.h"
 #include "tinyxml2.h"
+#include "Platform.h"
+#include "DroppedItem.h"
+#include "RandomMovementVillain.h"
+#include "RunAwayVillain.h"
+#include "ChaseVillain.h"
+#include "Jar.h"
 
 #include <fstream>
 #include <sstream>
@@ -59,7 +65,7 @@ Tilemap::~Tilemap()
 
 // -------------------------------------------------------------------------------
 
-bool Tilemap::Load(const std::string& filename)
+bool Tilemap::Load(const std::string& filename, Scene* scene)
 {
     for (auto tile : tileCache) delete tile;
     tileCache.clear();
@@ -79,18 +85,15 @@ bool Tilemap::Load(const std::string& filename)
     mapWidth = pMap->IntAttribute("width");
     mapHeight = pMap->IntAttribute("height");
 
-    std::vector<TileSet*> tempTilesets;
-    uint maxTileId = 0;
-
+    uint maxGid = 0;
     for (XMLElement* pTilesetEl = pMap->FirstChildElement("tileset"); pTilesetEl != nullptr; pTilesetEl = pTilesetEl->NextSiblingElement("tileset"))
     {
         int gid = pTilesetEl->IntAttribute("firstgid");
-
         firstGids.push_back(gid);
 
         std::string tsxPath = std::string(pTilesetEl->Attribute("source"));
-
         tinyxml2::XMLDocument tsxDoc;
+
         if (tsxDoc.LoadFile(tsxPath.c_str()) == XML_SUCCESS)
         {
             XMLElement* ts = tsxDoc.FirstChildElement("tileset");
@@ -101,15 +104,13 @@ bool Tilemap::Load(const std::string& filename)
 
             uint rows = (uint)ceil(float(tileCount) / float(columns));
 
-            tempTilesets.push_back(new TileSet(imgPath, rows, columns));
-
-            maxTileId = max(maxTileId, gid + tileCount - 1);
-        
             loadedTilesets.push_back(new TileSet(imgPath, rows, columns));
+
+            maxGid = max(maxGid, gid + tileCount - 1);
         }
     }
 
-    tileCache.resize(maxTileId, nullptr);
+    tileCache.resize(maxGid, nullptr);
 
     for (size_t i = 0; i < loadedTilesets.size(); ++i)
     {
@@ -124,28 +125,86 @@ bool Tilemap::Load(const std::string& filename)
         }
     }
 
-    mapData = new int* [mapHeight];
-    for (int i = 0; i < mapHeight; ++i) mapData[i] = new int[mapWidth];
-
-    XMLElement* pData = pMap->FirstChildElement("layer")->FirstChildElement("data");
-    std::stringstream ss(pData->GetText());
-
-    std::string valueStr;
-    int r = 0, c = 0;
-
-    while (std::getline(ss, valueStr, ','))
+    for (XMLElement* pLayer = pMap->FirstChildElement(); pLayer != nullptr; pLayer = pLayer->NextSiblingElement())
     {
-        int tileID = 0;
-        try {
-            valueStr.erase(std::remove_if(valueStr.begin(), valueStr.end(), isspace), valueStr.end());
-            if (!valueStr.empty()) tileID = std::stoi(valueStr);
+        std::string layerName = pLayer->Name();
+
+        if (layerName == "layer")
+        {
+            mapData = new int* [mapHeight];
+            for (int i = 0; i < mapHeight; ++i) mapData[i] = new int[mapWidth];
+
+            XMLElement* pData = pLayer->FirstChildElement("data");
+            std::stringstream ss(pData->GetText());
+
+            std::string valueStr;
+            int r = 0, c = 0;
+
+            while (std::getline(ss, valueStr, ','))
+            {
+                int tileID = 0;
+                try {
+                    valueStr.erase(std::remove_if(valueStr.begin(), valueStr.end(), isspace), valueStr.end());
+                    if (!valueStr.empty()) tileID = std::stoi(valueStr);
+                }
+                catch (...) { continue; }
+
+                if (c < mapWidth && r < mapHeight) mapData[r][c] = tileID;
+
+                c++;
+                if (c >= mapWidth) { c = 0; r++; }
+            }
         }
-        catch (...) { continue; }
+        else if (layerName == "objectgroup")
+        {
+            std::string objectGroupName = pLayer->Attribute("name");
 
-        if (c < mapWidth && r < mapHeight) mapData[r][c] = tileID;
+            for (XMLElement* pObject = pLayer->FirstChildElement("object"); pObject != nullptr; pObject = pObject->NextSiblingElement("object"))
+            {
+                float x = pObject->FloatAttribute("x");
+                float y = pObject->FloatAttribute("y");
+                const char* nameAttr = pObject->Attribute("name");
+                const char* typeAttr = pObject->Attribute("type");
+                std::string name = nameAttr ? nameAttr : "";
+                std::string type = typeAttr ? typeAttr : "";
 
-        c++;
-        if (c >= mapWidth) { c = 0; r++; }
+                // Lógica para a camada de Bounding Boxes
+                if (objectGroupName == "BBox" && type == "bbox")
+                {
+                    float width = pObject->FloatAttribute("width");
+                    float height = pObject->FloatAttribute("height");
+                    float centerX = x + width / 2.0f;
+                    float centerY = y + height / 2.0f;
+
+                    Platform* wall = new Platform(centerX, centerY, SOLIDPLATFORM);
+
+                    wall->BBox(new Rect(-width / 2.0f, -height / 2.0f, width / 2.0f, height / 2.0f));
+
+                    scene->Add(wall, STATIC);
+                }
+                // Lógica para a camada de Spawn
+                else if (objectGroupName == "spawn")
+                {
+                    if (type == "player") {
+                        GungeonCore::player->MoveTo(x, y);
+                    }
+                    else if (type == "enemy") {
+                        if (name == "zombie") scene->Add(new ChaseVillain(x, y, GungeonCore::player), MOVING);
+                        else if (name == "bat") scene->Add(new RandomMovementVillain(x, y, GungeonCore::player), MOVING);
+                        else if (name == "shotgunBullet") scene->Add(new RunAwayVillain(x, y, GungeonCore::player), MOVING);
+                    }
+                }
+                // Lógica para a camada de Itens
+                else if (objectGroupName == "itens" && type == "item")
+                {
+                    if (name == "bowl") {
+                        
+                        Jar* jar = new Jar("Resources/tijela.png", x, y);
+                        scene->Add(jar, STATIC);
+                    }
+                }
+            }
+        }
     }
 
     return true;
@@ -200,7 +259,12 @@ void Tilemap::Draw()
                 float worldX = (c * TILE_SIZE) + (TILE_SIZE / 2.0f);
                 float worldY = (r * TILE_SIZE) + (TILE_SIZE / 2.0f);
 
-                tileToDraw->Draw(worldX, worldY, Layer::LOWER);
+                if (tileID >= 40 && tileID <= 42 || tileID >= 4 && tileID <= 6 || tileID >= 73 && tileID <= 75) {
+                    tileToDraw->Draw(worldX, worldY, Layer::UPPER);
+                }
+                else {
+                    tileToDraw->Draw(worldX, worldY, Layer::LOWER);
+                }
             }
         }
     }

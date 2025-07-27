@@ -24,7 +24,6 @@ class Platform : public Object
 {
 private:
     //Sprite* platform = nullptr;
-    StaticTile* tileSprite;
 
     const float maxLife = 50.0f;
     float life = maxLife;
@@ -32,7 +31,7 @@ private:
 public:
     uint state;
 
-    Platform(TileSet* ts, uint tile, float x, float y, int platformType);
+    Platform(float x, float y, int platformType);
     ~Platform();                          // destrutor
 
     void OnCollision(Object* obj);     // resolução da colisão

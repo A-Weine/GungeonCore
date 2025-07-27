@@ -52,11 +52,11 @@ void GungeonCore::Init()
     audio->Add(GRAB_KEY, "Resources/grab_key.wav");
     audio->Add(FIRE_HIT_STONE, "Resources/fire_hit_stone.wav");
     //audio->Add(SONG_LEVEL1, "Resources/song2.wav");
-    audio->Add(SONG_LEVEL2, "Resources/song3_part1.wav");
+    //audio->Add(SONG_LEVEL2, "Resources/song3_part1.wav");
     //audio->Add(LOOP_THEME, "Resources/song3_part2.wav");
     audio->Add(START_SCREEN, "Resources/start_screen_song.wav");
     audio->Add(THEME_SONG, "Resources/theme_song.wav");
-    audio->Add(GAME_OVER_SONG, "Resources/theme_song.wav");
+    audio->Add(GAME_OVER_SONG, "Resources/game_over_song.wav");
     audio->Add(VICTORY_SONG, "Resources/victory_song.wav");
     audio->Add(BOSS_FIGHT, "Resources/boss_fight_song.wav");
     audio->Add(EXPLORATION_SONG, "Resources/exploration_song.wav");

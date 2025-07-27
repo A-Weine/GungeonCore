@@ -93,7 +93,7 @@ Player::Player()
     //hasGUN= false;
 
     gamepad = new Controller();
-    gamepadOn = gamepad->Initialize();
+    gamepadOn = gamepad->XboxInitialize();
 }
 
 // -------------------------------------------------------------------------------
@@ -137,15 +137,17 @@ void Player::Update()
     // Controller movement
     static bool rightStickWasActive = false;
 
-    if (gamepadOn && gamepad->UpdateState()) {
-        const float deadzone = 200.0f;
-        float lx = static_cast<float>(gamepad->Axis(AxisX));
-        float ly = static_cast<float>(gamepad->Axis(AxisY));
+    if (gamepadOn && gamepad->XboxUpdateState()) {
+        const float deadzone = 8000.0f;
+        float lx = static_cast<float>(gamepad->XboxAnalog(ThumbLX));
+        float ly = static_cast<float>(gamepad->XboxAnalog(ThumbLY));
 
-        // Apply deadzone and normalize for DirectInput
+        // Normalize for XInput range
+        float normLX = lx / 32768.0f;
+        float normLY = -ly / 32768.0f;
+
+        // Apply deadzone and use normalized values
         if (fabs(lx) > deadzone || fabs(ly) > deadzone) {
-            float normLX = lx / 1000.0f;
-            float normLY = ly / 1000.0f;
             if (normLX > 1.0f) normLX = 1.0f;
             if (normLX < -1.0f) normLX = -1.0f;
             if (normLY > 1.0f) normLY = 1.0f;
@@ -160,9 +162,12 @@ void Player::Update()
         }
 
         // --- Right stick shooting
-        float rx = static_cast<float>(gamepad->Axis(AxisRX));
-        float ry = static_cast<float>(gamepad->Axis(AxisRY));
-        const float shootDeadzone = 200.0f;
+        float rx = static_cast<float>(gamepad->XboxAnalog(ThumbRX));
+        float ry = static_cast<float>(gamepad->XboxAnalog(ThumbRY));
+        const float shootDeadzone = 8000.0f;
+
+        float normRX = rx / 32768.0f;
+        float normRY = -ry / 32768.0f;
 
         std::stringstream ss;
         ss << "Right Analog: rx = " << rx << ", ry = " << ry << "\n";
@@ -171,7 +176,7 @@ void Player::Update()
         if ((fabs(rx) > shootDeadzone || fabs(ry) > shootDeadzone)) {
             if (!rightStickWasActive) {
                 rightStickWasActive = true;
-                float angleRad = atan2f(-ry, rx);
+                float angleRad = atan2f(-normRY, normRX);
                 float angleDeg = angleRad * 180.0f / 3.14159265f;
                 if (inventory[itemEquiped]->type == GUN) {
                     Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);

@@ -94,26 +94,26 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="4" name="BBox" visible="0">
+ <objectgroup id="4" name="BBox">
   <object id="37" name="bbox" type="bbox" x="160" y="640" width="96" height="224"/>
   <object id="38" name="bbox" type="bbox" x="160" y="576" width="14.6667" height="64"/>
   <object id="39" name="bbox" type="bbox" x="256" y="768" width="512" height="96"/>
   <object id="40" name="bbox" type="bbox" x="768" y="608" width="480" height="256"/>
   <object id="42" name="bbox" type="bbox" x="1248" y="768" width="1248" height="96"/>
-  <object id="43" name="bbox" type="bbox" x="2496" y="64" width="64" height="800"/>
-  <object id="45" name="bbox" type="bbox" x="0" y="0" width="2560" height="64"/>
-  <object id="47" name="bbox" type="bbox" x="0" y="224" width="576" height="288"/>
-  <object id="49" name="bbox" type="bbox" x="0" y="64" width="64" height="160"/>
-  <object id="50" name="bbox" type="bbox" x="768" y="416" width="960" height="96"/>
+  <object id="43" name="bbox" type="bbox" x="2496" y="56" width="64" height="808"/>
+  <object id="45" name="bbox" type="bbox" x="0" y="0" width="2560" height="54"/>
+  <object id="47" name="bbox" type="bbox" x="0" y="224" width="576" height="273"/>
+  <object id="49" name="bbox" type="bbox" x="0" y="56" width="64" height="168"/>
+  <object id="50" name="bbox" type="bbox" x="768" y="416" width="960" height="80"/>
   <object id="51" name="bbox" type="bbox" x="1120" y="256" width="256" height="160"/>
-  <object id="52" name="bbox" type="bbox" x="800" y="192" width="96" height="96"/>
-  <object id="53" name="bbox" type="bbox" x="1568" y="192" width="96" height="96"/>
-  <object id="54" name="bbox" type="bbox" x="1920" y="480" width="96" height="96"/>
-  <object id="55" name="bbox" type="bbox" x="1920" y="192" width="96" height="96"/>
-  <object id="56" name="bbox" type="bbox" x="2272" y="480" width="96" height="96"/>
-  <object id="57" name="bbox" type="bbox" x="2272" y="192" width="96" height="96"/>
+  <object id="52" name="bbox" type="bbox" x="800" y="192" width="96" height="83"/>
+  <object id="53" name="bbox" type="bbox" x="1568" y="192" width="96" height="82"/>
+  <object id="54" name="bbox" type="bbox" x="1920" y="480" width="96" height="82"/>
+  <object id="55" name="bbox" type="bbox" x="1920" y="192" width="96" height="83"/>
+  <object id="56" name="bbox" type="bbox" x="2272" y="480" width="96" height="82"/>
+  <object id="57" name="bbox" type="bbox" x="2272" y="192" width="96" height="82"/>
  </objectgroup>
- <objectgroup id="5" name="itens">
+ <objectgroup id="5" name="itens" visible="0">
   <object id="61" name="bowl" type="item" x="266.667" y="729.333">
    <point/>
   </object>

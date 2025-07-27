@@ -34,7 +34,8 @@ void GameOver::Init()
     // Seleciona a primeira opção por padrão
     items[selectedOption]->Select();
 
-    GungeonCore::audio->Play(LOOP_THEME, true);
+    //GungeonCore::audio->Play(LOOP_THEME, true);
+    GungeonCore::audio->Play(GAME_OVER_SONG, true);
 }
 
 void GameOver::Update()
@@ -155,7 +156,7 @@ void GameOver::Draw()
 
 void GameOver::Finalize()
 {
-    GungeonCore::audio->Stop(LOOP_THEME);
+    GungeonCore::audio->Stop(GAME_OVER_SONG);
     delete scene;
     delete backg;
     delete gameOver;

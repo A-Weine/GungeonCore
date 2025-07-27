@@ -93,7 +93,7 @@ Player::Player()
     //hasGUN= false;
 
     gamepad = new Controller();
-    gamepad->Initialize();
+    gamepadOn = gamepad->Initialize();
 }
 
 // -------------------------------------------------------------------------------
@@ -137,7 +137,7 @@ void Player::Update()
     // Controller movement
     static bool rightStickWasActive = false;
 
-    if (gamepad && gamepad->UpdateState()) {
+    if (gamepadOn && gamepad->UpdateState()) {
         const float deadzone = 200.0f;
         float lx = static_cast<float>(gamepad->Axis(AxisX));
         float ly = static_cast<float>(gamepad->Axis(AxisY));
@@ -202,11 +202,6 @@ void Player::Update()
     }
 
     float angle = speed.Angle();
-
-    bool isMovingUp = window->KeyDown('W');
-    bool isMovingDown = window->KeyDown('S');
-    bool isMovingLeft = window->KeyDown('A');
-    bool isMovingRight = window->KeyDown('D');
     bool isMoving = isMovingUp || isMovingDown || isMovingLeft || isMovingRight;
 
     if (isMovingUp) {

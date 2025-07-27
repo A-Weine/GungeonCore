@@ -34,7 +34,8 @@ void ScoreScreen::Init()
     // Initialize viewport variables
     sinkAmount = 0.0f;
 
-    GungeonCore::audio->Play(LOOP_THEME, true);
+    //GungeonCore::audio->Play(LOOP_THEME, true);
+    GungeonCore::audio->Play(VICTORY_SONG, true);
 }
 
 void ScoreScreen::Update()
@@ -108,7 +109,7 @@ void ScoreScreen::Draw()
 
 void ScoreScreen::Finalize()
 {
-    GungeonCore::audio->Stop(LOOP_THEME);
+    GungeonCore::audio->Stop(VICTORY_SONG);
     delete backg;
     delete font;
     delete titleFont;

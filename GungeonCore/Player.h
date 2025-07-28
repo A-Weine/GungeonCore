@@ -52,7 +52,7 @@ private:
 	float const walkingTime = 0.3f;    // tempo de anima��o de caminhada
 
     Timer invicibilityTimer;
-	float const invicibilityTime = 0.3f; // tempo de invencibilidade ap�s receber dano
+	float const invicibilityTime = 0.6f; // tempo de invencibilidade ap�s receber dano
 	
     float jumpStrength;              // for�a do pulo
 	float previousY;                // posi��o Y anterior
@@ -103,7 +103,6 @@ public:
 
 	Vector speed;				// velocidade do jogador
     
-    float sinkAmount;                // quantidade de pixeis que o player afunda na plataforma
     int const MAX_HEALTH = 100;
 	int health = MAX_HEALTH;                       // vida do jogador
     int initialX, initialY;

@@ -29,6 +29,8 @@ Explosion::Explosion(float X, float Y)
 
     animation->Select(static_cast<uint>(state));
 
+    type = EXPLOSION;
+
     timer.Start();
     TTL = 0.15;
 

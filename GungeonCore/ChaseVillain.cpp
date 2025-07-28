@@ -217,6 +217,80 @@ void ChaseVillain::OnCollision(Object* obj) {
         animation->Select(static_cast<uint>(state));
         explosion.Start();
     }
+    else if (obj->Type() == PLATFORM) {
+        // Gets the bounding boxes for the player and the platform
+        Rect* playerRect = static_cast<Rect*>(this->BBox());
+        Rect* platformRect = static_cast<Rect*>(obj->BBox());
+
+        // Ensure the bounding boxes are valid
+        if (!playerRect || !platformRect)
+            return;
+
+        // --- 1. Calculate Dimensions and Centers ---
+
+        float playerWidth = playerRect->Right() - playerRect->Left();
+        float playerHeight = playerRect->Bottom() - playerRect->Top();
+        float platformWidth = platformRect->Right() - platformRect->Left();
+        float platformHeight = platformRect->Bottom() - platformRect->Top();
+
+        float playerCenterX = playerRect->Left() + playerWidth / 2.0f;
+        float playerCenterY = (playerRect->Top()) + playerHeight / 2.0f;
+        float platformCenterX = platformRect->Left() + platformWidth / 2.0f;
+        float platformCenterY = platformRect->Top() + platformHeight / 2.0f;
+
+        // --- 2. Calculate Overlap ---
+
+        float diffX = playerCenterX - platformCenterX;
+        float diffY = playerCenterY - platformCenterY;
+
+        float combinedHalfWidths = playerWidth / 2.0f + platformWidth / 2.0f;
+        float combinedHalfHeights = playerHeight / 2.0f + platformHeight / 2.0f;
+
+        float overlapX = combinedHalfWidths - abs(diffX);
+        float overlapY = combinedHalfHeights - abs(diffY);
+
+        // --- 3. Resolve Collision ---
+
+        if (overlapX > 0 && overlapY > 0)
+        {
+            if (overlapX < overlapY)
+            {
+                // HORIZONTAL COLLISION (No sinking)
+                if (diffX > 0)
+                {
+                    MoveTo(x + overlapX, y);
+                }
+                else
+                {
+                    MoveTo(x - overlapX, y);
+                }
+                speed.ScaleTo(0.0f);
+            }
+            else
+            {
+                // VERTICAL COLLISION
+                if (diffY > 0)
+                {
+                    // Hitting from below (No sinking)
+                    MoveTo(x, y + overlapY);
+
+                    // Stop vertical movement
+                    speed.ScaleTo(0.0f);
+                }
+                else
+                {
+                    // MODIFIED PART: Landing on top (Apply sinking)
+                    MoveTo(x, y - overlapY);
+
+                    // Stop vertical movement
+                    speed.ScaleTo(0.0f);
+                }
+
+            }
+        }
+
+    }
+
 }
 
 inline void ChaseVillain::Draw()

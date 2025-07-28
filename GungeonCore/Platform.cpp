@@ -28,6 +28,9 @@ void Platform::Update()
 
 void Platform::OnCollision(Object* obj)
 {
+
+    
+
 }
 
 // ---------------------------------------------------------------------------------

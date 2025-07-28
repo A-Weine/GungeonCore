@@ -147,7 +147,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     engine->window->Icon(IDI_ICON);
     engine->window->Cursor(IDC_CURSOR);
     engine->window->HideCursor(false);
-    //engine->graphics->VSync(true);
+    engine->graphics->VSync(true);
 
     Game * game = new GungeonCore();
 

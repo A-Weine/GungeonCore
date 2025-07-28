@@ -112,6 +112,7 @@
   <object id="55" name="bbox" type="bbox" x="1920" y="192" width="96" height="83"/>
   <object id="56" name="bbox" type="bbox" x="2272" y="480" width="96" height="82"/>
   <object id="57" name="bbox" type="bbox" x="2272" y="192" width="96" height="82"/>
+  <object id="58" name="bbox" type="bbox" x="0" y="836" width="14" height="28"/>
  </objectgroup>
  <objectgroup id="5" name="itens" visible="0">
   <object id="61" name="bowl" type="item" x="266.667" y="729.333">

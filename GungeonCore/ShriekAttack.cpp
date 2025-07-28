@@ -32,7 +32,7 @@ ShriekAttack::ShriekAttack(ChaseVillain * zombier, boolean isConstants)
     uint seqFast[13] = { 0, 1, 2 , 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
     uint seqConstant[3] = { 13, 14, 15}; 
 
-
+    type = ENEMYFIRE;
 
     if (!isConstant) {
         animation->Add(FASTATTACK, seqFast, 13);

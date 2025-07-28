@@ -42,6 +42,7 @@ public:
     RunAwayVillain(float pX, float pY, Player* p);      // construtor
     ~RunAwayVillain();                                   // destrutor
 
+    void OnCollision(Object* obj);
     void Update();                              // atualização
     void Draw();                                // desenho
     void TakeDamage(int damage);      // recebe dano

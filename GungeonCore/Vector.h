@@ -35,6 +35,7 @@ public:
     void RotateTo(float value);         // ajusta rotação para valor indicado
     void Add(const Vector& v);          // adiciona vetor recebido por parâmetro
     
+    void SetFromCartesian(float x, float y);
     float Angle() const;                // retorna ângulo do vetor
     float Magnitude() const;            // retorna magnitude do vetor
     float XComponent() const;           // retorna componente X do vetor
@@ -44,6 +45,20 @@ public:
 
 // ---------------------------------------------------------------------------------
 // Funções Membro Inline
+
+inline void Vector::SetFromCartesian(float x, float y)
+{
+    // Calcula a nova magnitude usando o Teorema de Pitágoras
+    this->magnitude = sqrt(x * x + y * y);
+
+    // Calcula o novo ângulo usando a arco-tangente de 2 argumentos
+    // atan2 retorna em radianos, então convertemos para graus
+    if (this->magnitude > 0) // Evita chamar atan2 para um vetor nulo
+    {
+        this->angle = atan2(y, x) * (180.0 / PI);
+    }
+    // Se a magnitude for 0, o ângulo não importa, pode continuar como está.
+}
 
 inline void Vector::ScaleTo(float value)
 { magnitude = value; }

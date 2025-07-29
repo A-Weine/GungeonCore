@@ -74,8 +74,8 @@ void Fire::OnCollision(Object* obj)
         villain->TakeDamage(20);
         GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
-    else if (obj->Type() == PLAYER) {
+  /*  else if (obj->Type() == PLAYER) {
         GungeonCore::level->GetScene()->Delete(this, MOVING);
-    }
+    }*/
 }
 // -------------------------------------------------------------------------------

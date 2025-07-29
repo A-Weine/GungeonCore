@@ -36,9 +36,11 @@ ShriekAttack::ShriekAttack(ChaseVillain * zombier, boolean isConstants)
 
     if (!isConstant) {
         animation->Add(FASTATTACK, seqFast, 13);
+        GungeonCore::audio->Play(ZOMBIE_SCREAM);
     }
     else {
         animationConstant->Add(CONSTANTATTACK, seqConstant, 3);
+        GungeonCore::audio->Play(ZOMBIE_SCREAM);
     }
 
     
@@ -92,6 +94,7 @@ void ShriekAttack::Update()
                 attackSize = 100; // Trava no máximo
                 estadoAtualDaOnda = EstadoOnda::PausadoNoMaximo; // Muda para o estado de pausa
                 timerPausa.Start(); // Inicia o timer da pausa
+                GungeonCore::audio->Volume(ZOMBIE_SCREAM, 10.0f);
             }
             break;
 
@@ -100,6 +103,7 @@ void ShriekAttack::Update()
             if (timerPausa.Elapsed(0.1f))
             {
                 estadoAtualDaOnda = EstadoOnda::Diminuindo; // Começa a diminuir
+                GungeonCore::audio->Volume(ZOMBIE_SCREAM, 50.0f);
             }
             break;
 
@@ -121,6 +125,7 @@ void ShriekAttack::Update()
             if (timerPausa.Elapsed(0.05f))
             {
                 estadoAtualDaOnda = EstadoOnda::Crescendo; // Começa a crescer novamente
+                GungeonCore::audio->Play(ZOMBIE_SCREAM);
             }
             break;
         }

@@ -63,6 +63,7 @@ void GungeonCore::Init()
     audio->Add(EXPLORATION_SONG, "Resources/exploration_song.wav");
     audio->Add(MENU_HOVER, "Resources/mouse_hover.wav");
     audio->Add(MENU_CLICK, "Resources/mouse_click.wav");
+    audio->Add(ZOMBIE_SCREAM, "Resources/zombie_scream.wav");
 
 
     audio->Volume(MAGNUM_FIRE, 0.3f);
@@ -72,6 +73,7 @@ void GungeonCore::Init()
     audio->Volume(MENU_HOVER, 0.3f);
     audio->Volume(MENU_CLICK, 0.3f);
     audio->Volume(START_SCREEN, 0.3f);
+    audio->Volume(ZOMBIE_SCREAM, 1.5f);
 
     Projectile::bullet = new Image("Resources/bullet.png");
 

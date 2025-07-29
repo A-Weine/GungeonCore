@@ -4,6 +4,7 @@
 #include "Fire.h"
 #include "RunAwayVillain.h"
 
+
 EggProjectile::EggProjectile(Object * shooter, Player* playerTarget, Vector direction) : Projectile(shooter)
 {
     type = ENEMYFIRE;

@@ -1,8 +1,11 @@
 #include <algorithm>
+#include <cmath>
 
 #include "RandomMovementVillain.h"
 #include "GungeonCore.h"
 #include "Shadow.h"
+
+
 RandomMovementVillain::RandomMovementVillain(float x, float y, Player* p) : magnitude(1, 3), angle(0, 359), secs(1.0f, 4.0f)
 {
     sprite = new TileSet("Resources/bullet_bat_sprite_sheet.png", 33, 20, 5, 19);
@@ -45,10 +48,14 @@ RandomMovementVillain::RandomMovementVillain(float x, float y, Player* p) : magn
 
 
     type = RANDOMMOVEMENTVILLAIN;
+
+    GungeonCore::audio->Play(BAT_NOISE, true);
 }
 
 RandomMovementVillain::~RandomMovementVillain()
 {
+    GungeonCore::audio->Stop(BAT_NOISE);
+
     delete sprite;
     delete spriteExplosion;
     delete animation;
@@ -67,6 +74,17 @@ void RandomMovementVillain::NewDirection()
 
 void RandomMovementVillain::Update()
 {
+    float distance = Point::Distance(Point(x, y), Point(player->X(), player->Y()));
+    float maxDistance = sqrt(pow(2560, 2) + pow(864, 2));
+
+    float factor = distance / maxDistance;
+    float volume = 1 - (pow(factor, 2));
+
+    if (volume < 0) volume = 0;
+    if (volume > 1) volume = 1;
+
+    GungeonCore::audio->Volume(BAT_NOISE, volume);
+
     switch (currentState)
     {
     case RandomMovementVillainState::FLYING:

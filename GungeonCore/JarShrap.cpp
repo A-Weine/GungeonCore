@@ -1,10 +1,7 @@
-
-
 #include "JarShrap.h"
 #include "Jar.h"
 #include "Random.h"
 #include "GungeonCore.h"
-#include "Random.h"
 
 JarShrap::JarShrap(Jar* jar) {
 

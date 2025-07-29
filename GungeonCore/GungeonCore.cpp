@@ -64,6 +64,7 @@ void GungeonCore::Init()
     audio->Add(MENU_HOVER, "Resources/mouse_hover.wav");
     audio->Add(MENU_CLICK, "Resources/mouse_click.wav");
     audio->Add(ZOMBIE_SCREAM, "Resources/zombie_scream.wav");
+    audio->Add(BAT_NOISE, "Resources/bat_noise.wav");
 
 
     audio->Volume(MAGNUM_FIRE, 0.3f);

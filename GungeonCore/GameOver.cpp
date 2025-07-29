@@ -36,6 +36,9 @@ void GameOver::Init()
 
     //GungeonCore::audio->Play(LOOP_THEME, true);
     GungeonCore::audio->Play(GAME_OVER_SONG, true);
+
+    gamepad = new Controller();
+    gamepadOn = gamepad->XboxInitialize();
 }
 
 void GameOver::Update()
@@ -93,6 +96,13 @@ void GameOver::Update()
     {
         itemClicked = true;
         clickedItem = selectedOption;
+    }
+
+    if (gamepadOn && gamepad->XboxUpdateState()) {
+        if (gamepad->XboxButton(ButtonA)) {
+            itemClicked = true;
+            clickedItem = 0;
+        }
     }
 
     // Ação ao clicar
@@ -160,4 +170,5 @@ void GameOver::Finalize()
     delete scene;
     delete backg;
     delete gameOver;
+    delete gamepad;
 }

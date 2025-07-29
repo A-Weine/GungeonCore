@@ -29,7 +29,7 @@ private:
     const Image * image;                // imagem de fundo
 
 public:
-    Background(string filename);        // construtor    
+    Background(string filename, float sizes);        // construtor    
     ~Background();                      // destrutor
 
     void Draw(float cameraX, float cameraY);   // desenha uma porção da imagem

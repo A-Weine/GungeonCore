@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Level1.h" // Precisa saber sobre o Level1 para poder iniciar
 #include "GungeonCore.h" // Precisa para chamar o NextLevel
+#include "MenuObject.h"
 #include <sstream>
 
 void Home::Init()
@@ -16,14 +17,23 @@ void Home::Init()
     viewBottom = window->Height();
 
     scene = new Scene();
-    backg = new Background("Resources/backgroundLevel2.png"); // Um fundo para o menu
+    backg = new Background("Resources/background_t.png", 2.1f); // Um fundo para o menu
 	gameName = new Sprite("Resources/GungeonCore.png");
+
+    MenuObject * Bullet = new MenuObject("Resources/BulletHome.png", 404.0f, 324.0f, 0.3f);
+    GungeonCore::level->GetScene()->Add(Bullet, STATIC);
+    MenuObject* badBullet = new MenuObject("Resources/badBullet.png", 730.0f, 250.0f, 1.6f);
+    GungeonCore::level->GetScene()->Add(badBullet, STATIC);
+    MenuObject* logo = new MenuObject("Resources/gungeonCoreLogo.png",game->CenterX(), 200.0f, 0.2f);
+    GungeonCore::level->GetScene()->Add(logo, STATIC);
     mouse = new Mouse();
+
+    //rgb(169, 153, 115)
 
     // Cria os itens de menu e os adiciona à cena
     // Os IDs (101, 102) são para identificação na colisão
-    items.push_back(new MenuItem(game->CenterX(), game->CenterY()+25, PLAY, "Resources/StartGame.png"));
-    items.push_back(new MenuItem(game->CenterX(), game->CenterY()+60, QUIT, "Resources/ExitGame.png"));
+    items.push_back(new MenuItem(game->CenterX(), game->CenterY()+80, PLAY, "Resources/StartGame.png"));
+    items.push_back(new MenuItem(game->CenterX(), game->CenterY()+115, QUIT, "Resources/ExitGame.png"));
 
     for (auto item : items)
         scene->Add(item, STATIC);

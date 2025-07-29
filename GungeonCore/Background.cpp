@@ -15,7 +15,7 @@
 
 // -------------------------------------------------------------------------------
 
-Background::Background(string filename)
+Background::Background(string filename, float sizes)
 {
     // carrega imagem
     image = new Image(filename);
@@ -34,7 +34,7 @@ Background::Background(string filename)
 
     // As outras propriedades permanecem as mesmas
     spriteData.depth = Layer::BACK;
-    spriteData.scale = 1.0f;
+    spriteData.scale = sizes;
     spriteData.rotation = 0.0f;
     spriteData.color = Color(1, 1, 1, 1);
     spriteData.texture = image->View();

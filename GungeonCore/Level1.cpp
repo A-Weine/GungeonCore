@@ -52,7 +52,7 @@ void Level1::Init()
     cameraCurrentX = GungeonCore::player->X();
     cameraCurrentY = GungeonCore::player->Y();
 
-    backg = new Background("Resources/background_t.png");
+    backg = new Background("Resources/background_t.png", 2.1f);
 
     Shadow* playerShadow = new Shadow(GungeonCore::player, scene, 10);
 

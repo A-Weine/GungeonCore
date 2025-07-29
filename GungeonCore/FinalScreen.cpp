@@ -21,7 +21,7 @@ void FinalScreen::Init()
     scene = new Scene();
 
     // Create the background (same as Home)
-    backg = new Background("Resources/backgroundLevel2.png");
+    backg = new Background("Resources/background_t.png", 2.1f);
 
 
     // Create fonts for displaying text

@@ -56,6 +56,7 @@ private:
 	int health = 100;                          // vida do vilão
 
     Shadow* zombieShadow;
+    int actionRange = 200;
 
     bool isStun;
     Timer explosion;

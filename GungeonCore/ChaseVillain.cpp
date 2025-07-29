@@ -64,6 +64,12 @@ ChaseVillain::~ChaseVillain()
 
 void ChaseVillain::Update()
 {
+    float distanceToPlayer = Point::Distance(Point(x, y), Point(player->X(), player->Y()));
+    if (distanceToPlayer > actionRange) {
+        animation->NextFrame();
+        return;
+    }
+
     animation->NextFrame();
 
     if (state ==  ChaseVillainState::EXPLODING) {

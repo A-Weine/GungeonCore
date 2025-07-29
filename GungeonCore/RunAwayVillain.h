@@ -43,6 +43,8 @@ private:
     Timer stunTimer;
     Timer explosion;
 
+    int actionRange = 200;
+
     bool isDead;
     bool isStun;
     bool hasFiredInAttack = false;

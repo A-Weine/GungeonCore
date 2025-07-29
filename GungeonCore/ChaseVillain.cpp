@@ -5,7 +5,7 @@
 #include "Random.h" 
 #include "ShriekAttack.h"
 #include "Explosion.h"
-
+#include "Shadow.h"
 
 ChaseVillain::ChaseVillain(float pX, float pY, Player* p)
 {
@@ -50,6 +50,9 @@ ChaseVillain::ChaseVillain(float pX, float pY, Player* p)
 
     type = CHASEVILLAIN;
 
+    zombieShadow = new Shadow(this, GungeonCore::level->GetScene(), 15);
+    GungeonCore::level->GetScene()->Add(zombieShadow, STATIC);
+
     BBox(new Rect(-9.0f, -13.5f, 9.0f, 18.5f));
 }
 
@@ -67,6 +70,7 @@ void ChaseVillain::Update()
         if (explosion.Elapsed(0.0165f)) {
             Explosion* explosion = new Explosion(this->X(),this->Y());
             GungeonCore::level->GetScene()->Add(explosion, STATIC);
+            GungeonCore::level->GetScene()->Delete(zombieShadow, STATIC);
             GungeonCore::level->GetScene()->Delete(this, MOVING);
         }
     }
@@ -318,6 +322,7 @@ void ChaseVillain::TakeDamage(int damage) {
         if (explosion.Elapsed(0.0165f)) {
             Explosion* explosion = new Explosion(this->X(), this->Y());
             GungeonCore::level->GetScene()->Add(explosion, STATIC);
+            GungeonCore::level->GetScene()->Delete(zombieShadow, STATIC);
             GungeonCore::level->GetScene()->Delete(this, MOVING);
         }
     }

@@ -50,6 +50,9 @@ RunAwayVillain::RunAwayVillain(float pX, float pY, Player* p)
 
     type = RUNAWAYVILLAIN;
 
+    gigiShadow = new Shadow(this, GungeonCore::level->GetScene(), 18);
+    GungeonCore::level->GetScene()->Add(gigiShadow, STATIC);
+
     BBox(new Rect(-(sprite->TileWidth() / 2.0f) + 9, -(sprite->TileHeight() / 2.0f) + 10, (sprite->TileWidth() / 2.0f) - 9, (sprite->TileHeight() / 2.0f) - 5));
 }
 
@@ -289,6 +292,7 @@ void RunAwayVillain::TakeDamage(int damage) {
 
     if (health <= 0)
     {
+        GungeonCore::level->GetScene()->Delete(gigiShadow, STATIC);
         isDead = true;
         speed.ScaleTo(0.0f);
         animation->Select(static_cast<uint>(RunAwayVillainState::DYINGRIGHT));

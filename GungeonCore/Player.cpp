@@ -356,6 +356,7 @@ void Player::OnCollision(Object* obj)
 
         Explosion* explosao = new Explosion(villain->X(), villain->Y());
         GungeonCore::level->GetScene()->Add(explosao, STATIC);
+        GungeonCore::level->GetScene()->Delete(villain->batShadow, STATIC);
         GungeonCore::level->GetScene()->Delete(villain, MOVING);
     }
     else if (obj->Type() == CHASEVILLAIN) {

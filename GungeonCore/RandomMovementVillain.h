@@ -23,6 +23,7 @@
 #include "TileSet.h"
 #include "Animation.h"
 #include "Player.h"
+#include "Shadow.h"
 // ---------------------------------------------------------------------------------
 
 enum class RandomMovementVillainState
@@ -57,7 +58,11 @@ private:
 
 	int health = 100;
 
+
+
+
 public:
+	Shadow* batShadow;
 	boolean isAttacking;
 	RandomMovementVillain(float x, float y, Player * p);
 	~RandomMovementVillain();

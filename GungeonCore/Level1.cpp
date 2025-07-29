@@ -54,7 +54,7 @@ void Level1::Init()
 
     backg = new Background("Resources/background_t.png");
 
-    Shadow* playerShadow = new Shadow(GungeonCore::player, scene);
+    Shadow* playerShadow = new Shadow(GungeonCore::player, scene, 10);
 
     Gun* shotgun = new Gun("Resources/shotgun.png", 0.5f, 3, 1.65, SHOTGUN);
 

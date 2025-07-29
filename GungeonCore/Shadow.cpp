@@ -2,7 +2,7 @@
 #include "Types.h"
 #include "GungeonCore.h"
 
-Shadow::Shadow(Object* followTarget, Scene* scene)
+Shadow::Shadow(Object* followTarget, Scene* scene, int Distance)
 {
     owner = followTarget;
     sprite = new Sprite("Resources/sombra.png");
@@ -15,6 +15,8 @@ Shadow::Shadow(Object* followTarget, Scene* scene)
     scaleFactor = 1.0f;
     ScaleTo(originalScale);
     
+    distance = Distance;
+
     //debugHitX = 0.0f;
     //debugHitY = 0.0f;
     //debugStartX = 0.0f;
@@ -49,40 +51,42 @@ void Shadow::Update()
     unsigned int mask = static_cast<unsigned int>(CollisionLayer::SOLIDPLATFORM) |
                         static_cast<unsigned int>(CollisionLayer::SOFTPLATFORM);
 
-    if (parentScene->Raycast(playerFeet, down, maxShadowDistance, shadowHit, mask, this))
-    {
-        if (GungeonCore::level->GetSinkAmount())
-            MoveTo(shadowHit.hitPoint.X(), shadowHit.hitPoint.Y() + GungeonCore::level->GetSinkAmount());
-        else
-			MoveTo(shadowHit.hitPoint.X(), shadowHit.hitPoint.Y());
+    MoveTo(playerFeet.X(), playerFeet.Y() + distance);
+
+   // if (parentScene->Raycast(playerFeet, down, maxShadowDistance, shadowHit, mask, this))
+   // {
+   //     if (GungeonCore::level->GetSinkAmount())
+   //         MoveTo(playerFeet.X(), playerFeet.Y() + GungeonCore::level->GetSinkAmount());
+   //     else
+			//MoveTo(playerFeet.X(), playerFeet.Y());
 
 
-        float distanceToGround = shadowHit.distance;
+   //     float distanceToGround = shadowHit.distance;
 
-        scaleFactor = 1.0f - (distanceToGround / maxShadowDistance);
+   //     scaleFactor = 1.0f - (distanceToGround / maxShadowDistance);
 
-        if (scaleFactor < 0.1f) scaleFactor = 0.1f;
-        if (scaleFactor > 1.0f) scaleFactor = 1.0f;
+   //     if (scaleFactor < 0.1f) scaleFactor = 0.1f;
+   //     if (scaleFactor > 1.0f) scaleFactor = 1.0f;
 
-        ScaleTo(originalScale * scaleFactor);
-        
-        //debugHitX = shadowHit.hitPoint.X();
-        //debugHitY = shadowHit.hitPoint.Y();
-    }
-    else
-    {
-        ScaleTo(0.0f);
+   //     ScaleTo(originalScale * scaleFactor);
+   //     
+   //     //debugHitX = shadowHit.hitPoint.X();
+   //     //debugHitY = shadowHit.hitPoint.Y();
+   // }
+   // else
+   // {
+   //     ScaleTo(0.0f);
 
-        //debugHitX = -1000.0f;
-        //debugHitY = -1000.0f;
-    }
+   //     //debugHitX = -1000.0f;
+   //     //debugHitY = -1000.0f;
+   // }
 }
 
 void Shadow::Draw()
 {
     if (scale > 0.0f)
     {
-       sprite->Draw(x, y, Layer::MIDDLE, scale, 0.0f, { 1.0f, 1.0f, 1.0f, 0.4f * scaleFactor });
+       sprite->Draw(x, y, Layer::SHADOW, scale, 0.0f, { 1.0f, 1.0f, 1.0f, 0.4f * scaleFactor });
     }
 
     //debugRayStartSprite->Draw(debugStartX, debugStartY, Layer::UPPER);

@@ -21,6 +21,7 @@
 #include "Player.h"
 #include "TileSet.h"
 #include "Animation.h"
+#include "Shadow.h"
 
 // ---------------------------------------------------------------------------------
 
@@ -51,6 +52,7 @@ private:
     float shootDistance = 90.0f; // Distância ideal para atirar
 
 public:
+    Shadow* gigiShadow;
     RunAwayVillainState currentState = RunAwayVillainState::FLYINGRIGHT;
 
     RunAwayVillain(float pX, float pY, Player* p);      // construtor

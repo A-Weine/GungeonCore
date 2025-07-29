@@ -21,7 +21,7 @@
 #include "Player.h"
 #include "TileSet.h"
 #include "Animation.h"
-
+#include "Shadow.h"
 // ---------------------------------------------------------------------------------
 
 enum class ShriekState {
@@ -54,6 +54,8 @@ private:
     Player* player;                            // ponteiro para jogador
     Vector speed;                               // velocidade e direção
 	int health = 100;                          // vida do vilão
+
+    Shadow* zombieShadow;
 
     bool isStun;
     Timer explosion;

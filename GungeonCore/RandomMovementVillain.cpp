@@ -2,7 +2,7 @@
 
 #include "RandomMovementVillain.h"
 #include "GungeonCore.h"
-
+#include "Shadow.h"
 RandomMovementVillain::RandomMovementVillain(float x, float y, Player* p) : magnitude(1, 3), angle(0, 359), secs(1.0f, 4.0f)
 {
     sprite = new TileSet("Resources/bullet_bat_sprite_sheet.png", 33, 20, 5, 19);
@@ -39,6 +39,10 @@ RandomMovementVillain::RandomMovementVillain(float x, float y, Player* p) : magn
     distance = distanceToSee;
     preparingToAttack = 1.2;
     isAttacking = false;
+
+    batShadow = new Shadow(this, GungeonCore::level->GetScene(), 18);
+    GungeonCore::level->GetScene()->Add(batShadow, STATIC);
+
 
     type = RANDOMMOVEMENTVILLAIN;
 }
@@ -121,6 +125,7 @@ void RandomMovementVillain::Update()
     case RandomMovementVillainState::DYING:
     {
         animation->NextFrame();
+        
 
         if (animation->Inactive())
         {
@@ -268,6 +273,7 @@ void RandomMovementVillain::TakeDamage(int damage) {
     health -= damage;
     if (health <= 0 && currentState != RandomMovementVillainState::DYING && currentState != RandomMovementVillainState::EXPLODING)
     {
+        GungeonCore::level->GetScene()->Delete(batShadow, STATIC);
         currentState = RandomMovementVillainState::DYING;
         speed.ScaleTo(0.0f);
         animation->Select(static_cast<int>(RandomMovementVillainState::DYING));

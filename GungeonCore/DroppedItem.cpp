@@ -38,7 +38,7 @@ DroppedItem::DroppedItem(string filename, int X, int Y, Scene * scene, int itemT
     topBoundary = y - 10;
     bottomBoundary = y;
 
-    itemShadow = new Shadow(this, scene);
+    itemShadow = new Shadow(this, scene, 5);
     scene->Add(itemShadow, STATIC);
     // incrementa contagem
     //++Hud::missiles;

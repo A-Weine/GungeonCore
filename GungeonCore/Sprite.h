@@ -26,6 +26,7 @@ struct Layer
     static const float FRONT;
     static const float UPPER;
     static const float MIDDLE;
+    static const float SHADOW;
     static const float LOWER;
     static const float BACK;
 };

@@ -23,8 +23,10 @@ private:
 	float originalScale;
 	float scaleFactor;
 
+	int distance;
+
 public:
-	Shadow(Object* followTarget, Scene* scene);
+	Shadow(Object* followTarget, Scene* scene, int Distance);
 	~Shadow();
 
 	void Update() override;

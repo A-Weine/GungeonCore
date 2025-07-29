@@ -23,6 +23,7 @@
 const float Layer::FRONT  = 0.02f;
 const float Layer::UPPER  = 0.25f;
 const float Layer::MIDDLE = 0.50f;
+const float Layer::SHADOW = 0.60f;
 const float Layer::LOWER  = 0.75f;
 const float Layer::BACK   = 0.99f;
 

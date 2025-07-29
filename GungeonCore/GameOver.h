@@ -7,6 +7,7 @@
 #include "Mouse.h"
 #include "MenuItem.h"
 #include "Sprite.h"
+#include "Controller.h"
 #include <vector>
 
 class GameOver : public Game
@@ -30,6 +31,8 @@ public:
     float viewTop;
     float viewBottom;
     float sinkAmount;
+    Controller* gamepad;
+    bool gamepadOn;
 
     void Init() override;
     void Update() override;

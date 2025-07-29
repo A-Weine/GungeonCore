@@ -35,6 +35,9 @@ void Home::Init()
     GungeonCore::audio->Play(MENU_HOVER);
 
     GungeonCore::audio->Play(START_SCREEN, true);
+
+    gamepad = new Controller();
+    gamepadOn = gamepad->XboxInitialize();
 }
 
 void Home::Update()
@@ -95,6 +98,13 @@ void Home::Update()
     {
         itemClicked = true;
         clickedItem = selectedOption;
+    }
+
+    if (gamepadOn && gamepad->XboxUpdateState()) {
+        if (gamepad->XboxButton(ButtonA)) {
+            itemClicked = true;
+            clickedItem = 0;
+        }
     }
 
     // Ação ao clicar
@@ -164,4 +174,5 @@ void Home::Finalize()
     delete scene;
     delete backg;
     delete gameName;
+    delete gamepad;
 }

@@ -8,6 +8,7 @@
 #include "MenuItem.h"
 #include <vector>
 #include "Sprite.h"
+#include "Controller.h"
 
 class Home : public Game
 {
@@ -30,6 +31,8 @@ public:
     float viewTop;
     float viewBottom;
     float sinkAmount;
+    Controller* gamepad;
+    bool gamepadOn;
     // A classe Home não precisa de NENHUM membro estático.
 
     void Init() override;

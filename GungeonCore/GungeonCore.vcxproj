@@ -272,6 +272,7 @@
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
     <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="WallHit.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -325,6 +326,7 @@
     <ClInclude Include="tinyxml2.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="WallHit.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>

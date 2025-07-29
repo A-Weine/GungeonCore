@@ -14,6 +14,7 @@
 #include "Hud.h"
 #include "Platform.h"
 #include "JarShrap.h"
+#include "WallHit.h"
 
 // ------------------------------------------------------------------------------
 
@@ -83,6 +84,7 @@ void Fire::OnCollision(Object* obj)
     layer = CollisionLayer::PROJECTILE;
 
     if (obj->Type() == PLATFORM) {
+        GungeonCore::level->GetScene()->Add(new WallHit(X(), Y(), speed.Angle()), STATIC);
         GungeonCore::audio->Play(FIRE_HIT_STONE);
     }
     else if (obj->Type() == CHASEVILLAIN) {
@@ -94,7 +96,7 @@ void Fire::OnCollision(Object* obj)
         villain->TakeDamage(20);
     }
 
-    if (obj->Type() == PLAYER && type == FIRE) {
+    if (obj->Type() == PLAYER && type == FIRE || obj->Type() == ENEMYFIRE) {
         return;
     }
 

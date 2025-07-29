@@ -58,12 +58,12 @@ void Level1::Init()
 
     Gun* shotgun = new Gun("Resources/shotgun.png", 0.5f, 3, 1.65, SHOTGUN);
 
-	DroppedItem* shotgunDropped = new DroppedItem("Resources/shotgun.png",200, 820, scene, GUN, shotgun);
+	DroppedItem* shotgunDropped = new DroppedItem("Resources/shotgun.png",100, 620, scene, GUN, shotgun);
     scene->Add(shotgunDropped,STATIC);
 
     Gun* revolver = new Gun("Resources/magnum_dropped.png", 0.3f, 6, 1.5, MAGNUM);
 
-    DroppedItem* revolverDropped = new DroppedItem("Resources/magnum_dropped.png", 270, 820, scene, GUN, revolver);
+    DroppedItem* revolverDropped = new DroppedItem("Resources/magnum_dropped.png", 130, 620, scene, GUN, revolver);
     scene->Add(revolverDropped, STATIC);    
 
     tilemap = new Tilemap;

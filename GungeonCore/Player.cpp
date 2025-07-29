@@ -358,13 +358,16 @@ void Player::OnCollision(Object* obj)
     if (obj->Type() == RANDOMMOVEMENTVILLAIN) {
         RandomMovementVillain* villain = dynamic_cast<RandomMovementVillain*>(obj);
 
-        TakeDamage(20);
         Explosion* explosao = new Explosion(villain->X(), villain->Y());
         GungeonCore::level->GetScene()->Add(explosao, STATIC);
         GungeonCore::level->GetScene()->Delete(villain, MOVING);
     }
     else if (obj->Type() == CHASEVILLAIN) {
+        ChaseVillain* villain = dynamic_cast<ChaseVillain*>(obj);
+        
+        if (villain->state != ChaseVillainState::EXPLODING) {
         TakeDamage(10);
+        }
     }
     else if (obj->Type() == RUNAWAYVILLAIN) {
         TakeDamage(10);
@@ -401,7 +404,10 @@ void Player::OnCollision(Object* obj)
 
         GungeonCore::level->GetScene()->Delete(obj, STATIC);
     }
-    else if (obj->Type() == EXPLOSION || obj->Type() ==ENEMYFIRE) {
+    else if (obj->Type() == EXPLOSION) {
+        TakeDamage(20);
+    }
+    else if (obj->Type() == ENEMYFIRE) {
         TakeDamage(10);
     }
     else if (obj->Type() == PLATFORM) {

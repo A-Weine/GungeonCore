@@ -55,8 +55,6 @@ private:
     Vector speed;                               // velocidade e direção
 	int health = 100;                          // vida do vilão
 
-    ChaseVillainState state = ChaseVillainState::WALKING_DOWN;
-    ShriekState currentShriekState = ShriekState::IDLE;
 
     Timer explosion;
 
@@ -69,6 +67,8 @@ private:
     const float PAUSE_BETWEEN_SHRIEKS = 0.7f; // A pausa de 1.5s
 
 public:
+    ChaseVillainState state = ChaseVillainState::WALKING_DOWN;
+    ShriekState currentShriekState = ShriekState::IDLE;
     int distance;                               // mantém distância do jogador
     ChaseVillain(float pX, float pY, Player* p);      // construtor
     ~ChaseVillain();                                   // destrutor

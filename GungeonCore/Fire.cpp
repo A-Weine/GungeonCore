@@ -51,16 +51,25 @@ void Fire::OnCollision(Object* obj)
         GungeonCore::level->GetScene()->Add(new WallHit(X(), Y(), speed.Angle()), STATIC);
         GungeonCore::audio->Play(FIRE_HIT_STONE);
     }
-    else if (obj->Type() == CHASEVILLAIN) {
+    else if (obj->Type() == CHASEVILLAIN && type == FIRE) {
         ChaseVillain* villain = static_cast<ChaseVillain*>(obj);
         villain->TakeDamage(20);
     }
-    else if (obj->Type() == RUNAWAYVILLAIN) {
+    else if (obj->Type() == RUNAWAYVILLAIN && type == FIRE) {
         RunAwayVillain* villain = static_cast<RunAwayVillain*>(obj);
         villain->TakeDamage(20);
     }
 
     if (obj->Type() == PLAYER && type == FIRE || obj->Type() == ENEMYFIRE) {
+        return;
+    }
+
+    if (obj->Type() == FIRE || obj->Type() == ENEMYFIRE) {
+        return;
+    }
+
+    if (obj->Type() == RANDOMMOVEMENTVILLAIN || obj->Type() == CHASEVILLAIN || obj->Type() == RUNAWAYVILLAIN && type == FIRE)
+    {
         return;
     }
 

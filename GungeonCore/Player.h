@@ -23,6 +23,8 @@
 #include "TileSet.h"
 #include "Animation.h"
 
+int const NWEAPONS = 2;
+
 // ---------------------------------------------------------------------------------
 enum class PlayerState
 {
@@ -84,8 +86,8 @@ private:
 
 public:
     int itemEquiped;
-    Object* inventory[10];
-    
+    Object* inventory[NWEAPONS];
+    boolean gunSwapMade = false;
     Object* vazio;
     //boolean reloadShotgun;
     //boolean reloadMagnum;

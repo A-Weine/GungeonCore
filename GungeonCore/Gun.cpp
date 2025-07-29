@@ -70,7 +70,7 @@ void Gun::shoot(Object* shooter, int whoShot, Image* shotImage, float angleDeg) 
         if (currentScene)
         {
             GungeonCore::audio->Play(shootSound);
-            currentScene->Add(new Fire(shooter, angleDeg, shotImage, FIRE), MOVING);
+            currentScene->Add(new Fire(shooter, angleDeg, FIRE), MOVING);
         }
         timer.Reset();
     }
@@ -89,7 +89,7 @@ void Gun::shoot(Object* shooter, int whoShot, Image* shotImage) {
         if (currentScene)
         {
             GungeonCore::audio->Play(shootSound);
-            currentScene->Add(new Fire(shooter, firingAngle, shotImage, FIRE), MOVING);
+            currentScene->Add(new Fire(shooter, firingAngle, FIRE), MOVING);
         }
         timer.Reset();
     }

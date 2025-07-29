@@ -15,6 +15,7 @@
 #include "Engine.h"
 #include "Platform.h"
 #include "Shadow.h"
+#include "Projectile.h"
 #include "Home.h"
 #include "GameOver.h"
 
@@ -67,6 +68,12 @@ void GungeonCore::Init()
     audio->Volume(MAGNUM_FIRE, 0.3f);
     audio->Volume(SHOTGUN_FIRE, 0.3f);
     audio->Volume(THEME_SONG, 0.3f);
+    audio->Volume(GAME_OVER_SONG, 0.3f);
+    audio->Volume(MENU_HOVER, 0.3f);
+    audio->Volume(MENU_CLICK, 0.3f);
+    audio->Volume(START_SCREEN, 0.3f);
+
+    Projectile::bullet = new Image("Resources/bullet.png");
 
     player  = new Player();
     hud     = new Hud();
@@ -114,6 +121,7 @@ void GungeonCore::Finalize()
     delete player;
     delete audio;
     delete level;
+    delete Projectile::bullet;
 }
 
 // ------------------------------------------------------------------------------

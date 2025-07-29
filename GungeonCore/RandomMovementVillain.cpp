@@ -6,7 +6,7 @@
 RandomMovementVillain::RandomMovementVillain(float x, float y, Player* p) : magnitude(1, 3), angle(0, 359), secs(1.0f, 4.0f)
 {
     sprite = new TileSet("Resources/bullet_bat_sprite_sheet.png", 33, 20, 5, 19);
-    animation = new Animation(sprite, 0.1f, true);
+    animation = new Animation(sprite, 0.125f, true);
 
     player = p;
 
@@ -176,7 +176,7 @@ void RandomMovementVillain::OnCollision(Object* obj)
         
         GungeonCore::level->GetScene()->Delete(obj, MOVING);
 
-        TakeDamage(20);
+        TakeDamage(30);
     }
 
    else if (obj->Type() == PLATFORM) {

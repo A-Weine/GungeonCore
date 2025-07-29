@@ -177,6 +177,7 @@
     <ClCompile Include="JarShrap.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="ShriekAttack.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
@@ -184,6 +185,15 @@
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
     <ClCompile Include="WallHit.cpp">
+=======
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="EggProjectile.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClCompile>
+    <ClCompile Include="EggProjectile.cpp">
+>>>>>>> 44dbb2ff1f6c5354621e35b646ff0ede44e5ea10
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
@@ -335,6 +345,7 @@
     <ClInclude Include="JarShrap.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="ShriekAttack.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
@@ -342,6 +353,9 @@
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="WallHit.h">
+=======
+    <ClInclude Include="Projectile.h">
+>>>>>>> 44dbb2ff1f6c5354621e35b646ff0ede44e5ea10
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>

@@ -15,6 +15,7 @@
 #include "Platform.h"
 #include "JarShrap.h"
 #include "WallHit.h"
+#include "RandomMovementVillain.h"
 
 // ------------------------------------------------------------------------------
 
@@ -27,7 +28,13 @@ Fire::Fire(Object* shooter, float angle, int typeShot) : Projectile(shooter)
     BBox(new Circle(6));
 
     speed.RotateTo(angle);
-    speed.ScaleTo(300.0f);
+    
+    if (typeShot == FIRE) {
+        speed.ScaleTo(320.0f);
+    }
+    else {
+        speed.ScaleTo(150.0f);
+    }
 
     MoveTo(shooter->X() + 15 * cos(speed.Radians()), shooter->Y() - 15 * sin(speed.Radians()));
     RotateTo(-speed.Angle());
@@ -50,29 +57,25 @@ void Fire::OnCollision(Object* obj)
     if (obj->Type() == PLATFORM) {
         GungeonCore::level->GetScene()->Add(new WallHit(X(), Y(), speed.Angle()), STATIC);
         GungeonCore::audio->Play(FIRE_HIT_STONE);
+        GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
     else if (obj->Type() == CHASEVILLAIN && type == FIRE) {
         ChaseVillain* villain = static_cast<ChaseVillain*>(obj);
         villain->TakeDamage(20);
+        GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
     else if (obj->Type() == RUNAWAYVILLAIN && type == FIRE) {
         RunAwayVillain* villain = static_cast<RunAwayVillain*>(obj);
         villain->TakeDamage(20);
+        GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
-
-    if (obj->Type() == PLAYER && type == FIRE || obj->Type() == ENEMYFIRE) {
-        return;
+    else if (obj->Type() == RANDOMMOVEMENTVILLAIN) {
+        RandomMovementVillain* villain = static_cast<RandomMovementVillain*>(obj);
+        villain->TakeDamage(20);
+        GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
-
-    if (obj->Type() == FIRE || obj->Type() == ENEMYFIRE) {
-        return;
+    else if (obj->Type() == PLAYER) {
+        GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
-
-    if (obj->Type() == RANDOMMOVEMENTVILLAIN || obj->Type() == CHASEVILLAIN || obj->Type() == RUNAWAYVILLAIN && type == FIRE)
-    {
-        return;
-    }
-
-    GungeonCore::level->GetScene()->Delete(this, MOVING);
 }
 // -------------------------------------------------------------------------------

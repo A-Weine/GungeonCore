@@ -63,11 +63,20 @@ void RunAwayVillain::Update()
 {
     animation->NextFrame();
 
+    if (isDead) {
+        if (explosion.Elapsed(0.55f)) {
+            GungeonCore::level->GetScene()->Delete(this, MOVING);
+            return;
+        }
+    }
+
     switch (currentState)
     {
     case RunAwayVillainState::FLYINGRIGHT:
     case RunAwayVillainState::FLYINGLEFT:
     {
+        if (!isDead || !isStun) {
+
         float distance = Point::Distance(Point(x, y), Point(player->X(), player->Y()));
 
         Vector target = Vector(Line::Angle(Point(x, y), Point(player->X(), player->Y())), 100.0f * gameTime);
@@ -110,12 +119,14 @@ void RunAwayVillain::Update()
             animation->Restart();
             hasFiredInAttack = false;
         }
+        }
         break;
     }
 
     case RunAwayVillainState::SHOOTINGLEFT:
     case RunAwayVillainState::SHOOTINGRIGHT:
     {
+        if (!isDead || !isStun) {
         if (!hasFiredInAttack && (animation->Frame() == 17 || animation->Frame() == 30))
         {
             Vector eggSpeed(currentState == RunAwayVillainState::SHOOTINGRIGHT ? 45.0f : 135.0f, 10.0f);
@@ -132,17 +143,30 @@ void RunAwayVillain::Update()
             animation->Loop(true);
             attackTimer.Reset();
         }
+        }
         break;
     }
 
     case RunAwayVillainState::HITLEFT:
     case RunAwayVillainState::HITRIGHT:
     {
+        if (!isDead) {
+            isStun = true;
         // Fica parado por um curto período (stun)
         if (stunTimer.Elapsed(0.3f)) // Stun de 0.3 segundos
         {
+            isStun = false;
+            currentState = (player->X() < x) ? RunAwayVillainState::FLYINGLEFT : RunAwayVillainState::FLYINGRIGHT;
             //currentState = (player->X() < x) ? RunAwayVillainState::FLYINGLEFT : RunAwayVillainState::FLYINGRIGHT;
             //animation->Loop(true);
+        }
+        else {
+            speed.ScaleTo(0.0f);
+            currentState = (player->X() < x) ? RunAwayVillainState::HITLEFT : RunAwayVillainState::HITRIGHT;
+            animation->Select(static_cast<uint>(currentState));
+            animation->Loop(false);
+        }
+
         }
         break;
     }
@@ -260,8 +284,15 @@ inline void RunAwayVillain::Draw()
 void RunAwayVillain::TakeDamage(int damage) {
     health -= damage;
 
+    stunTimer.Start();
+    currentState = RunAwayVillainState::HITLEFT;
+
     if (health <= 0)
     {
-        GungeonCore::level->GetScene()->Delete(this, MOVING);
+        isDead = true;
+        speed.ScaleTo(0.0f);
+        animation->Select(static_cast<uint>(RunAwayVillainState::DYINGRIGHT));
+        animation->Loop(false);
+        explosion.Start();
     }
 }

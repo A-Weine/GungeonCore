@@ -40,7 +40,10 @@ private:
 
     Timer attackTimer;
     Timer stunTimer;
+    Timer explosion;
 
+    bool isDead;
+    bool isStun;
     bool hasFiredInAttack = false;
 
     float attackCooldown = 2.0f; // Tempo de espera entre os ataques

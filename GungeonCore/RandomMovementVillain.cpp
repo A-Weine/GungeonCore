@@ -172,14 +172,7 @@ void RandomMovementVillain::Update()
 void RandomMovementVillain::OnCollision(Object* obj)
 {
 
-   if (obj->Type() == FIRE) {
-        
-        GungeonCore::level->GetScene()->Delete(obj, MOVING);
-
-        TakeDamage(30);
-    }
-
-   else if (obj->Type() == PLATFORM) {
+   if (obj->Type() == PLATFORM) {
        NewDirection();
 
        if (currentState == RandomMovementVillainState::ATTACKING) {

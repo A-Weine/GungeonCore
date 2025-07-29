@@ -55,8 +55,9 @@ private:
     Vector speed;                               // velocidade e direção
 	int health = 100;                          // vida do vilão
 
-
+    bool isStun;
     Timer explosion;
+    Timer stunTimer;
 
     Timer stateTimer;
     int shriekPulseCount = 0;    // Para contar os 3 gritos iniciais

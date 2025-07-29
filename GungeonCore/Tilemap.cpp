@@ -189,8 +189,8 @@ bool Tilemap::Load(const std::string& filename, Scene* scene)
                         GungeonCore::player->MoveTo(x, y);
                     }
                     else if (type == "enemy") {
-                        //if (name == "zombie") scene->Add(new ChaseVillain(x, y, GungeonCore::player), MOVING);
-                        //else if (name == "bat") scene->Add(new RandomMovementVillain(x, y, GungeonCore::player), MOVING);
+                        if (name == "zombie") scene->Add(new ChaseVillain(x, y, GungeonCore::player), MOVING);
+                        else if (name == "bat") scene->Add(new RandomMovementVillain(x, y, GungeonCore::player), MOVING);
                         if (name == "gigi") scene->Add(new RunAwayVillain(x, y, GungeonCore::player), MOVING);
                     }
                 }

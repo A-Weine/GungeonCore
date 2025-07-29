@@ -67,7 +67,7 @@ void EggProjectile::Explode()
 
     for (int i = 0; i < numProjectiles; i++) 
     {
-        float spread = -20.0f + (10.0f * i);
+        float spread = -20.0f + (12.0f * i);
         float finalAngle = angleToPlayer + spread;
 
         GungeonCore::level->GetScene()->Add(new Fire(this, finalAngle, ENEMYFIRE), MOVING);

@@ -312,7 +312,14 @@ void ChaseVillain::TakeDamage(int damage) {
     if (health <= 0)
     {
         // Optionally play a sound or animation here
-        GungeonCore::level->GetScene()->Delete(this, MOVING);
+        state = ChaseVillainState::EXPLODING;
+        animation->Select(static_cast<uint>(state));
+        explosion.Start();
+        if (explosion.Elapsed(0.0165f)) {
+            Explosion* explosion = new Explosion(this->X(), this->Y());
+            GungeonCore::level->GetScene()->Add(explosion, STATIC);
+            GungeonCore::level->GetScene()->Delete(this, MOVING);
+        }
     }
 }
 

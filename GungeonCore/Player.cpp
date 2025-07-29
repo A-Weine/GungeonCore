@@ -84,7 +84,7 @@ Player::Player()
     // ITENS
     itemEquiped = 0;
     Empty* empty = new Empty();
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < NWEAPONS; i++) {
         inventory[i] = empty;
     }
     
@@ -183,6 +183,23 @@ void Player::Update()
         } else {
             rightStickWasActive = false;
         }
+
+        // Gun swap
+        if (gamepad->XboxButton(LeftBumper)) {
+            if (!gunSwapMade) {
+                gunSwapMade = true;
+                if (inventory[itemEquiped]->type == GUN) {
+                    Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
+                    if (!gun->reloading) {
+                        itemEquiped += 1;
+                        itemEquiped %= NWEAPONS;
+                    }
+                }
+            }
+		} else {
+            // Button released
+            gunSwapMade = false;
+        }
     }
 
     if (moveDirection.Magnitude() > 0.1f)
@@ -271,17 +288,15 @@ void Player::Update()
         itemEquiped = 1;
     }
 
-    // Momentâneo enquanto não há armas específicas do jogo
     if (window->KeyPress('1')) {
-        if (inventory[1]->type == GUN) {
+        if (inventory[0]->type == GUN) {
             Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
             if (!gun->reloading)
                 itemEquiped = 1;
         }
     }
-    // Momentâneo enquanto não há armas específicas do jogo
     if (window->KeyPress('2')) {
-        if (inventory[2]->type == GUN) {
+        if (inventory[1]->type == GUN) {
             Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
             if (!gun->reloading)
                 itemEquiped = 2;
@@ -319,7 +334,7 @@ void Player::Reset()
 
     Empty* empty = new Empty();
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < NWEAPONS; i++) {
         Gun* gun = dynamic_cast<Gun*>(inventory[i]);
         if (gun != nullptr) {
             gun->Reset();
@@ -377,11 +392,11 @@ void Player::OnCollision(Object* obj)
             GungeonCore::audio->Play(GRAB_ITEM);
             Gun* gun = dynamic_cast<Gun*>(droppedItem->obj);
             if (gun->gunTypes == MAGNUM) {
-                itemEquiped = 1;
+                itemEquiped = 0;
             }
             
             if (gun->gunTypes == SHOTGUN) {
-                itemEquiped = 2;
+                itemEquiped = 1;
             }
             inventory[itemEquiped] = gun;
         }

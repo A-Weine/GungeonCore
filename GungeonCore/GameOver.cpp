@@ -16,7 +16,7 @@ void GameOver::Init()
     viewBottom = window->Height();
 
     scene = new Scene();
-    backg = new Background("Resources/backgroundLevel2.png"); // Um fundo para o menu
+    backg = new Background("Resources/background_t.png", 2.1f); // Um fundo para o menu
     gameOver = new Sprite("Resources/gameover.png");
 
     mouse = new Mouse();

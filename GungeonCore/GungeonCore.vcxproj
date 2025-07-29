@@ -253,6 +253,7 @@
     <ClCompile Include="JarShrap.cpp" />
     <ClCompile Include="Level1.cpp" />
     <ClCompile Include="MenuItem.cpp" />
+    <ClCompile Include="MenuObject.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Particles.cpp" />
@@ -305,6 +306,7 @@
     <ClInclude Include="JarShrap.h" />
     <ClInclude Include="Level1.h" />
     <ClInclude Include="MenuItem.h" />
+    <ClInclude Include="MenuObject.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Particles.h" />

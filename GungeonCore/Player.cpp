@@ -188,11 +188,21 @@ void Player::Update()
         if (gamepad->XboxButton(LeftBumper)) {
             if (!gunSwapMade) {
                 gunSwapMade = true;
+                int originalGun = itemEquiped;
                 if (inventory[itemEquiped]->type == GUN) {
                     Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
                     if (!gun->reloading) {
-                        itemEquiped += 1;
-                        itemEquiped %= NWEAPONS;
+                        // Swap guns
+                        do {
+                            itemEquiped += 1;
+                            itemEquiped %= NWEAPONS;
+
+                            if (itemEquiped == originalGun) {
+                                // Looped though all guns, didnt find any
+                                break;
+                            }
+                        } while (inventory[itemEquiped]->type != GUN);
+
                     }
                 }
             }

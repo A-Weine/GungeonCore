@@ -169,10 +169,6 @@ void Player::Update()
         float normRX = rx / 32768.0f;
         float normRY = -ry / 32768.0f;
 
-        std::stringstream ss;
-        ss << "Right Analog: rx = " << rx << ", ry = " << ry << "\n";
-        OutputDebugStringA(ss.str().c_str());
-
         if ((fabs(rx) > shootDeadzone || fabs(ry) > shootDeadzone)) {
             if (!rightStickWasActive) {
                 rightStickWasActive = true;

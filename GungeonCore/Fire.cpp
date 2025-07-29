@@ -19,68 +19,32 @@
 
 // ------------------------------------------------------------------------------
 
-Fire::Fire(Object * shooter,float angle, Image* img, int typeShot)
+Fire::Fire(Object* shooter, float angle, int typeShot) : Projectile(shooter)
 {
-    // inicializa sprite
-    sprite = new Sprite(img);
+    sprite = new Sprite(Projectile::bullet);
 
-    // cria bounding box
     BBox(new Circle(6));
 
-    // inicializa velocidade
     speed.RotateTo(angle);
     speed.ScaleTo(300.0f);
 
-    // move para posição
     MoveTo(shooter->X() + 15 * cos(speed.Radians()), shooter->Y() - 15 * sin(speed.Radians()));
     RotateTo(-speed.Angle());
 
-    // define tipo
     type = typeShot;
-
-    // incrementa contagem
-    //++Hud::missiles;
 }
 
 // ------------------------------------------------------------------------------
 
 Fire::~Fire()
 {
-    delete sprite;
-
-    // decrementa contagem
-    //--Hud::missiles;
 }
 
 // -------------------------------------------------------------------------------
 
-void Fire::Update()
-{
-    // move míssel com vetor resultante
-    Translate(speed.XComponent() * 1.5f * gameTime, -speed.YComponent() * 1.5f * gameTime);
-
-    // remove míssil da cena se ele sair da área de jogo
-    //if (x > game->Width() - 50 || x < 50 || y > game->Height() - 50 || y < 50)
-    //{
-    //    // volume do som de destruição depende da distância para o jogador
-    //    const float MaxDistance = 4406;
-    //    const float BaseVolume = 0.8f;
-    //    float distance = Point::Distance(Point(x, y), Point(player->X(), player->Y()));
-    //    float level = (MaxDistance - distance) / MaxDistance;
-    //    //BasicAI::audio->Volume(HITWALL, level * BaseVolume);
-    //    //BasicAI::audio->Play(HITWALL);
-
-    //    // adiciona explosão na cena
-    //    //BasicAI::scene->Add(new WallHit(x, y), STATIC);
-
-    //    // remove míssil da cena
-    //    GungeonCore::scene->Delete();
-    //}
-}
-
 void Fire::OnCollision(Object* obj)
 {
-    layer = CollisionLayer::PROJECTILE;
+    Projectile::OnCollision(obj);
 
     if (obj->Type() == PLATFORM) {
         GungeonCore::audio->Play(FIRE_HIT_STONE);

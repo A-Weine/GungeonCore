@@ -24,8 +24,9 @@
 
 // ---------------------------------------------------------------------------------
 
-enum RUNAWAYVILLAINMOVEMENT{
-    VILLAIN_RUNNING_LEFT
+enum class RunAwayVillainState
+{
+    FLYINGRIGHT, FLYINGLEFT, SHOOTINGRIGHT, SHOOTINGLEFT, HITRIGHT, HITLEFT, DYINGRIGHT, DYINGLEFT
 };
 
 class RunAwayVillain : public Object
@@ -35,10 +36,20 @@ private:
     Animation* animation;
     Player* player;                            // ponteiro para jogador
     Vector speed;                               // velocidade e direção
-    int distance;                               // mantém distância do jogador
 	int health = 100;					 // vida do vilão
 
+    Timer attackTimer;
+    Timer stunTimer;
+
+    bool hasFiredInAttack = false;
+
+    float attackCooldown = 2.0f; // Tempo de espera entre os ataques
+    float fleeDistance = 50.0f; // Distância em que ele começa a fugir
+    float shootDistance = 90.0f; // Distância ideal para atirar
+
 public:
+    RunAwayVillainState currentState = RunAwayVillainState::FLYINGRIGHT;
+
     RunAwayVillain(float pX, float pY, Player* p);      // construtor
     ~RunAwayVillain();                                   // destrutor
 

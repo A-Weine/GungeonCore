@@ -25,21 +25,18 @@
 #include "Player.h"
 #include "ChaseVillain.h"
 #include "RunAwayVillain.h"
+#include "Projectile.h"
 
 // ---------------------------------------------------------------------------------
-class Fire : public Object
+class Fire : public Projectile
 {
 private:
-    Sprite * sprite;                    // sprite da bala
-    Vector speed;                       // velocidade da bala  
 
 public:
-    Fire(Object * shooter,float angle, Image * img, int typeShot);                  // construtor
+    Fire(Object * shooter, float angle, int typeShot);                  // construtor
     ~Fire();                            // destrutor
 
     Vector& Speed();                    // retona vetor velocidade
-    void Update();                      // atualização
-    void Draw();                        // desenho
 
     void OnCollision(Object* obj);     // resolução da colisão
 };
@@ -51,10 +48,6 @@ inline Vector& Fire::Speed()
     return speed;
 }
 
-inline void Fire::Draw()
-{
-    sprite->Draw(x, y, Layer::UPPER, scale, rotation);
-}
 // ---------------------------------------------------------------------------------
 
 #endif

@@ -64,8 +64,18 @@ void GungeonCore::Init()
     audio->Add(MENU_HOVER, "Resources/mouse_hover.wav");
     audio->Add(MENU_CLICK, "Resources/mouse_click.wav");
     audio->Add(ZOMBIE_SCREAM, "Resources/zombie_scream.wav");
-    audio->Add(BAT_NOISE, "Resources/bat_noise.wav");
-
+    
+    audio->Add(BAT_NOISE_1, "Resources/bat_noise.wav");
+    audio->Add(BAT_NOISE_2, "Resources/bat_noise.wav");
+    audio->Add(BAT_NOISE_3, "Resources/bat_noise.wav");
+    audio->Add(BAT_NOISE_4, "Resources/bat_noise.wav");
+    audio->Add(BAT_NOISE_5, "Resources/bat_noise.wav");
+    audio->Add(BAT_NOISE_6, "Resources/bat_noise.wav");
+    audio->Add(BAT_NOISE_7, "Resources/bat_noise.wav");
+    audio->Add(BAT_NOISE_8, "Resources/bat_noise.wav");
+    audio->Add(BAT_NOISE_9, "Resources/bat_noise.wav");
+    audio->Add(BAT_NOISE_10, "Resources/bat_noise.wav");
+    
 
     audio->Volume(MAGNUM_FIRE, 0.3f);
     audio->Volume(SHOTGUN_FIRE, 0.3f);
@@ -75,6 +85,16 @@ void GungeonCore::Init()
     audio->Volume(MENU_CLICK, 0.3f);
     audio->Volume(START_SCREEN, 0.3f);
     audio->Volume(ZOMBIE_SCREAM, 1.5f);
+    audio->Volume(BAT_NOISE_1, 0.3);
+    audio->Volume(BAT_NOISE_2, 0.3);
+    audio->Volume(BAT_NOISE_3, 0.3);
+    audio->Volume(BAT_NOISE_4, 0.3);
+    audio->Volume(BAT_NOISE_5, 0.3);
+    audio->Volume(BAT_NOISE_6, 0.3);
+    audio->Volume(BAT_NOISE_7, 0.3);
+    audio->Volume(BAT_NOISE_8, 0.3);
+    audio->Volume(BAT_NOISE_9, 0.3);
+    audio->Volume(BAT_NOISE_10, 0.3);
 
     Projectile::bullet = new Image("Resources/bullet.png");
 

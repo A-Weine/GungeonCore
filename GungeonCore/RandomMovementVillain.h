@@ -59,8 +59,6 @@ private:
 	int health = 100;
 
 
-
-
 public:
 	Shadow* batShadow;
 	boolean isAttacking;
@@ -73,6 +71,10 @@ public:
 	void Draw();
 
 	void TakeDamage(int damage);      // recebe dano
+
+	static int counter;
+
+	int number;
 };
 // ---------------------------------------------------------------------------------
 

@@ -5,6 +5,7 @@
 #include "GungeonCore.h"
 #include "Shadow.h"
 
+int RandomMovementVillain::counter = 9;
 
 RandomMovementVillain::RandomMovementVillain(float x, float y, Player* p) : magnitude(1, 3), angle(0, 359), secs(1.0f, 4.0f)
 {
@@ -49,12 +50,13 @@ RandomMovementVillain::RandomMovementVillain(float x, float y, Player* p) : magn
 
     type = RANDOMMOVEMENTVILLAIN;
 
-    GungeonCore::audio->Play(BAT_NOISE, true);
+    number = counter++;
+    GungeonCore::audio->Play(number, true);
 }
 
 RandomMovementVillain::~RandomMovementVillain()
 {
-    GungeonCore::audio->Stop(BAT_NOISE);
+    GungeonCore::audio->Stop(number);
 
     delete sprite;
     delete spriteExplosion;
@@ -78,12 +80,13 @@ void RandomMovementVillain::Update()
     float maxDistance = sqrt(pow(2560, 2) + pow(864, 2));
 
     float factor = distance / maxDistance;
-    float volume = 1 - (pow(factor, 2));
+    //float volume = 1 - (pow(factor, 2));
+    float volume = 0.5 - factor;
 
     if (volume < 0) volume = 0;
-    if (volume > 1) volume = 1;
+    if (volume > 0.5) volume = 0.5;
 
-    GungeonCore::audio->Volume(BAT_NOISE, volume);
+    GungeonCore::audio->Volume(number, volume);
 
     switch (currentState)
     {

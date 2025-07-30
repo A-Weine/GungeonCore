@@ -74,6 +74,10 @@ void Gun::shoot(Object* shooter, int whoShot, Image* shotImage, float angleDeg) 
         }
         timer.Reset();
     }
+
+    if (reloading) {
+        GungeonCore::audio->Play(EMPTY_GUN);
+    }
 }
 
 // Mouse shooting
@@ -92,6 +96,10 @@ void Gun::shoot(Object* shooter, int whoShot, Image* shotImage) {
             currentScene->Add(new Fire(shooter, firingAngle, FIRE), MOVING);
         }
         timer.Reset();
+    }
+
+    if (reloading) {
+        GungeonCore::audio->Play(EMPTY_GUN);
     }
 }
 

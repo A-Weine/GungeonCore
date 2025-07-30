@@ -95,7 +95,8 @@ Player::Player()
     gamepad = new Controller();
     gamepadOn = gamepad->XboxInitialize();
 
-    
+    currentAimingMode = AimingMode::MOUSE;
+    lastMousePos = Point(window->MouseX(), window->MouseY());    
 }
 
 // -------------------------------------------------------------------------------
@@ -115,6 +116,14 @@ void Player::Update()
 
     animation->NextFrame();
     
+    Point currentMousePos(window->MouseX(), window->MouseY());
+    if (currentMousePos.X() != lastMousePos.X() || currentMousePos.Y() != lastMousePos.Y())
+    {
+        // Se o mouse se moveu, ele se torna o dispositivo ativo
+        currentAimingMode = AimingMode::MOUSE;
+        lastMousePos = currentMousePos;
+    }
+
     if (inventory[itemEquiped]->type == HAND) {
         Hand* hand = dynamic_cast<Hand*>(inventory[itemEquiped]);
         hand->gun->reload();
@@ -235,56 +244,90 @@ void Player::Update()
 
     float angle = speed.Angle();
 
-    // 1. Determina o estado de MOVIMENTO
-    bool isMoving = speed.Magnitude() > 0.1f;
+    // Point currentMousePos(window->MouseX(), window->MouseY());
+    if (currentMousePos.X() != lastMousePos.X() || currentMousePos.Y() != lastMousePos.Y())
+    {
+        // Se o mouse se moveu, ele se torna o dispositivo ativo
+        currentAimingMode = AimingMode::MOUSE;
+        lastMousePos = currentMousePos;
+    }
 
-    // 2. Determina a direção da MIRA
-    Point playerPos(X(), Y());
-    Point mouseWorldPos = window->ScreenToWorld(GungeonCore::level);
-    aimingAngle = Line::Angle(playerPos, mouseWorldPos);
+    // Verifica se o controle está sendo usado para mirar
+    if (gamepadOn && gamepad->XboxUpdateState())
+    {
+        const float aimDeadzone = 8000.0f;
+        float rx = static_cast<float>(gamepad->XboxAnalog(ThumbRX));
+        float ry = static_cast<float>(gamepad->XboxAnalog(ThumbRY));
+
+        if (fabs(rx) > aimDeadzone || fabs(ry) > aimDeadzone)
+        {
+            // Se o analógico direito se moveu, ele se torna o dispositivo ativo
+            currentAimingMode = AimingMode::CONTROLLER;
+        }
+    }
+
+    // 2. CÁLCULO DO ÂNGULO COM BASE NO DISPOSITIVO ATIVO
+    if (currentAimingMode == AimingMode::CONTROLLER)
+    {
+        // Se o controle é o ativo, calcula o ângulo a partir do analógico direito
+        const float aimDeadzone = 8000.0f;
+        float rx = static_cast<float>(gamepad->XboxAnalog(ThumbRX));
+        float ry = static_cast<float>(gamepad->XboxAnalog(ThumbRY));
+
+        // Só atualiza o ângulo se o analógico estiver fora da zona morta.
+        // Se ele estiver parado no centro, o 'aimingAngle' manterá seu último valor.
+        if (fabs(rx) > aimDeadzone || fabs(ry) > aimDeadzone)
+        {
+            float normRX = rx / 32768.0f;
+            float normRY = -ry / 32768.0f;
+            float angleRad = atan2f(-normRY, normRX);
+            aimingAngle = angleRad * 180.0f / 3.14159265f;
+        }
+    }
+    else // currentAimingMode == AimingMode::MOUSE
+    {
+        // Se o mouse é o ativo, calcula o ângulo para a posição dele
+        Point playerPos(X(), Y());
+        Point mouseWorldPos = window->ScreenToWorld(GungeonCore::level);
+        aimingAngle = Line::Angle(playerPos, mouseWorldPos);
+    }
 
     // Garante que o ângulo esteja sempre entre 0 e 360
     if (aimingAngle < 0) {
         aimingAngle += 360.0f;
     }
 
-    // 3. Combina movimento e mira para definir o estado final
-    // "Fatiamos" o círculo em 8 setores de 45 graus.
+
+    // --- LÓGICA DE ANIMAÇÃO DO JOGADOR (Baseada na Mira) ---
+    bool isMoving = speed.Magnitude() > 0.1f;
+
     if (aimingAngle >= 337.5 || aimingAngle < 22.5) {
-        // Direita
         state = isMoving ? PlayerState::RUNNING_DOWN_RIGHT : PlayerState::IDLE_DOWN_RIGHT;
     }
     else if (aimingAngle >= 22.5 && aimingAngle < 67.5) {
-        // Baixo-Direita
         state = isMoving ? PlayerState::RUNNING_UP_RIGHT : PlayerState::IDLE_UP_RIGHT;
     }
     else if (aimingAngle >= 67.5 && aimingAngle < 112.5) {
-        // Baixo
         state = isMoving ? PlayerState::RUNNING_UP : PlayerState::IDLE_UP;
     }
     else if (aimingAngle >= 112.5 && aimingAngle < 157.5) {
-        // Baixo-Esquerda
         state = isMoving ? PlayerState::RUNNING_UP_LEFT : PlayerState::IDLE_UP_LEFT;
     }
     else if (aimingAngle >= 157.5 && aimingAngle < 202.5) {
-        // Esquerda
         state = isMoving ? PlayerState::RUNNING_DOWN_LEFT : PlayerState::IDLE_DOWN_LEFT;
     }
     else if (aimingAngle >= 202.5 && aimingAngle < 247.5) {
-        // Cima-Esquerda
         state = isMoving ? PlayerState::RUNNING_DOWN_LEFT : PlayerState::IDLE_DOWN_LEFT;
     }
     else if (aimingAngle >= 247.5 && aimingAngle < 292.5) {
-        // Cima
         state = isMoving ? PlayerState::RUNNING_DOWN : PlayerState::IDLE_DOWN;
     }
     else if (aimingAngle >= 292.5 && aimingAngle < 337.5) {
-        // Cima-Direita
         state = isMoving ? PlayerState::RUNNING_DOWN_RIGHT : PlayerState::IDLE_DOWN_RIGHT;
     }
 
     animation->Select(static_cast<uint>(state));
-    
+
     if (inventory[itemEquiped]->type == HAND)
     {
         Hand* hand = static_cast<Hand*>(inventory[itemEquiped]);

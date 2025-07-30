@@ -40,7 +40,7 @@ void Hand::Update()
     case(PlayerState::RUNNING_UP_RIGHT):
     case(PlayerState::IDLE_UP):
     case(PlayerState::RUNNING_UP):
-        this->MoveTo(player->X() + 10, player->Y() - 3);
+        this->MoveTo(player->X() + 10, player->Y());
         break;
     case(PlayerState::IDLE_DOWN_LEFT):
     case(PlayerState::IDLE_UP_LEFT):
@@ -48,7 +48,7 @@ void Hand::Update()
     case(PlayerState::RUNNING_UP_LEFT):
     case(PlayerState::IDLE_DOWN):
     case(PlayerState::RUNNING_DOWN):
-        this->MoveTo(player->X() - 10, player->Y() - 3);
+        this->MoveTo(player->X() - 10, player->Y());
         break;
     }
 

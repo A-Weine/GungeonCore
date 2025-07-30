@@ -26,6 +26,8 @@
 int const NWEAPONS = 3;
 
 // ---------------------------------------------------------------------------------
+enum class AimingMode { MOUSE, CONTROLLER };
+
 enum class PlayerState
 {
     IDLE_DOWN,
@@ -83,6 +85,8 @@ private:
     //bool axisCtrl;                        // habilita leitura de disparos
     //bool keysCtrl;                        // habilita leitura de disparos pelas setas
     //bool keysPressed;                     // qualquer seta de disparo pressionada
+    AimingMode currentAimingMode; // Guarda o modo de mira atual
+    Point lastMousePos;
 
 public:
     float aimingAngle;

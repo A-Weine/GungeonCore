@@ -81,6 +81,7 @@ void GungeonCore::Init()
     audio->Volume(MAGNUM_FIRE, 0.3f);
     audio->Volume(SHOTGUN_FIRE, 0.3f);
     audio->Volume(THEME_SONG, 0.3f);
+    audio->Volume(VICTORY_SONG, 0.5f);
     audio->Volume(GAME_OVER_SONG, 0.3f);
     audio->Volume(MENU_HOVER, 0.3f);
     audio->Volume(MENU_CLICK, 0.3f);

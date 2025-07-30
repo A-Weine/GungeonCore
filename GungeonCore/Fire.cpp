@@ -62,16 +62,19 @@ void Fire::OnCollision(Object* obj)
     else if (obj->Type() == CHASEVILLAIN && type == FIRE) {
         ChaseVillain* villain = static_cast<ChaseVillain*>(obj);
         villain->TakeDamage(20);
+        GungeonCore::audio->Play(FIRE_HIT_VILLAIN);
         GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
     else if (obj->Type() == RUNAWAYVILLAIN && type == FIRE) {
         RunAwayVillain* villain = static_cast<RunAwayVillain*>(obj);
         villain->TakeDamage(20);
+        GungeonCore::audio->Play(FIRE_HIT_VILLAIN);
         GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
     else if (obj->Type() == RANDOMMOVEMENTVILLAIN) {
         RandomMovementVillain* villain = static_cast<RandomMovementVillain*>(obj);
         villain->TakeDamage(20);
+        GungeonCore::audio->Play(FIRE_HIT_VILLAIN);
         GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
   /*  else if (obj->Type() == PLAYER) {

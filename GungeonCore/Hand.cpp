@@ -64,5 +64,16 @@ void Hand::Update()
 
 void Hand::Draw()
 {
-    animations->Draw(x, y, Layer::MIDDLE+0.1, scale, -handAngle);
+    // O ângulo de rotação visual que a Hand nos deu (geralmente negativo)
+    float visualAngle = -handAngle;
+
+    // Se a animação selecionada for uma das da ESQUERDA...
+    if (gun->currentState == GunState::NO_SHOOTING_L || gun->currentState == GunState::SHOOTING_L)
+    {
+        // ...nós compensamos os 180 graus que já estão na arte.
+        // Isso "desvira" o sprite para a orientação padrão antes de aplicar a rotação final.
+        visualAngle += 180.0f;
+    }
+
+    animations->Draw(x, y, Layer::MIDDLE+0.1, scale, visualAngle);
 }

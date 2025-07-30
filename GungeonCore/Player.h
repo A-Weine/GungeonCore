@@ -23,7 +23,7 @@
 #include "TileSet.h"
 #include "Animation.h"
 
-int const NWEAPONS = 2;
+int const NWEAPONS = 3;
 
 // ---------------------------------------------------------------------------------
 enum class PlayerState
@@ -63,7 +63,6 @@ private:
     bool gamepadOn;                     // controle est� ligado
 
 
-
     //float const attackCooldownDurationShotgun = 0.5f;
     //Timer timerShotgun;                          // controla tempo dos disparos
     //int const fullBulletShotgun = 3;
@@ -85,10 +84,16 @@ private:
     //bool keysPressed;                     // qualquer seta de disparo pressionada
 
 public:
+    int contadorJarra =0;
     int itemEquiped;
     Object* inventory[NWEAPONS];
     boolean gunSwapMade = false;
     Object* vazio;
+
+    int inventarioAnterior;
+
+    boolean metralhadoraOwner;
+    boolean bombGunOwner;
     //boolean reloadShotgun;
     //boolean reloadMagnum;
 

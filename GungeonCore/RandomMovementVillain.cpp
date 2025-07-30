@@ -4,7 +4,8 @@
 #include "RandomMovementVillain.h"
 #include "GungeonCore.h"
 #include "Shadow.h"
-
+#include "Gun.h"
+#include "DroppedItem.h"
 int RandomMovementVillain::counter = 9;
 
 RandomMovementVillain::RandomMovementVillain(float x, float y, Player* p) : magnitude(1, 3), angle(0, 359), secs(1.0f, 4.0f)
@@ -294,6 +295,19 @@ void RandomMovementVillain::TakeDamage(int damage) {
     health -= damage;
     if (health <= 0 && currentState != RandomMovementVillainState::DYING && currentState != RandomMovementVillainState::EXPLODING)
     {
+        if (randomDrop.Rand() == 3 && !(GungeonCore::player->metralhadoraOwner)) {
+            Gun* metralhadora = new Gun(0.1f, 20, 1.5f, Guntype::UNFINISHEDGUN, 200.0f, 8);
+            DroppedItem* metralhadoraDropped = new DroppedItem("Resources/unfinished_gun.png", X(), Y(), GungeonCore::level->GetScene(), GUN, metralhadora);
+            GungeonCore::level->GetScene()->Add(metralhadoraDropped, STATIC);
+            GungeonCore::player->metralhadoraOwner = true;
+        }
+        else if (randomDrop.Rand() == 5 && !(GungeonCore::player->bombGunOwner)) {
+            Gun* armaBomba = new Gun(1.5f, 3, 2.0f, Guntype::BOMBGUN, 80.0f, 60.0f);
+            DroppedItem* armaBombaDropped = new DroppedItem("Resources/bomb_gun.png", X(), Y(), GungeonCore::level->GetScene(), GUN, armaBomba);
+            GungeonCore::level->GetScene()->Add(armaBombaDropped, STATIC);
+            GungeonCore::player->bombGunOwner = true;
+        }
+        DeleteBBox();
         GungeonCore::level->GetScene()->Delete(batShadow, STATIC);
         currentState = RandomMovementVillainState::DYING;
         speed.ScaleTo(0.0f);

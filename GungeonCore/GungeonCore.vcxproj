@@ -245,6 +245,7 @@
     <ClCompile Include="DroppedItem.cpp" />
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="GungeonCore.cpp" />
+    <ClCompile Include="Hand.cpp" />
     <ClCompile Include="Hitbox.cpp" />
     <ClCompile Include="Home.cpp" />
     <ClCompile Include="Hud.cpp" />
@@ -298,6 +299,7 @@
     <ClInclude Include="DroppedItem.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="GungeonCore.h" />
+    <ClInclude Include="Hand.h" />
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="Home.h" />
     <ClInclude Include="Hud.h" />

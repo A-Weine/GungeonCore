@@ -16,12 +16,13 @@
 #include "JarShrap.h"
 #include "WallHit.h"
 #include "RandomMovementVillain.h"
+#include "Gun.h"
 
 // ------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------
 
-Fire::Fire(Object* shooter, float angle, int typeShot) : Projectile(shooter)
+Fire::Fire(Object* shooter, Gun* gun, float angle, int typeShot) : Projectile(shooter)
 {
     sprite = new Sprite(Projectile::bullet);
 
@@ -30,10 +31,12 @@ Fire::Fire(Object* shooter, float angle, int typeShot) : Projectile(shooter)
     speed.RotateTo(angle);
     
     if (typeShot == FIRE) {
-        speed.ScaleTo(320.0f);
+        speed.ScaleTo(gun->shootVelocity);
+        damage = gun->shootDamage;
     }
     else {
         speed.ScaleTo(150.0f);
+        damage = 10;
     }
 
     MoveTo(shooter->X() + 15 * cos(speed.Radians()), shooter->Y() - 15 * sin(speed.Radians()));
@@ -61,21 +64,21 @@ void Fire::OnCollision(Object* obj)
     }
     else if (obj->Type() == CHASEVILLAIN && type == FIRE) {
         ChaseVillain* villain = static_cast<ChaseVillain*>(obj);
-        villain->TakeDamage(20);
+        villain->TakeDamage(damage);
         GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
     else if (obj->Type() == RUNAWAYVILLAIN && type == FIRE) {
         RunAwayVillain* villain = static_cast<RunAwayVillain*>(obj);
-        villain->TakeDamage(20);
+        villain->TakeDamage(damage);
         GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
     else if (obj->Type() == RANDOMMOVEMENTVILLAIN) {
         RandomMovementVillain* villain = static_cast<RandomMovementVillain*>(obj);
-        villain->TakeDamage(20);
+        villain->TakeDamage(damage);
         GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
-  /*  else if (obj->Type() == PLAYER) {
+    else if (obj->Type() == PLAYER && type == ENEMYFIRE) {
         GungeonCore::level->GetScene()->Delete(this, MOVING);
-    }*/
+    }
 }
 // -------------------------------------------------------------------------------

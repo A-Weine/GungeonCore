@@ -22,7 +22,7 @@
 #include "TileSet.h"
 #include "Animation.h"
 #include "Shadow.h"
-
+#include "Random.h"
 // ---------------------------------------------------------------------------------
 
 enum class RunAwayVillainState
@@ -54,6 +54,7 @@ private:
     float shootDistance = 90.0f; // Distância ideal para atirar
 
 public:
+    Random<int> randomDrop = Random(1, 10);
     Shadow* gigiShadow;
     RunAwayVillainState currentState = RunAwayVillainState::FLYINGRIGHT;
 

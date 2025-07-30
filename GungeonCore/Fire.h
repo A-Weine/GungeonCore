@@ -26,6 +26,7 @@
 #include "ChaseVillain.h"
 #include "RunAwayVillain.h"
 #include "Projectile.h"
+#include "Gun.h"
 
 // ---------------------------------------------------------------------------------
 class Fire : public Projectile
@@ -33,7 +34,10 @@ class Fire : public Projectile
 private:
 
 public:
-    Fire(Object * shooter, float angle, int typeShot);                  // construtor
+
+    float damage;
+
+    Fire(Object* shooter, Gun * gun, float angle, int typeShot);                  // construtor
     ~Fire();                            // destrutor
 
     Vector& Speed();                    // retona vetor velocidade

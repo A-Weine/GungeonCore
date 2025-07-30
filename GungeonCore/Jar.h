@@ -1,7 +1,4 @@
-﻿#pragma once
-#pragma once
-
-#ifndef _GungeonCore_GUN_H_
+﻿#ifndef _GungeonCore_GUN_H_
 #define _GungeonCore_GUN_H_
 
 // ---------------------------------------------------------------------------------

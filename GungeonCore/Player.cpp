@@ -21,6 +21,7 @@
 #include "Empty.h"
 #include "RandomMovementVillain.h"
 #include "Explosion.h"
+#include "Hand.h"
 #include <cmath>
 
 // -------------------------------------------------------------------------------
@@ -93,6 +94,8 @@ Player::Player()
 
     gamepad = new Controller();
     gamepadOn = gamepad->XboxInitialize();
+
+    
 }
 
 // -------------------------------------------------------------------------------
@@ -108,11 +111,13 @@ Player::~Player()
 
 void Player::Update()
 {
+    inventarioAnterior = itemEquiped;
+
     animation->NextFrame();
     
-    if (inventory[itemEquiped]->type == GUN) {
-        Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
-        gun->reload();
+    if (inventory[itemEquiped]->type == HAND) {
+        Hand* hand = dynamic_cast<Hand*>(inventory[itemEquiped]);
+        hand->gun->reload();
     }
 
     previousY = y;
@@ -173,10 +178,10 @@ void Player::Update()
                 rightStickWasActive = true;
                 float angleRad = atan2f(-normRY, normRX);
                 float angleDeg = angleRad * 180.0f / 3.14159265f;
-                if (inventory[itemEquiped]->type == GUN) {
-                    Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
-                    if (gun && !gun->reloading) {
-                        gun->shoot(this, GUN, new Image("Resources/Explo.png"), angleDeg);
+                if (inventory[itemEquiped]->type == HAND) {
+                    Hand* hand = dynamic_cast<Hand*>(inventory[itemEquiped]);
+                    if (hand->gun && !hand->gun->reloading) {
+                        hand->gun->shoot(this, GUN, new Image("Resources/Explo.png"), angleDeg);
                     }
                 }
             }
@@ -189,9 +194,9 @@ void Player::Update()
             if (!gunSwapMade) {
                 gunSwapMade = true;
                 int originalGun = itemEquiped;
-                if (inventory[itemEquiped]->type == GUN) {
-                    Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
-                    if (!gun->reloading) {
+                if (inventory[itemEquiped]->type == HAND) {
+                    Hand* hand = dynamic_cast<Hand*>(inventory[itemEquiped]);
+                    if (!hand->gun->reloading) {
                         // Swap guns
                         do {
                             itemEquiped += 1;
@@ -201,7 +206,7 @@ void Player::Update()
                                 // Looped though all guns, didnt find any
                                 break;
                             }
-                        } while (inventory[itemEquiped]->type != GUN);
+                        } while (inventory[itemEquiped]->type != HAND);
 
                     }
                 }
@@ -287,39 +292,57 @@ void Player::Update()
     if (window->KeyPress('I')) {
         health = 10000;
 
-        Gun* gun = new Gun("Resources/revolver_picked.png", 0.3f, 6, 1.5f, MAGNUM);
-        itemEquiped = 1;
-        inventory[itemEquiped] = gun;
+        /*Gun* revolver = new Gun(0.3f, 6, 1.5f, Guntype::DEFAULTGUN, 320.0f, 12);
+        itemEquiped = 0;
+        inventory[itemEquiped] = revolver;
 
-        Gun* gun2 = new Gun("Resources/shotgun.png", 0.5f, 3, 1.65f, SHOTGUN);
+        Gun* metralhadora = new Gun(0.1f, 20, 1.5f, Guntype::UNFINISHEDGUN, 200.0f, 8);
+        itemEquiped = 1;
+        inventory[itemEquiped] = metralhadora;
+
+        Gun* armaBomba = new Gun(1.5f, 3, 2.0f, Guntype::BOMBGUN, 80.0f, 60.0f);
         itemEquiped = 2;
-        inventory[itemEquiped] = gun2;
+        inventory[itemEquiped] = armaBomba;*/
 
-        itemEquiped = 1;
+        itemEquiped = 0;
     }
 
     if (window->KeyPress('1')) {
-        if (inventory[0]->type == GUN) {
-            Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
-            if (!gun->reloading)
-                itemEquiped = 1;
+        if (inventory[0]->type == HAND) {
+            Hand* hand = dynamic_cast<Hand*>(inventory[itemEquiped]);
+            if (!hand->gun->reloading) {
+                itemEquiped = 0;
+                GungeonCore::level->GetScene()->Add(hand, STATIC);
+            }
+
         }
     }
     if (window->KeyPress('2')) {
-        if (inventory[1]->type == GUN) {
-            Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
-            if (!gun->reloading)
+        if (inventory[1]->type == HAND) {
+            Hand* hand = dynamic_cast<Hand*>(inventory[itemEquiped]);
+            if (!hand->gun->reloading) {
+                itemEquiped = 1;
+                GungeonCore::level->GetScene()->Add(hand, STATIC);
+            }
+        }
+    }
+    if (window->KeyPress('3')) {
+        if (inventory[2]->type == HAND) {
+            Hand* hand = dynamic_cast<Hand*>(inventory[itemEquiped]);
+            if (!hand->gun->reloading) {
                 itemEquiped = 2;
+                GungeonCore::level->GetScene()->Add(hand, STATIC);
+        }
         }
     }
 
 	// (clique esquerdo do mouse)
-    if (window->KeyPress(VK_LBUTTON)) {
+    if (window->KeyDown(VK_LBUTTON)) {
         
         // Momentâneo enquanto não há armas específicas do jogo
-        if (inventory[itemEquiped]->type == GUN) {
-            Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
-            gun->shoot(this,GUN,new Image("Resources/Explo.png"));
+        if (inventory[itemEquiped]->type == HAND) {
+            Hand* hand = dynamic_cast<Hand*>(inventory[itemEquiped]);
+            hand->gun->shoot(this,GUN,new Image("Resources/Explo.png"));
         }
     }       
 
@@ -342,16 +365,19 @@ void Player::Reset()
     health = MAX_HEALTH;
     MoveTo((float) initialX, (float) initialY);
 
+    bombGunOwner = false;
+    metralhadoraOwner = false;
+
     Empty* empty = new Empty();
 
     for (int i = 0; i < NWEAPONS; i++) {
-        Gun* gun = dynamic_cast<Gun*>(inventory[i]);
-        if (gun != nullptr) {
-            gun->Reset();
+        Hand* hand = dynamic_cast<Hand*>(inventory[i]);
+        if (hand != nullptr) {
+            hand->gun->Reset();
         }    
         inventory[i] = empty;
     }
-    
+    itemEquiped = 0;
 }
 
 // ---------------------------------------------------------------------------------
@@ -401,14 +427,21 @@ void Player::OnCollision(Object* obj)
         if (droppedItem->itemType == GUN) {
             GungeonCore::audio->Play(GRAB_ITEM);
             Gun* gun = dynamic_cast<Gun*>(droppedItem->obj);
-            if (gun->gunTypes == MAGNUM) {
+            Hand* hand = new Hand(GungeonCore::player, gun->sprite, gun->animation, gun);
+            if (gun->gunTypes == Guntype::DEFAULTGUN) {
                 itemEquiped = 0;
             }
             
-            if (gun->gunTypes == SHOTGUN) {
+            if (gun->gunTypes == Guntype::UNFINISHEDGUN) {
                 itemEquiped = 1;
             }
-            inventory[itemEquiped] = gun;
+
+            if (gun->gunTypes == Guntype::BOMBGUN) {
+                itemEquiped = 2;
+            }
+            GungeonCore::level->GetScene()->Add(hand, STATIC);
+
+            inventory[itemEquiped] = hand;
         }
 
         /*if (droppedItem->itemType == KEY) {
@@ -430,7 +463,14 @@ void Player::OnCollision(Object* obj)
         TakeDamage(20);
     }
     else if (obj->Type() == ENEMYFIRE) {
-        TakeDamage(10);
+        Fire* fire = dynamic_cast<Fire*>(obj);
+
+        if (fire != nullptr) {
+        TakeDamage((int)fire->damage);    
+        }
+        else {
+        TakeDamage(10);    
+        }
     }
     else if (obj->Type() == PLATFORM) {
         // Gets the bounding boxes for the player and the platform

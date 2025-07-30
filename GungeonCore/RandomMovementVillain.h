@@ -24,6 +24,7 @@
 #include "Animation.h"
 #include "Player.h"
 #include "Shadow.h"
+
 // ---------------------------------------------------------------------------------
 
 enum class RandomMovementVillainState
@@ -60,6 +61,7 @@ private:
 
 
 public:
+	Random<int> randomDrop = Random(1, 10);
 	Shadow* batShadow;
 	boolean isAttacking;
 	RandomMovementVillain(float x, float y, Player * p);

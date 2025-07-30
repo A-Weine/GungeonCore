@@ -13,6 +13,7 @@
 #include "GungeonCore.h"
 #include "Engine.h"
 #include "Gun.h"
+#include "Hand.h"
 
 // ------------------------------------------------------------------------------
 
@@ -124,10 +125,12 @@ void Hud::Draw(float viewLeft, float viewTop, float cameraZoom)
     currentY += lineSpacing_z;
 
     // Linha 3: Balas ou Recarregando
-    Gun* gun = dynamic_cast<Gun*>(GungeonCore::player->inventory[GungeonCore::player->itemEquiped]);
+    Hand* hand = dynamic_cast<Hand*>(GungeonCore::player->inventory[GungeonCore::player->itemEquiped]);
 
-    if (gun != nullptr) {
-    if (gun->reloading) {
+    if (hand != nullptr) {
+        if (hand->gun != nullptr) {
+
+    if (hand->gun->reloading) {
         text.str("");
         text << "...";
         font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
@@ -136,8 +139,9 @@ void Hud::Draw(float viewLeft, float viewTop, float cameraZoom)
         // ... (l�gica para pegar qtdBullets) ...
 
         text.str("");
-        text << "Balas: " << gun->quantBullets;
+        text << "Balas: " << hand->gun->quantBullets;
         font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
+    }
     }
     }
     else {
@@ -149,24 +153,12 @@ void Hud::Draw(float viewLeft, float viewTop, float cameraZoom)
     // Avan�a para a pr�xima linha
     currentY += lineSpacing_z;
 
-    //// Linha 4: Chaves
-    //if (GungeonCore::player->hasKey1 || GungeonCore::player->hasKey2) {
-    //    if (GungeonCore::player->hasKey1 && GungeonCore::player->hasKey2) {
-    //        text.str("");
-    //        text << "Chaves: 2";
-    //        font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
-    //    }
-    //    else {
-    //        text.str("");
-    //        text << "Chaves: 1";
-    //        font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
-    //    }
-    //}
-    //else {
-    //    text.str("");
-    //    text << "Chaves: 0";
-    //    font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
-    //}
+    // Linha 4: Chaves
+    
+    text.str("");
+    text << "Jarras: " << GungeonCore::player->contadorJarra;
+    font->Draw(textStartX, currentY, text.str(), textColor, Layer::FRONT, fontScale);
+        
 }
 
 void Hud::Draw() {

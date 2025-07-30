@@ -1,12 +1,12 @@
 #include "JarShrap.h"
-#include "Jar.h"
 #include "Random.h"
 #include "GungeonCore.h"
+#include "Particles.h"
 
-JarShrap::JarShrap(Jar* jar) {
+JarShrap::JarShrap(float Px, float Py) {
 
-    float pX = jar->X();
-    float pY = jar->Y();
+    float pX = Px;
+    float pY = Py;
 
     
     // configura gerador de partículas

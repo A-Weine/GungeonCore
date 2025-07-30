@@ -45,8 +45,12 @@ void Jar::Update()
 void Jar::OnCollision(Object* obj) {
     
     if (obj->Type() == FIRE) {
-      GungeonCore::level->GetScene()->Add(new JarShrap(this), STATIC);
+
+      GungeonCore::player->contadorJarra++;
+
+      GungeonCore::level->GetScene()->Add(new JarShrap(this->X(), this->Y()), STATIC);
       GungeonCore::level->GetScene()->Delete(this, STATIC);
+
     }
 
 }

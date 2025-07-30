@@ -1,5 +1,3 @@
-
-
 // ---------------------------------------------------------------------------------
 
 #ifndef _GungeonCore_JAR_SHRAP_H_
@@ -20,7 +18,7 @@ private:
     Particles* shrapGen;            // sistema de partículas
 
 public:
-    JarShrap(Jar * jar);        // construtor
+    JarShrap(float Px, float Py);        // construtor
     ~JarShrap();                         // destrutor
 
     void Update();                      // atualização

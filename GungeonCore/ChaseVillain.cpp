@@ -6,6 +6,8 @@
 #include "ShriekAttack.h"
 #include "Explosion.h"
 #include "Shadow.h"
+#include "DroppedItem.h"
+#include "Gun.h"
 
 ChaseVillain::ChaseVillain(float pX, float pY, Player* p)
 {
@@ -66,6 +68,7 @@ void ChaseVillain::Update()
 {
     float distanceToPlayer = Point::Distance(Point(x, y), Point(player->X(), player->Y()));
     if (distanceToPlayer > actionRange) {
+        animation->Select(static_cast<uint>(ChaseVillainState::WALKING_DOWN));
         animation->NextFrame();
         return;
     }
@@ -74,6 +77,18 @@ void ChaseVillain::Update()
 
     if (state ==  ChaseVillainState::EXPLODING) {
         if (explosion.Elapsed(0.0165f)) {
+            if (randomDrop.Rand() == 3 && !(GungeonCore::player->metralhadoraOwner)) {
+                Gun* metralhadora = new Gun(0.1f, 20, 1.5f, Guntype::UNFINISHEDGUN, 200.0f, 8);
+                DroppedItem* metralhadoraDropped = new DroppedItem("Resources/unfinished_gun.png", X(), Y(), GungeonCore::level->GetScene(), GUN, metralhadora);
+                GungeonCore::level->GetScene()->Add(metralhadoraDropped, STATIC);
+                GungeonCore::player->metralhadoraOwner = true;
+            }
+            else if (randomDrop.Rand() == 5 && !(GungeonCore::player->bombGunOwner)) {
+                Gun* armaBomba = new Gun(1.5f, 3, 2.0f, Guntype::BOMBGUN, 80.0f, 60.0f);
+                DroppedItem* armaBombaDropped = new DroppedItem("Resources/bomb_gun.png", X(), Y(), GungeonCore::level->GetScene(), GUN, armaBomba);
+                GungeonCore::level->GetScene()->Add(armaBombaDropped, STATIC);
+                GungeonCore::player->bombGunOwner = true;
+            }
             Explosion* explosion = new Explosion(this->X(),this->Y());
             GungeonCore::level->GetScene()->Add(explosion, STATIC);
             GungeonCore::level->GetScene()->Delete(zombieShadow, STATIC);
@@ -326,6 +341,7 @@ void ChaseVillain::TakeDamage(int damage) {
         animation->Select(static_cast<uint>(state));
         explosion.Start();
         if (explosion.Elapsed(0.0165f)) {
+
             Explosion* explosion = new Explosion(this->X(), this->Y());
             GungeonCore::level->GetScene()->Add(explosion, STATIC);
             GungeonCore::level->GetScene()->Delete(zombieShadow, STATIC);

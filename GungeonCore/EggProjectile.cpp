@@ -5,7 +5,7 @@
 #include "RunAwayVillain.h"
 
 
-EggProjectile::EggProjectile(Object * shooter, Player* playerTarget, Vector direction) : Projectile(shooter)
+EggProjectile::EggProjectile(Object* shooter, Player* playerTarget, Vector direction) : Projectile(shooter)
 {
     type = ENEMYFIRE;
     layer = CollisionLayer::ENEMY;
@@ -48,7 +48,7 @@ void EggProjectile::Update()
             speed.ScaleTo(4.0f);
         }
 
-        RotateTo(-speed.Angle()-90.0f);
+        RotateTo(-speed.Angle() - 90.0f);
 
         Translate(speed.XComponent() * 20 * gameTime, -speed.YComponent() * 20 * gameTime);
 
@@ -59,19 +59,19 @@ void EggProjectile::Update()
     }
 }
 
-void EggProjectile::Explode() 
+void EggProjectile::Explode()
 {
     speed.ScaleTo(0.0f);
 
     uint numProjectiles = 5;
     float angleToPlayer = Line::Angle(Point(x, y), Point(GungeonCore::player->X(), GungeonCore::player->Y()));
 
-    for (uint i = 0; i < numProjectiles; i++) 
+    for (uint i = 0; i < numProjectiles; i++)
     {
         float spread = -20.0f + (12.0f * i);
         float finalAngle = angleToPlayer + spread;
 
-        GungeonCore::level->GetScene()->Add(new Fire(this, finalAngle, ENEMYFIRE), MOVING);
+        GungeonCore::level->GetScene()->Add(new Fire(this, nullptr, finalAngle, ENEMYFIRE), MOVING);
     }
 
     GungeonCore::level->GetScene()->Delete(this, MOVING);

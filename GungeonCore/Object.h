@@ -108,6 +108,8 @@ public:
     // faz a resolução de colisão do objeto
     virtual void OnCollision(Object* obj);
 
+    void DeleteBBox();
+
     // ------------------------------------------------
     // funções virtuais pura    
     // ------------------------------------------------    
@@ -151,6 +153,12 @@ inline uint Object::Type() const
 // retorna a bounding box do objeto
 inline Geometry* Object::BBox() const
 { return bbox; }
+
+inline void Object::DeleteBBox()
+{
+    delete bbox;
+    bbox = nullptr;
+}
 
 // -----------------------------------------------------------------------------
 

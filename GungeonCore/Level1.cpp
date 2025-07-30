@@ -21,6 +21,7 @@
 #include "RunAwayVillain.h"
 #include "ChaseVillain.h"
 #include "Gun.h"
+#include "Hand.h"
 
 #include <string>
 #include <fstream>
@@ -56,14 +57,9 @@ void Level1::Init()
 
     Shadow* playerShadow = new Shadow(GungeonCore::player, scene, 10);
 
-    Gun* shotgun = new Gun("Resources/shotgun.png", 0.5f, 3, 1.65f, SHOTGUN);
+    Gun* revolver = new Gun(0.3f, 6, 1.5f, Guntype::DEFAULTGUN, 320.0f, 12);
 
-	DroppedItem* shotgunDropped = new DroppedItem("Resources/shotgun.png",100, 620, scene, GUN, shotgun);
-    scene->Add(shotgunDropped,STATIC);
-
-    Gun* revolver = new Gun("Resources/magnum_dropped.png", 0.3f, 6, 1.5, MAGNUM);
-
-    DroppedItem* revolverDropped = new DroppedItem("Resources/magnum_dropped.png", 130, 620, scene, GUN, revolver);
+    DroppedItem* revolverDropped = new DroppedItem("Resources/default_gun.png", 80, 780, scene, GUN, revolver);
     scene->Add(revolverDropped, STATIC);    
 
     tilemap = new Tilemap;
@@ -77,7 +73,7 @@ void Level1::Init()
 
     scene->Add(GungeonCore::player, MOVING);
     scene->Add(playerShadow, STATIC);
-    
+
     GungeonCore::player->TakeDamage(true);
     GungeonCore::audio->Play(THEME_SONG, true);
     //GungeonCore::audio->Play(SONG_LEVEL1, true);

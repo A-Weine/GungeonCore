@@ -11,19 +11,25 @@
 #include "Particles.h"                  // sistema de partículas
 #include "Controller.h"                 // entrada pelo controle
 #include "Timer.h"                      // controle do tempo
-#include "Fire.h"
 #include "GungeonCore.h"
+#include "Animation.h"
 
 // ---------------------------------------------------------------------------------
 
-enum Guntype {
-    SHOTGUN, MAGNUM
+enum class Guntype {
+    BOMBGUN, DEFAULTGUN, UNFINISHEDGUN
 };
+
+enum class GunState
+{
+    NO_SHOOTING,
+    SHOOTING
+};
+
 
 class Gun : public Object
 {
 private:
-    Sprite* sprite;                    // sprite da arma
     
     
     // SOUNDS
@@ -33,9 +39,13 @@ private:
 
 
 public:
+    TileSet* sprite;                    // sprite da arma
+    Animation* animation;
+    
+    Timer animationTime;
 
-
-    int gunTypes;
+    GunState currentState;
+    Guntype gunTypes;
 
     float attackCooldownDuration;   
     Timer timer;                          
@@ -49,7 +59,11 @@ public:
     float firingAngle;                    // direção dos disparos
     boolean reloading = false;
 
-    Gun(string filename, float cooldownToShot, int fullOfBullets, float timeReloading, int type); // construtor
+    float shootVelocity;
+    float shootDamage;
+
+    Gun(float cooldownToShot, int fullOfBullets, float timeReloading, 
+        Guntype type, float bulletVelocity, float damage); // construtor
     ~Gun();                            // destrutor
 
     void shoot(Object* shooter, int whoShot, Image* shotImage, float angleDeg);
@@ -66,7 +80,7 @@ public:
 
 inline void Gun::Draw()
 {
-    sprite->Draw(x, y, Layer::UPPER, scale, rotation);
+    animation->Draw(x, y, Layer::UPPER, scale, rotation);
 }
 // ---------------------------------------------------------------------------------
 

@@ -29,6 +29,7 @@ bool GungeonCore::viewBBox = false;
 Timer* GungeonCore::completionTime = nullptr;
 uint GungeonCore::levelNumber = 0;
 bool GungeonCore::viewHUD = false;
+float GungeonCore::maximumBatVolume = 0.5f;
 
 // ------------------------------------------------------------------------------
 
@@ -85,16 +86,16 @@ void GungeonCore::Init()
     audio->Volume(MENU_CLICK, 0.3f);
     audio->Volume(START_SCREEN, 0.3f);
     audio->Volume(ZOMBIE_SCREAM, 1.5f);
-    audio->Volume(BAT_NOISE_1, 0.3);
-    audio->Volume(BAT_NOISE_2, 0.3);
-    audio->Volume(BAT_NOISE_3, 0.3);
-    audio->Volume(BAT_NOISE_4, 0.3);
-    audio->Volume(BAT_NOISE_5, 0.3);
-    audio->Volume(BAT_NOISE_6, 0.3);
-    audio->Volume(BAT_NOISE_7, 0.3);
-    audio->Volume(BAT_NOISE_8, 0.3);
-    audio->Volume(BAT_NOISE_9, 0.3);
-    audio->Volume(BAT_NOISE_10, 0.3);
+    audio->Volume(BAT_NOISE_1, maximumBatVolume);
+    audio->Volume(BAT_NOISE_2, maximumBatVolume);
+    audio->Volume(BAT_NOISE_3, maximumBatVolume);
+    audio->Volume(BAT_NOISE_4, maximumBatVolume);
+    audio->Volume(BAT_NOISE_5, maximumBatVolume);
+    audio->Volume(BAT_NOISE_6, maximumBatVolume);
+    audio->Volume(BAT_NOISE_7, maximumBatVolume);
+    audio->Volume(BAT_NOISE_8, maximumBatVolume);
+    audio->Volume(BAT_NOISE_9, maximumBatVolume);
+    audio->Volume(BAT_NOISE_10, maximumBatVolume);
 
     Projectile::bullet = new Image("Resources/bullet.png");
 

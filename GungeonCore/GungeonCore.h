@@ -88,6 +88,8 @@ public:
     float GetViewTop() const override;
     float GetSinkAmount() const override;
     Hud* GetHud() const { return hud; }
+
+    static float maximumBatVolume;
 };
 
 inline Scene* GungeonCore::GetScene() const { return scene; }

@@ -81,10 +81,10 @@ void RandomMovementVillain::Update()
 
     float factor = distance / maxDistance;
     //float volume = 1 - (pow(factor, 2));
-    float volume = 0.5 - factor;
+    float volume = GungeonCore::maximumBatVolume - factor;
 
     if (volume < 0) volume = 0;
-    if (volume > 0.5) volume = 0.5;
+    if (volume > GungeonCore::maximumBatVolume) volume = GungeonCore::maximumBatVolume;
 
     GungeonCore::audio->Volume(number, volume);
 

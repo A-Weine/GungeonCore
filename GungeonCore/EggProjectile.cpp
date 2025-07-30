@@ -66,7 +66,7 @@ void EggProjectile::Explode()
     uint numProjectiles = 5;
     float angleToPlayer = Line::Angle(Point(x, y), Point(GungeonCore::player->X(), GungeonCore::player->Y()));
 
-    for (int i = 0; i < numProjectiles; i++) 
+    for (uint i = 0; i < numProjectiles; i++) 
     {
         float spread = -20.0f + (12.0f * i);
         float finalAngle = angleToPlayer + spread;

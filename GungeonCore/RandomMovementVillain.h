@@ -75,7 +75,6 @@ public:
 	static int counter;
 
 	int number;
-	float maximumAudioVolume = 0.5;
 };
 // ---------------------------------------------------------------------------------
 

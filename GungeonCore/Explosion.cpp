@@ -32,7 +32,7 @@ Explosion::Explosion(float X, float Y)
     type = EXPLOSION;
 
     timer.Start();
-    TTL = 0.15;
+    TTL = 0.15f;
 
     MoveTo(X, Y);
 }

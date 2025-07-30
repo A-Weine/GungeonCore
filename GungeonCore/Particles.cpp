@@ -98,7 +98,7 @@ void Particles::Update(float delta, boolean sub)
         if (sub) {
             Vector vetorInverso = p->speed;
             vetorInverso.Rotate(180.0f);
-            vetorInverso.ScaleTo(0.8);
+            vetorInverso.ScaleTo(0.8f);
 
             p->speed.Add(vetorInverso);
         }

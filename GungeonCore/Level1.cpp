@@ -56,7 +56,7 @@ void Level1::Init()
 
     Shadow* playerShadow = new Shadow(GungeonCore::player, scene, 10);
 
-    Gun* shotgun = new Gun("Resources/shotgun.png", 0.5f, 3, 1.65, SHOTGUN);
+    Gun* shotgun = new Gun("Resources/shotgun.png", 0.5f, 3, 1.65f, SHOTGUN);
 
 	DroppedItem* shotgunDropped = new DroppedItem("Resources/shotgun.png",100, 620, scene, GUN, shotgun);
     scene->Add(shotgunDropped,STATIC);

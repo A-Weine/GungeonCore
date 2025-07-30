@@ -45,7 +45,7 @@ ShriekAttack::ShriekAttack(ChaseVillain * zombier, boolean isConstants)
 
     
     attackTTL.Start();
-    TTL = 0.6;
+    TTL = 0.6f;
 
     MoveTo(zombie->X(), zombie->Y()+7);
 }

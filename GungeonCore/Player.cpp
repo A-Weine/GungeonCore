@@ -287,11 +287,11 @@ void Player::Update()
     if (window->KeyPress('I')) {
         health = 10000;
 
-        Gun* gun = new Gun("Resources/revolver_picked.png", 0.3f, 6, 1.5, MAGNUM);
+        Gun* gun = new Gun("Resources/revolver_picked.png", 0.3f, 6, 1.5f, MAGNUM);
         itemEquiped = 1;
         inventory[itemEquiped] = gun;
 
-        Gun* gun2 = new Gun("Resources/shotgun.png", 0.5f, 3, 1.65, SHOTGUN);
+        Gun* gun2 = new Gun("Resources/shotgun.png", 0.5f, 3, 1.65f, SHOTGUN);
         itemEquiped = 2;
         inventory[itemEquiped] = gun2;
 

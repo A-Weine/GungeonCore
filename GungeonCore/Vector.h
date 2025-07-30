@@ -55,7 +55,7 @@ inline void Vector::SetFromCartesian(float x, float y)
     // atan2 retorna em radianos, então convertemos para graus
     if (this->magnitude > 0) // Evita chamar atan2 para um vetor nulo
     {
-        this->angle = atan2(y, x) * (180.0 / PI);
+        this->angle = atan2(y, x) * (180.0f / (float) PI);
     }
     // Se a magnitude for 0, o ângulo não importa, pode continuar como está.
 }

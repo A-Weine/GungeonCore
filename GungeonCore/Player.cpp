@@ -326,7 +326,6 @@ void Player::Update()
             Hand* hand = dynamic_cast<Hand*>(inventory[itemEquiped]);
             if (!hand->gun->reloading) {
                 itemEquiped = 0;
-                GungeonCore::level->GetScene()->Add(hand, STATIC);
                 GungeonCore::audio->Play(WEAPON_EQUIP);
             }
 
@@ -337,7 +336,6 @@ void Player::Update()
             Hand* hand = dynamic_cast<Hand*>(inventory[itemEquiped]);
             if (!hand->gun->reloading) {
                 itemEquiped = 1;
-                GungeonCore::level->GetScene()->Add(hand, STATIC);
                 GungeonCore::audio->Play(WEAPON_EQUIP);
             }
         }
@@ -347,7 +345,6 @@ void Player::Update()
             Hand* hand = dynamic_cast<Hand*>(inventory[itemEquiped]);
             if (!hand->gun->reloading) {
                 itemEquiped = 2;
-                GungeonCore::level->GetScene()->Add(hand, STATIC);
                 GungeonCore::audio->Play(WEAPON_EQUIP);
         }
         }
@@ -403,17 +400,14 @@ void Player::Draw()
 {
     animation->Draw(x, y, Layer::MIDDLE, 1.0f, 0);
 
-    //if (hasMagnum)
-    //{
-    //    // Pega a posição do ombro para "ancorar" o braço
-    //    float shoulderX = x;      // Ajuste fino se necessário
-    //    float shoulderY = y - 5;  // Ajuste fino para alinhar com o ombro
-
-    //    // Desenha o sprite do braço, passando a posição do ombro e o ângulo calculado
-    //    // A rotação é passada em graus. A função Draw do Sprite/Animation converte para radianos.
-    //    animationAiming->Draw(shoulderX, shoulderY, Layer::UPPER, 1.0f, armAngle);
-    //    // ^^^^ Uma camada na frente do corpo
-    //}
+    if (inventory[itemEquiped]->type == HAND)
+    {
+        // Pega a mão/arma do inventário e manda ela se desenhar.
+        // A própria função Hand::Draw() já sabe sua posição e rotação
+        // porque o Hand::Update() já foi chamado.
+        Hand* currentHand = static_cast<Hand*>(inventory[itemEquiped]);
+        currentHand->Draw();
+    }
 }
 
 void Player::OnCollision(Object* obj)
@@ -456,7 +450,6 @@ void Player::OnCollision(Object* obj)
             if (gun->gunTypes == Guntype::BOMBGUN) {
                 itemEquiped = 2;
             }
-            GungeonCore::level->GetScene()->Add(hand, STATIC);
 
             inventory[itemEquiped] = hand;
         }

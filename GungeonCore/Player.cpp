@@ -202,7 +202,7 @@ void Player::Update()
                                 break;
                             }
                         } while (inventory[itemEquiped]->type != GUN);
-
+                        GungeonCore::audio->Play(WEAPON_EQUIP);
                     }
                 }
             }
@@ -301,15 +301,19 @@ void Player::Update()
     if (window->KeyPress('1')) {
         if (inventory[0]->type == GUN) {
             Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
-            if (!gun->reloading)
+            if (!gun->reloading) {
                 itemEquiped = 1;
+                GungeonCore::audio->Play(WEAPON_EQUIP);
+            }
         }
     }
     if (window->KeyPress('2')) {
         if (inventory[1]->type == GUN) {
             Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
-            if (!gun->reloading)
+            if (!gun->reloading) {
                 itemEquiped = 2;
+                GungeonCore::audio->Play(WEAPON_EQUIP);
+            }
         }
     }
 

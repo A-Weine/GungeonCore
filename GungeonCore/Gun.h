@@ -22,8 +22,10 @@ enum class Guntype {
 
 enum class GunState
 {
-    NO_SHOOTING,
-    SHOOTING
+    NO_SHOOTING_R,
+    NO_SHOOTING_L,
+    SHOOTING_R,
+    SHOOTING_L
 };
 
 

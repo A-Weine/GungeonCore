@@ -206,13 +206,8 @@ void Player::Update()
                                 // Looped though all guns, didnt find any
                                 break;
                             }
-<<<<<<< HEAD
                         } while (inventory[itemEquiped]->type != HAND);
-
-=======
-                        } while (inventory[itemEquiped]->type != GUN);
                         GungeonCore::audio->Play(WEAPON_EQUIP);
->>>>>>> 15a938659cef2e2137a61fbb6733969efdc4efd1
                     }
                 }
             }
@@ -239,48 +234,62 @@ void Player::Update()
     }
 
     float angle = speed.Angle();
-    bool isMoving = isMovingUp || isMovingDown || isMovingLeft || isMovingRight;
 
-    if (isMovingUp) {
-        lastVFacing = VerticalFacing::UP;
-    }
-    else if (isMovingDown) {
-        lastVFacing = VerticalFacing::DOWN;
+    // 1. Determina o estado de MOVIMENTO
+    bool isMoving = speed.Magnitude() > 0.1f;
+
+    // 2. Determina a direção da MIRA
+    Point playerPos(X(), Y());
+    Point mouseWorldPos = window->ScreenToWorld(GungeonCore::level);
+    aimingAngle = Line::Angle(playerPos, mouseWorldPos);
+
+    // Garante que o ângulo esteja sempre entre 0 e 360
+    if (aimingAngle < 0) {
+        aimingAngle += 360.0f;
     }
 
-    if (isMoving)
-    {
-        if (isMovingUp) {
-            if (isMovingLeft)       state = PlayerState::RUNNING_UP_LEFT;
-            else if (isMovingRight) state = PlayerState::RUNNING_UP_RIGHT;
-            else                    state = PlayerState::RUNNING_UP;
-        }
-        else if (isMovingDown) {
-            if (isMovingLeft)       state = PlayerState::RUNNING_DOWN_LEFT;
-            else if (isMovingRight) state = PlayerState::RUNNING_DOWN_RIGHT;
-            else                    state = PlayerState::RUNNING_DOWN;
-        }
-        else {
-            if (isMovingLeft) {
-                state = (lastVFacing == VerticalFacing::UP) ? PlayerState::RUNNING_UP_LEFT : PlayerState::RUNNING_DOWN_LEFT;
-            }
-            else if (isMovingRight) {
-                state = (lastVFacing == VerticalFacing::UP) ? PlayerState::RUNNING_UP_RIGHT : PlayerState::RUNNING_DOWN_RIGHT;
-            }
-        }
+    // 3. Combina movimento e mira para definir o estado final
+    // "Fatiamos" o círculo em 8 setores de 45 graus.
+    if (aimingAngle >= 337.5 || aimingAngle < 22.5) {
+        // Direita
+        state = isMoving ? PlayerState::RUNNING_DOWN_RIGHT : PlayerState::IDLE_DOWN_RIGHT;
     }
-    else
-    {
-        if (state == PlayerState::RUNNING_UP)             state = PlayerState::IDLE_UP;
-        else if (state == PlayerState::RUNNING_UP_LEFT)   state = PlayerState::IDLE_UP_LEFT;
-        else if (state == PlayerState::RUNNING_UP_RIGHT)  state = PlayerState::IDLE_UP_RIGHT;
-        else if (state == PlayerState::RUNNING_DOWN)      state = PlayerState::IDLE_DOWN;
-        else if (state == PlayerState::RUNNING_DOWN_LEFT) state = PlayerState::IDLE_DOWN_LEFT;
-        else if (state == PlayerState::RUNNING_DOWN_RIGHT)state = PlayerState::IDLE_DOWN_RIGHT;
+    else if (aimingAngle >= 22.5 && aimingAngle < 67.5) {
+        // Baixo-Direita
+        state = isMoving ? PlayerState::RUNNING_UP_RIGHT : PlayerState::IDLE_UP_RIGHT;
+    }
+    else if (aimingAngle >= 67.5 && aimingAngle < 112.5) {
+        // Baixo
+        state = isMoving ? PlayerState::RUNNING_UP : PlayerState::IDLE_UP;
+    }
+    else if (aimingAngle >= 112.5 && aimingAngle < 157.5) {
+        // Baixo-Esquerda
+        state = isMoving ? PlayerState::RUNNING_UP_LEFT : PlayerState::IDLE_UP_LEFT;
+    }
+    else if (aimingAngle >= 157.5 && aimingAngle < 202.5) {
+        // Esquerda
+        state = isMoving ? PlayerState::RUNNING_DOWN_LEFT : PlayerState::IDLE_DOWN_LEFT;
+    }
+    else if (aimingAngle >= 202.5 && aimingAngle < 247.5) {
+        // Cima-Esquerda
+        state = isMoving ? PlayerState::RUNNING_DOWN_LEFT : PlayerState::IDLE_DOWN_LEFT;
+    }
+    else if (aimingAngle >= 247.5 && aimingAngle < 292.5) {
+        // Cima
+        state = isMoving ? PlayerState::RUNNING_DOWN : PlayerState::IDLE_DOWN;
+    }
+    else if (aimingAngle >= 292.5 && aimingAngle < 337.5) {
+        // Cima-Direita
+        state = isMoving ? PlayerState::RUNNING_DOWN_RIGHT : PlayerState::IDLE_DOWN_RIGHT;
     }
 
     animation->Select(static_cast<uint>(state));
     
+    if (inventory[itemEquiped]->type == HAND)
+    {
+        Hand* hand = static_cast<Hand*>(inventory[itemEquiped]);
+        hand->Update(); // Passa o ângulo calculado para a mão
+    }
     // -----------------
     // Controle
     // -----------------
@@ -313,12 +322,12 @@ void Player::Update()
     }
 
     if (window->KeyPress('1')) {
-<<<<<<< HEAD
         if (inventory[0]->type == HAND) {
             Hand* hand = dynamic_cast<Hand*>(inventory[itemEquiped]);
             if (!hand->gun->reloading) {
                 itemEquiped = 0;
                 GungeonCore::level->GetScene()->Add(hand, STATIC);
+                GungeonCore::audio->Play(WEAPON_EQUIP);
             }
 
         }
@@ -329,6 +338,7 @@ void Player::Update()
             if (!hand->gun->reloading) {
                 itemEquiped = 1;
                 GungeonCore::level->GetScene()->Add(hand, STATIC);
+                GungeonCore::audio->Play(WEAPON_EQUIP);
             }
         }
     }
@@ -338,24 +348,8 @@ void Player::Update()
             if (!hand->gun->reloading) {
                 itemEquiped = 2;
                 GungeonCore::level->GetScene()->Add(hand, STATIC);
-        }
-=======
-        if (inventory[0]->type == GUN) {
-            Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
-            if (!gun->reloading) {
-                itemEquiped = 1;
                 GungeonCore::audio->Play(WEAPON_EQUIP);
-            }
         }
-    }
-    if (window->KeyPress('2')) {
-        if (inventory[1]->type == GUN) {
-            Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
-            if (!gun->reloading) {
-                itemEquiped = 2;
-                GungeonCore::audio->Play(WEAPON_EQUIP);
-            }
->>>>>>> 15a938659cef2e2137a61fbb6733969efdc4efd1
         }
     }
 

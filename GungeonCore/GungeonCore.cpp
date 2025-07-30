@@ -88,7 +88,7 @@ void GungeonCore::Init()
     audio->Volume(MENU_HOVER, 0.3f);
     audio->Volume(MENU_CLICK, 0.3f);
     audio->Volume(START_SCREEN, 0.3f);
-    audio->Volume(ZOMBIE_SCREAM, 1.5f);
+    audio->Volume(ZOMBIE_SCREAM, 1.0f);
     audio->Volume(BAT_NOISE_1, maximumBatVolume);
     audio->Volume(BAT_NOISE_2, maximumBatVolume);
     audio->Volume(BAT_NOISE_3, maximumBatVolume);

@@ -43,6 +43,7 @@ enum class PlayerState
 };
 
 enum class VerticalFacing { UP, DOWN };
+enum class HorizontalFacing { LEFT, RIGHT };
 
 class Player : public Object
 {
@@ -84,6 +85,7 @@ private:
     //bool keysPressed;                     // qualquer seta de disparo pressionada
 
 public:
+    float aimingAngle;
     int contadorJarra =0;
     int itemEquiped;
     Object* inventory[NWEAPONS];
@@ -107,6 +109,7 @@ public:
 
     PlayerState state = PlayerState::IDLE_DOWN;
     VerticalFacing lastVFacing = VerticalFacing::DOWN;
+    HorizontalFacing lastHFacing = HorizontalFacing::RIGHT;
 
 	Vector speed;				// velocidade do jogador
     

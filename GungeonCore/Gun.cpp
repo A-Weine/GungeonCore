@@ -96,11 +96,11 @@ void Gun::Update()
         if (gunTypes == Guntype::UNFINISHEDGUN && animationTime.Elapsed(0.1f)) {
            currentState = GunState::NO_SHOOTING;
            animationTime.Reset();
-        }else if (gunTypes == Guntype::DEFAULTGUN && animationTime.Elapsed(0.3f)) {
+        }else if (gunTypes == Guntype::DEFAULTGUN && animationTime.Elapsed(0.4f)) {
             currentState = GunState::NO_SHOOTING;
             animationTime.Reset();
         }
-        else if (gunTypes == Guntype::BOMBGUN && animationTime.Elapsed(1.5f)) {
+        else if (gunTypes == Guntype::BOMBGUN && animationTime.Elapsed(0.7f)) {
             currentState = GunState::NO_SHOOTING;
             animationTime.Reset();
         }

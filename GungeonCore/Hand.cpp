@@ -25,6 +25,7 @@ Hand::~Hand()
 
 void Hand::Update()
 {
+    gun->Update();
     // 1. POSICIONAR A MÃO: Faça a mão seguir o jogador.
     // O pivô da mão deve estar sempre na posição do jogador (ou um pouco deslocado).
     // Supondo que a classe Hand tenha uma posição.

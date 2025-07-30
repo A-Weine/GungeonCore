@@ -87,7 +87,25 @@
 	 <object id="25" name="zombie" type="enemy" x="1668" y="622">
 		 <point/>
 	 </object>
-	 <object id="27" name="shades" type="boss" x="2128" y="380">
+	 <object id="26" name="gigi" type="enemy" x="2050" y="380">
+		 <point/>
+	 </object>
+	 <object id="27" name="zombie" type="enemy" x="2128" y="380">
+		 <point/>
+	 </object>
+	 <object id="28" name="bat" type="enemy" x="2160" y="380">
+		 <point/>
+	 </object>
+	 <object id="29" name="zombie" type="enemy" x="2128" y="480">
+		 <point/>
+	 </object>
+	 <object id="30" name="zombie" type="enemy" x="2128" y="280">
+		 <point/>
+	 </object>
+	 <object id="31" name="gigi" type="enemy" x="1950" y="380">
+		 <point/>
+	 </object>
+	 <object id="32" name="gigi" type="enemy" x="2250" y="380">
 		 <point/>
 	 </object>
   <object id="59" name="player" type="player" x="80" y="820">
@@ -166,5 +184,14 @@
   <object id="77" name="bowl" type="item" x="2029.33" y="474.667">
    <point/>
   </object>
+	 <object id="78" name="bowl" type="item" x="2128" y="380">
+		 <point/>
+	 </object>
+	 <object id="79" name="bowl" type="item" x="2110" y="380">
+		 <point/>
+	 </object>
+	 <object id="80" name="bowl" type="item" x="2146" y="380">
+		 <point/>
+	 </object>
  </objectgroup>
 </map>

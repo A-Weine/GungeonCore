@@ -349,17 +349,13 @@ void Player::Update()
     if (window->KeyPress('I')) {
         health = 10000;
 
-        /*Gun* revolver = new Gun(0.3f, 6, 1.5f, Guntype::DEFAULTGUN, 320.0f, 12);
-        itemEquiped = 0;
-        inventory[itemEquiped] = revolver;
-
         Gun* metralhadora = new Gun(0.1f, 20, 1.5f, Guntype::UNFINISHEDGUN, 200.0f, 8);
-        itemEquiped = 1;
-        inventory[itemEquiped] = metralhadora;
+        DroppedItem* metralhadoraDropped = new DroppedItem("Resources/unfinished_gun.png", X(), Y(), GungeonCore::level->GetScene(), GUN, metralhadora);
+        GungeonCore::level->GetScene()->Add(metralhadoraDropped, STATIC);
 
         Gun* armaBomba = new Gun(1.5f, 3, 2.0f, Guntype::BOMBGUN, 80.0f, 60.0f);
-        itemEquiped = 2;
-        inventory[itemEquiped] = armaBomba;*/
+        DroppedItem* armaBombaDropped = new DroppedItem("Resources/bomb_gun.png", X(), Y(), GungeonCore::level->GetScene(), GUN, armaBomba);
+        GungeonCore::level->GetScene()->Add(armaBombaDropped, STATIC);
 
         itemEquiped = 0;
     }
@@ -488,10 +484,12 @@ void Player::OnCollision(Object* obj)
             
             if (gun->gunTypes == Guntype::UNFINISHEDGUN) {
                 itemEquiped = 1;
+                GungeonCore::player->metralhadoraOwner = true;
             }
 
             if (gun->gunTypes == Guntype::BOMBGUN) {
                 itemEquiped = 2;
+                GungeonCore::player->bombGunOwner = true;
             }
 
             inventory[itemEquiped] = hand;

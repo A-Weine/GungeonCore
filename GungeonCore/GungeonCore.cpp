@@ -115,8 +115,8 @@ void GungeonCore::Init()
 
 void GungeonCore::Update()
 {
-    if (window->KeyPress('B'))
-        viewBBox = !viewBBox;
+    //if (window->KeyPress('B'))
+        //viewBBox = !viewBBox;
     
     level->Update();
 

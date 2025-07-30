@@ -64,17 +64,32 @@ void Fire::OnCollision(Object* obj)
     }
     else if (obj->Type() == CHASEVILLAIN && type == FIRE) {
         ChaseVillain* villain = static_cast<ChaseVillain*>(obj);
+<<<<<<< HEAD
         villain->TakeDamage(damage);
+=======
+        villain->TakeDamage(20);
+        GungeonCore::audio->Play(FIRE_HIT_VILLAIN);
+>>>>>>> 15a938659cef2e2137a61fbb6733969efdc4efd1
         GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
     else if (obj->Type() == RUNAWAYVILLAIN && type == FIRE) {
         RunAwayVillain* villain = static_cast<RunAwayVillain*>(obj);
+<<<<<<< HEAD
         villain->TakeDamage(damage);
+=======
+        villain->TakeDamage(20);
+        GungeonCore::audio->Play(FIRE_HIT_VILLAIN);
+>>>>>>> 15a938659cef2e2137a61fbb6733969efdc4efd1
         GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
     else if (obj->Type() == RANDOMMOVEMENTVILLAIN) {
         RandomMovementVillain* villain = static_cast<RandomMovementVillain*>(obj);
+<<<<<<< HEAD
         villain->TakeDamage(damage);
+=======
+        villain->TakeDamage(20);
+        GungeonCore::audio->Play(FIRE_HIT_VILLAIN);
+>>>>>>> 15a938659cef2e2137a61fbb6733969efdc4efd1
         GungeonCore::level->GetScene()->Delete(this, MOVING);
     }
     else if (obj->Type() == PLAYER && type == ENEMYFIRE) {

@@ -78,7 +78,8 @@ void RandomMovementVillain::NewDirection()
 void RandomMovementVillain::Update()
 {
     float distance = Point::Distance(Point(x, y), Point(player->X(), player->Y()));
-    float maxDistance = (float) sqrt(pow(2560, 2) + pow(864, 2));
+    //float maxDistance = (float) sqrt(pow(2560, 2) + pow(864, 2));
+    float maxDistance = distanceToSee * 8;
 
     float factor = distance / maxDistance;
     //float volume = 1 - (pow(factor, 2));

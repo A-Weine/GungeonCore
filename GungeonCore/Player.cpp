@@ -206,8 +206,13 @@ void Player::Update()
                                 // Looped though all guns, didnt find any
                                 break;
                             }
+<<<<<<< HEAD
                         } while (inventory[itemEquiped]->type != HAND);
 
+=======
+                        } while (inventory[itemEquiped]->type != GUN);
+                        GungeonCore::audio->Play(WEAPON_EQUIP);
+>>>>>>> 15a938659cef2e2137a61fbb6733969efdc4efd1
                     }
                 }
             }
@@ -308,6 +313,7 @@ void Player::Update()
     }
 
     if (window->KeyPress('1')) {
+<<<<<<< HEAD
         if (inventory[0]->type == HAND) {
             Hand* hand = dynamic_cast<Hand*>(inventory[itemEquiped]);
             if (!hand->gun->reloading) {
@@ -333,6 +339,23 @@ void Player::Update()
                 itemEquiped = 2;
                 GungeonCore::level->GetScene()->Add(hand, STATIC);
         }
+=======
+        if (inventory[0]->type == GUN) {
+            Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
+            if (!gun->reloading) {
+                itemEquiped = 1;
+                GungeonCore::audio->Play(WEAPON_EQUIP);
+            }
+        }
+    }
+    if (window->KeyPress('2')) {
+        if (inventory[1]->type == GUN) {
+            Gun* gun = dynamic_cast<Gun*>(inventory[itemEquiped]);
+            if (!gun->reloading) {
+                itemEquiped = 2;
+                GungeonCore::audio->Play(WEAPON_EQUIP);
+            }
+>>>>>>> 15a938659cef2e2137a61fbb6733969efdc4efd1
         }
     }
 

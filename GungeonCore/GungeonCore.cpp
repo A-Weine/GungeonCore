@@ -65,6 +65,8 @@ void GungeonCore::Init()
     audio->Add(MENU_HOVER, "Resources/mouse_hover.wav");
     audio->Add(MENU_CLICK, "Resources/mouse_click.wav");
     audio->Add(ZOMBIE_SCREAM, "Resources/zombie_scream.wav");
+    audio->Add(EMPTY_GUN, "Resources/empty_gun.wav");
+    audio->Add(WEAPON_EQUIP, "Resources/weapon_equip.wav");
     
     audio->Add(BAT_NOISE_1, "Resources/bat_noise.wav");
     audio->Add(BAT_NOISE_2, "Resources/bat_noise.wav");
@@ -81,6 +83,7 @@ void GungeonCore::Init()
     audio->Volume(MAGNUM_FIRE, 0.3f);
     audio->Volume(SHOTGUN_FIRE, 0.3f);
     audio->Volume(THEME_SONG, 0.3f);
+    audio->Volume(VICTORY_SONG, 0.5f);
     audio->Volume(GAME_OVER_SONG, 0.3f);
     audio->Volume(MENU_HOVER, 0.3f);
     audio->Volume(MENU_CLICK, 0.3f);

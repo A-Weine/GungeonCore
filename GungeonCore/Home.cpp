@@ -3,6 +3,7 @@
 #include "Level1.h" // Precisa saber sobre o Level1 para poder iniciar
 #include "GungeonCore.h" // Precisa para chamar o NextLevel
 #include "MenuObject.h"
+#include "RandomMovementVillain.h"
 #include <sstream>
 
 void Home::Init()
@@ -123,6 +124,8 @@ void Home::Update()
         if (clickedItem == 0) // Opção "Jogar"
         {
             GungeonCore::audio->Play(MENU_CLICK);
+            RandomMovementVillain::counter = 9;
+            GungeonCore::player->contadorJarra = 0;
             // Usa a função estática do Gerente Geral para mudar para o Level1
             GungeonCore::NextLevel<Level1>();
         }

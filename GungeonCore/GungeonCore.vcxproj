@@ -231,7 +231,6 @@
     <ClCompile Include="ChaseVillain.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="EggProjectile.cpp" />
-    <ClCompile Include="EggProjectile.h" />
     <ClCompile Include="Empty.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Explosion.cpp" />
@@ -286,6 +285,7 @@
     <ClInclude Include="Background.h" />
     <ClInclude Include="ChaseVillain.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="EggProjectile.h" />
     <ClInclude Include="Empty.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Explosion.h" />

@@ -86,10 +86,13 @@ void Level1::Update()
     if (window->KeyPress(VK_ESCAPE))
     {
         GungeonCore::player->Reset();
+        RandomMovementVillain::counter = 9;
+        GungeonCore::player->contadorJarra = 0;
         GungeonCore::NextLevel<Level1>();
     }
     else if (window->KeyPress('N') || GungeonCore::levelNumber || GungeonCore::player->contadorJarra ==20) {
         GungeonCore::completionTime->Stop();
+        GungeonCore::player->contadorJarra = 20;
         GungeonCore::NextLevel<ScoreScreen>();
     }
     else

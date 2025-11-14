@@ -17,9 +17,9 @@ private:
     float angle;
 
 public:
-    EggProjectile(Object * shooter, Player* playerTarget, Vector direction);
+    EggProjectile(Object* shooter, Player* playerTarget, Vector direction);
     ~EggProjectile();
-    
+
     void Explode();
     void Update() override;
     void OnCollision(Object* obj) override;

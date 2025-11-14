@@ -94,7 +94,7 @@ void ShriekAttack::Update()
                 attackSize = 100; // Trava no máximo
                 estadoAtualDaOnda = EstadoOnda::PausadoNoMaximo; // Muda para o estado de pausa
                 timerPausa.Start(); // Inicia o timer da pausa
-                GungeonCore::audio->Volume(ZOMBIE_SCREAM, 10.0f);
+                GungeonCore::audio->Volume(ZOMBIE_SCREAM, 2.0f);
             }
             break;
 
@@ -103,7 +103,7 @@ void ShriekAttack::Update()
             if (timerPausa.Elapsed(0.1f))
             {
                 estadoAtualDaOnda = EstadoOnda::Diminuindo; // Começa a diminuir
-                GungeonCore::audio->Volume(ZOMBIE_SCREAM, 50.0f);
+                GungeonCore::audio->Volume(ZOMBIE_SCREAM, 5.0f);
             }
             break;
 

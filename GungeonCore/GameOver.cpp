@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Level1.h" // Precisa saber sobre o Level1 para poder iniciar
 #include "GungeonCore.h" // Precisa para chamar o NextLevel
+#include "RandomMovementVillain.h"
 #include <sstream>
 
 void GameOver::Init()
@@ -110,6 +111,8 @@ void GameOver::Update()
     {
         if (clickedItem == 0) // Opção "Jogar"
         {
+            RandomMovementVillain::counter = 9;
+            GungeonCore::player->contadorJarra = 0;
             // Usa a função estática do Gerente Geral para mudar para o Level1
             GungeonCore::NextLevel<Level1>();
         }
